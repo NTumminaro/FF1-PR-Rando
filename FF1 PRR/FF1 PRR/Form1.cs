@@ -225,7 +225,6 @@ namespace FF1_PRR
 			string DATA_MESSAGE_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message");
 			string RES_MAP_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"); // , "Assets", "GameAssets", "Serial", "Res", "Map"
 
-			// TODO:  We'll need to MemoriaToMagiciteCopy DATA_MASTER and DATA_MESSAGE as well.
 			foreach (string i in DATA_MASTER){
 				string outputPath = Path.Combine(DATA_MASTER_PATH, i);
 				string sourcePath = Path.Combine("data", "assets", i);
@@ -236,7 +235,6 @@ namespace FF1_PRR
 				string sourcePath = Path.Combine("data", "assets", i);
 				File.Copy(sourcePath, outputPath, true);
 			}
-			// TODO:  Convert to Magicite
 
 			// Iterate through the map directory and copy the files into the other map directory...
 			Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, Path.Combine("data", "master"), "MainData", "master");
@@ -249,9 +247,6 @@ namespace FF1_PRR
 
 				Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, jsonFile, "Map", Path.GetFileName(jsonFile));
 			}
-
-			//DirectoryCopy(Path.Combine("data", "maps"), RES_MAP_PATH, true);
-
 		}
 
 		private void btnRestoreVanilla_Click(object sender, EventArgs e)
@@ -277,7 +272,6 @@ namespace FF1_PRR
 			File.Copy(Path.Combine("data", "mods", "system_en.txt"), Path.Combine(MESSAGE_PATH, "system_en.txt"), true);
 			if (flagShopsTrad.Checked) File.Copy(Path.Combine("data", "mods", "productTraditional.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
-			// TODO:  Fix this - need to convert to Magicite
 			// Iterate through the map directory and copy the files into the other map directory...
 			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "mods", "maps"), "*.*", SearchOption.AllDirectories))
 			{
