@@ -306,7 +306,8 @@ namespace FF1_PRR.Inventory
 			shopDB = shopDB.FindAll(x => !Product.allMagicStores.Contains(x.group_id));
 
 			//then, add the new spell inventory
-			shopDB.AddRange(determineSpells(r1, randoLevel, shuffleShops));
+			shopDB = determineSpells(r1, randoLevel, shuffleShops, shopDB);
+			shopDB.Sort((x,y) => x.id.CompareTo(y.id));
 
 			//and write out the product.csv
 			Product.writeShopDB(productpath, shopDB);
@@ -360,11 +361,12 @@ namespace FF1_PRR.Inventory
             }
         }
 
-		private List<ShopItem> determineSpells(Random r1, int randoLevel, bool shuffleShops)
+		private List<ShopItem> determineSpells(Random r1, int randoLevel, bool shuffleShops, List<ShopItem> shopDB)
 		{
 			List<ShopItem> magicShopDB = new List<ShopItem>();
 			int[,] magicMemory = new int[2, 8];
-			int productID = 250;
+			// Since we're now using Partial Assets, we need to fill back in the IDs we removed wherever we can.  Otherwise, the vanilla shops will also be used, which is incorrect.
+			int productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
 		    List<int> shopLookup = new List<int>{
 										0,0,0,0,
 										1,1,1,1,
@@ -400,18 +402,21 @@ namespace FF1_PRR.Inventory
 			{
 				if (spell.ability_group_id == 1 && spell.id != DUPE_CURE_4) //if it's a spell and not chaos's special Cure4
 				{
-					ShopItem newItem = new ShopItem();
-					newItem.id = productID++;
-					newItem.content_id = spell.id + 208; //Magic Constant for Ability ID -> shop ID map
 					List<int> shopType = (spell.type_id == 1) ? wmShops : bmShops;
-					newItem.group_id = shopType[shopLookup[(spell.ability_lv - 1) * 4 + magicMemory[spell.type_id - 1, spell.ability_lv - 1]]];
-						//determineMagicShop(magicMemory, spell.type_id, spell.ability_lv);
+					ShopItem newItem = new ShopItem
+					{
+						id = productID,
+						content_id = spell.id + 208, //Magic Constant for Ability ID -> shop ID map
+						group_id = shopType[shopLookup[(spell.ability_lv - 1) * 4 + magicMemory[spell.type_id - 1, spell.ability_lv - 1]]]
+					};
+					//determineMagicShop(magicMemory, spell.type_id, spell.ability_lv);
 					magicMemory[spell.type_id - 1, spell.ability_lv - 1]++;
-					magicShopDB.Add(newItem);
+					shopDB.Add(newItem);
+					productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
 				}
 			}
 
-			return magicShopDB;
+			return shopDB;
 		}
 	}
 }

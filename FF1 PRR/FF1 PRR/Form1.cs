@@ -139,14 +139,10 @@ namespace FF1_PRR
 					RandoSeed.Text = reader.ReadLine();
 					RandoFlags.Text = reader.ReadLine();
 					VisualFlags.Text = reader.ReadLine();
-					lastGameAssets = Convert.ToDateTime(reader.ReadLine());
 					determineChecks(null, null);
 
 					//runChecksum();
 					loading = false;
-
-					if (lastGameAssets > DateTime.MinValue)
-						btnInstall.Text = "Uninstall";
 				}
 			}
 			catch
@@ -201,6 +197,7 @@ namespace FF1_PRR
 			}
 		}
 
+		// This brings us back to vanilla Magicite files.  This is NOT used for uninstallation.
 		private void restoreVanilla()
         {
 			string[] DATA_MASTER = {
@@ -221,10 +218,14 @@ namespace FF1_PRR
 				"system_en.txt" // used by Key Item randomization
             };
 
-			string DATA_MASTER_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master");
-			string DATA_MESSAGE_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Message");
-			string RES_MAP_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Res", "Map");
+			Directory.CreateDirectory(Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master")); // <-- We'll be creating an Export.json soon
+			Directory.CreateDirectory(Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message")); // <-- We'll be creating an Export.json soon
 
+			string DATA_MASTER_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master");
+			string DATA_MESSAGE_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message");
+			string RES_MAP_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"); // , "Assets", "GameAssets", "Serial", "Res", "Map"
+
+			// TODO:  We'll need to MemoriaToMagiciteCopy DATA_MASTER and DATA_MESSAGE as well.
 			foreach (string i in DATA_MASTER){
 				string outputPath = Path.Combine(DATA_MASTER_PATH, i);
 				string sourcePath = Path.Combine("data", "assets", i);
@@ -235,7 +236,21 @@ namespace FF1_PRR
 				string sourcePath = Path.Combine("data", "assets", i);
 				File.Copy(sourcePath, outputPath, true);
 			}
-			DirectoryCopy(Path.Combine("data", "maps"), RES_MAP_PATH, true);
+			// TODO:  Convert to Magicite
+
+			// Iterate through the map directory and copy the files into the other map directory...
+			Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, Path.Combine("data", "master"), "MainData", "master");
+			Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, Path.Combine("data", "messages"), "Message", "message");
+
+			// Iterate through the map directory and copy the files into the other map directory...
+			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "maps"), "*.*", SearchOption.AllDirectories))
+			{
+				if (jsonFile.Count(f => f == '\\') != 2) continue;
+
+				Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, jsonFile, "Map", Path.GetFileName(jsonFile));
+			}
+
+			//DirectoryCopy(Path.Combine("data", "maps"), RES_MAP_PATH, true);
 
 		}
 
@@ -250,15 +265,26 @@ namespace FF1_PRR
 			NewChecksum.Text = "Please wait...";
 			this.Refresh();
 
+			Updater.update(FF1PRFolder.Text);
 			restoreVanilla();
 
 			// Copy over modded files
-			string DATA_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data");
+			string DATA_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master");
+			string MESSAGE_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message");
 			string MAP_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Res", "Map");
-			File.Copy(Path.Combine("data", "mods", "system_en.txt"), Path.Combine(DATA_PATH, "Message", "system_en.txt"), true);
-			if (flagShopsTrad.Checked) File.Copy(Path.Combine("data", "mods", "productTraditional.csv"), Path.Combine(DATA_PATH, "Master", "product.csv"), true);
-			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "Master", "product.csv"), true);
-			DirectoryCopy(Path.Combine("data", "mods", "Map"), MAP_PATH, true);
+			string RES_MAP_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"); // , "Assets", "GameAssets", "Serial", "Res", "Map"
+
+			File.Copy(Path.Combine("data", "mods", "system_en.txt"), Path.Combine(MESSAGE_PATH, "system_en.txt"), true);
+			if (flagShopsTrad.Checked) File.Copy(Path.Combine("data", "mods", "productTraditional.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
+			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
+			// TODO:  Fix this - need to convert to Magicite
+			// Iterate through the map directory and copy the files into the other map directory...
+			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "mods", "maps"), "*.*", SearchOption.AllDirectories))
+			{
+				if (jsonFile.Count(f => f == '\\') != 3) continue;
+
+				Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, jsonFile, "Map", Path.GetFileName(jsonFile));
+			}
 
 			// Begin randomization
 			r1 = new Random(Convert.ToInt32(RandoSeed.Text));
@@ -309,7 +335,7 @@ namespace FF1_PRR
 		private void doDatabaseEdits()
         {
 			List<DatabaseEdit> editsToMake = new List<DatabaseEdit>();
-			string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master");
+			string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master");
 			if (flagRebalancePrices.Checked)
             {
 				// Advance the RNG
@@ -377,34 +403,34 @@ namespace FF1_PRR
 		private void randomizeShops()
 		{
 			Shops randoShops = new Shops(r1, modeShops.SelectedIndex, 
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"), 
+				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"), 
 				flagShopsTrad.Checked);
 		}
 
 		private void randomizeMagic()
 		{
 			Magic magicData = new Magic(r1, modeMagic.SelectedIndex,
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master", "ability.csv"),
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
+				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "ability.csv"),
+				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
 				flagMagicShuffleShops.Checked, flagMagicKeepPermissions.Checked) ;
 		}
 
 		private void randomizeKeyItems()
 		{
 			KeyItems randoKeyItems = new KeyItems(r1,
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Res", "Map"));
+				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets")); // , "Assets", "GameAssets", "Serial", "Res", "Map"
 		}
 		private void randomizeTreasure()
         {
 			Treasure randoChests = new Treasure(r1, modeTreasure.SelectedIndex,
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Res", "Map"),
+				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), // , "Assets", "GameAssets", "Serial", "Res", "Map"
 				flagTreasureTrad.Checked, flagFiendsDropRibbons.Checked);
 		}
 
 		private void randomizeHeroStats()
 		{
-			Stats.RandomizeStats(modeHeroStats.SelectedIndex, flagHeroStatsStandardize.Checked, flagBoostPromoted.Checked, r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master"), 
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Message"));
+			Stats.RandomizeStats(modeHeroStats.SelectedIndex, flagHeroStatsStandardize.Checked, flagBoostPromoted.Checked, r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master"), 
+				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message"));
 		}
 
 		private void monsterBoost()
@@ -430,12 +456,14 @@ namespace FF1_PRR
 				modeMonsterStatAdjustment.SelectedIndex == 4 || modeMonsterStatAdjustment.SelectedIndex == 10 ? 4 :
 				modeMonsterStatAdjustment.SelectedIndex == 5 || modeMonsterStatAdjustment.SelectedIndex == 11 ? 5 : 1;
 
-			Monster monsters = new Monster(r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master", "monster.csv"), xp, 0, xp, 0, minStatAdjustment, maxStatAdjustment);
+			string monsterFile = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "monster.csv");
+
+			Monster monsters = new Monster(r1, monsterFile, xp, 0, xp, 0, minStatAdjustment, maxStatAdjustment);
 		}
 
 		private void noEscapeAdjustment()
 		{
-			MonsterParty.mandatoryRandomEncounters(r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets", "Serial", "Data", "Master"), flagNoEscapeRandomize.Checked);
+			MonsterParty.mandatoryRandomEncounters(r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master"), flagNoEscapeRandomize.Checked);
 		}
 
 		private void frmFF1PRR_FormClosing(object sender, FormClosingEventArgs e)
@@ -458,35 +486,6 @@ namespace FF1_PRR
 
 				if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
 					FF1PRFolder.Text = fbd.SelectedPath;
-			}
-		}
-
-		private void btnInstall_Click(object sender, EventArgs e)
-		{
-			if (btnInstall.Text == "Uninstall")
-			{
-				if (MessageBox.Show("Are you sure that you want to uninstall?", "Uninstall", MessageBoxButtons.YesNo) == DialogResult.Yes)
-				{
-					if (Path.Exists(Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets")))
-						Directory.Delete(Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Assets", "GameAssets"), true);
-					if (Path.Exists(Path.Combine(FF1PRFolder.Text, "BepInEx")))
-						Directory.Delete(Path.Combine(FF1PRFolder.Text, "BepInEx"), true);
-					if (Path.Exists(Path.Combine(FF1PRFolder.Text, "mono")))
-						Directory.Delete(Path.Combine(FF1PRFolder.Text, "mono"), true);
-					lastGameAssets = DateTime.MinValue;
-					btnInstall.Text = "Install";
-					MessageBox.Show("Uninstall successful!");
-				}
-			} else
-			{
-				if (File.Exists("BepInEx.zip") && File.Exists("GameAssets.zip"))
-				{
-					Inventory.Updater.install(Path.Combine(FF1PRFolder.Text), ref lastGameAssets);
-					btnInstall.Text = "Uninstall";
-					MessageBox.Show("Installation complete!");
-				}
-				else
-					MessageBox.Show("Unable to install; BepInEx.zip and GameAssets.zip need to be in the same folder as this randomizer.");
 			}
 		}
 

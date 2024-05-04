@@ -118,7 +118,7 @@ namespace FF1_PRR.Randomize
 			// Now write the chests back
 			foreach (var chestsByFile in treasureList.GroupBy(x => x.submap))
 			{
-				string filename = Path.Combine(datapath, chestsByFile.First().map, chestsByFile.First().submap, "entity_default.json");
+				string filename = Inventory.Updater.MemoriaToMagiciteFile(datapath, Path.Combine("Maps", chestsByFile.First().map, chestsByFile.First().submap, "entity_default.json"));
 				string json = File.ReadAllText(filename);
 				EvRoot entity_default = JsonConvert.DeserializeObject<EvRoot>(json);
 				foreach (var chest in chestsByFile)
