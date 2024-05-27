@@ -264,6 +264,21 @@ namespace FF1_PRR.Randomize
             }
 			*/
 
+			// Backfill IDs to avoid vanilla file assets loading
+			int productID = 1;
+			while (productID < 195)
+			{
+				productID = Enumerable.Range(1, 200).Except(shopDB.Select(x => x.id)).First();
+				ShopItem newItem = new ShopItem
+				{
+					id = productID,
+					content_id = 999, //Magic Constant for Ability ID -> shop ID map
+					group_id = 999
+				};
+				shopDB.Add(newItem);
+			}
+
+			shopDB.Sort((x, y) => x.id.CompareTo(y.id));
 			Product.writeShopDB(fileName,shopDB);
 		}
 	}

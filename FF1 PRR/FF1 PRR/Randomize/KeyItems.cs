@@ -187,34 +187,34 @@ namespace FF1_PRR.Randomize
 				switch (loc.ff1Event)
 				{
 					case (int)locations.sarah:
-						file = Path.Combine(directory, "Map_20011", "Map_20011_2", "sc_e_0004_1.json");
-						file2 = Path.Combine(directory, "Map_20011", "Map_20011_2", "sc_e_0004_2.json");
+						file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20011", "Map_20011_2", "sc_e_0004_1.json"));
+						file2 = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20011", "Map_20011_2", "sc_e_0004_2.json"));
 						break;
-					case (int)locations.coroniaKing: file = Path.Combine(directory, "Map_20011", "Map_20011_2", "sc_e_0003_3.json"); break;
-					case (int)locations.pirate: file = Path.Combine(directory, "Map_20040", "Map_20040", "sc_e_0009_2.json"); break;
-					case (int)locations.marsh: file = Path.Combine(directory, "Map_30021", "Map_30021_3", "sc_e_0010_1.json"); break;
-					case (int)locations.astos: file = Path.Combine(directory, "Map_20081", "Map_20081_1", "sc_e_0011_2.json"); break;
-					case (int)locations.matoya: file = Path.Combine(directory, "Map_20031", "Map_20031_1", "sc_e_0012.json"); break;
-					case (int)locations.elfPrince: file = Path.Combine(directory, "Map_20071", "Map_20071_1", "sc_e_0013.json"); break;
-					case (int)locations.coroniaTreasury: file = Path.Combine(directory, "Map_20011", "Map_20011_1", "sc_e_0014.json"); break;
-					case (int)locations.dwarf: file = Path.Combine(directory, "Map_20051", "Map_20051_1", "sc_e_0015.json"); break;
-					case (int)locations.excal: file = Path.Combine(directory, "Map_20051", "Map_20051_1", "sc_e_0052.json"); break;
-					case (int)locations.vampire: file = Path.Combine(directory, "Map_30031", "Map_30031_3", "sc_e_0017.json"); break;
-					case (int)locations.sage: file = Path.Combine(directory, "Map_20101", "Map_20101_1", "sc_e_0019.json"); break;
-					case (int)locations.lich: file = Path.Combine(directory, "Map_30031", "Map_30031_5", "sc_e_0021_2.json"); break;
-					case (int)locations.crescentLake: file = Path.Combine(directory, "Map_20110", "Map_20110", "sc_e_0022.json"); break;
-					case (int)locations.marilith: file = Path.Combine(directory, "Map_30051", "Map_30051_6", "sc_e_0023_2.json"); break;
-					case (int)locations.iceCave: file = Path.Combine(directory, "Map_30061", "Map_30061_4", "sc_e_0024_2.json"); break;
-					case (int)locations.airship: file = Path.Combine(directory, "Map_10010", "Map_10010", "sc_e_0025_4.json"); break;
-					case (int)locations.gaia:	file = Path.Combine(directory, "Map_20150", "Map_20150", "sc_e_0029.json");	break;
-					case (int)locations.waterfall: file = Path.Combine(directory, "Map_30091", "Map_30091_1", "sc_e_0026.json"); break;
-					case (int)locations.shrine5F: file = Path.Combine(directory, "Map_30081", "Map_30081_8", "sc_e_0033.json"); break;
-					case (int)locations.kraken: file = Path.Combine(directory, "Map_30081", "Map_30081_1", "sc_e_0036_2.json"); break;
-					case (int)locations.unne:	file = Path.Combine(directory, "Map_20090", "Map_20090", "sc_e_0034.json");	break;
-					case (int)locations.lefein: file = Path.Combine(directory, "Map_20160", "Map_20160", "sc_e_0035.json"); break;
-					case (int)locations.ordeals: file = Path.Combine(directory, "Map_30071", "Map_30071_3", "sc_e_0047.json"); break;
-					case (int)locations.adamantite: file = Path.Combine(directory, "Map_30111", "Map_30111_2", "sc_e_0051.json"); break;
-					case (int)locations.tiamat: file = Path.Combine(directory, "Map_30111", "Map_30111_5", "sc_e_0037_2.json"); break;
+					case (int)locations.coroniaKing: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20011", "Map_20011_2", "sc_e_0003_3.json")); break;
+					case (int)locations.pirate: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20040", "Map_20040", "sc_e_0009_2.json")); break;
+					case (int)locations.marsh: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30021", "Map_30021_3", "sc_e_0010_1.json")); break;
+					case (int)locations.astos: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20081", "Map_20081_1", "sc_e_0011_2.json")); break;
+					case (int)locations.matoya: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20031", "Map_20031_1", "sc_e_0012.json")); break;
+					case (int)locations.elfPrince: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20071", "Map_20071_1", "sc_e_0013.json")); break;
+					case (int)locations.coroniaTreasury: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20011", "Map_20011_1", "sc_e_0014.json")); break;
+					case (int)locations.dwarf: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20051", "Map_20051_1", "sc_e_0015.json")); break;
+					case (int)locations.excal: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20051", "Map_20051_1", "sc_e_0052.json")); break;
+					case (int)locations.vampire: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30031", "Map_30031_3", "sc_e_0017.json")); break;
+					case (int)locations.sage: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20101", "Map_20101_1", "sc_e_0019.json")); break;
+					case (int)locations.lich: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30031", "Map_30031_5", "sc_e_0021_2.json")); break;
+					case (int)locations.crescentLake: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20110", "Map_20110", "sc_e_0022.json")); break;
+					case (int)locations.marilith: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30051", "Map_30051_6", "sc_e_0023_2.json")); break;
+					case (int)locations.iceCave: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30061", "Map_30061_4", "sc_e_0024_2.json")); break;
+					case (int)locations.airship: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_10010", "Map_10010", "sc_e_0025_4.json")); break;
+					case (int)locations.gaia:	file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20150", "Map_20150", "sc_e_0029.json"));	break;
+					case (int)locations.waterfall: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30091", "Map_30091_1", "sc_e_0026.json")); break;
+					case (int)locations.shrine5F: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30081", "Map_30081_8", "sc_e_0033.json")); break;
+					case (int)locations.kraken: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30081", "Map_30081_1", "sc_e_0036_2.json")); break;
+					case (int)locations.unne:	file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20090", "Map_20090", "sc_e_0034.json"));	break;
+					case (int)locations.lefein: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20160", "Map_20160", "sc_e_0035.json")); break;
+					case (int)locations.ordeals: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30071", "Map_30071_3", "sc_e_0047.json")); break;
+					case (int)locations.adamantite: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30111", "Map_30111_2", "sc_e_0051.json")); break;
+					case (int)locations.tiamat: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30111", "Map_30111_5", "sc_e_0037_2.json")); break;
 				}
 
 				for (int i = 1; i <= 2; i++)
