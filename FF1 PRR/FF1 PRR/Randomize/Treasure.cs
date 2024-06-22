@@ -77,6 +77,16 @@ namespace FF1_PRR.Randomize
 		}
 		*/
 
+		private class ImportData
+		{
+			public List<string> keys { get; set; }
+			public List<string> values { get; set; }
+			public ImportData()
+			{
+				keys = new List<string>();
+				values = new List<string>();
+			}
+		}
 		List<ChestInfo> treasureList = new List<ChestInfo>();
 
 		public Treasure(Random r1, int randoLevel, string datapath, bool traditional, bool fiendsRibbons)
@@ -88,10 +98,10 @@ namespace FF1_PRR.Randomize
 			}
 
 			if (randoLevel == 1 || true) // Shuffle
-            {
-				List<(int,int)> contentsList = new List<(int,int)>();
+			{
+				List<(int, int)> contentsList = new List<(int, int)>();
 				foreach (ChestInfo chest in treasureList)
-                {
+				{
 					contentsList.Add((chest.content_id, chest.content_num));
 				}
 				contentsList.Shuffle(r1);
@@ -135,11 +145,11 @@ namespace FF1_PRR.Randomize
 									if (Int32.Parse(property.value) == chest.flag_id)
 									{
 										if (fiendsRibbons && Armor.ribbon == chest.content_id)
-                                        {
+										{
 											obj.properties.Find(x => x.name == "content_id").value = Items.potion.ToString();
-                                        }
+										}
 										else
-                                        {
+										{
 											obj.properties.Find(x => x.name == "content_id").value = chest.content_id.ToString();
 										}
 										obj.properties.Find(x => x.name == "content_num").value = chest.content_num.ToString();
@@ -160,6 +170,50 @@ namespace FF1_PRR.Randomize
 				{
 					serializer.Serialize(writer, entity_default);
 				}
+					// Add the entity_default file to the keys and values for Export.json
+					AddEntityDefaultToExport(datapath, chestsByFile.First().map, chestsByFile.First().submap);
+			}
+		}
+
+		// Add the entity_default file to the keys and values for Export.json
+		private void AddEntityDefaultToExport(string datapath, string map, string submap)
+		{
+			string topKey = map.ToLower();
+			string topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", topKey);
+			string entityDefaultPath = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", map, submap, "entity_default");
+			string exportFilePath = Path.Combine(datapath, "Magicite", "FF1PRR", topKey, "keys", "Export.json");
+
+			ImportData importJson = new ImportData();
+			if (File.Exists(exportFilePath))
+			{
+				using (StreamReader sr = new StreamReader(exportFilePath))
+				using (JsonTextReader reader = new JsonTextReader(sr))
+				{
+					JsonSerializer deserializer = new JsonSerializer();
+					importJson = deserializer.Deserialize<ImportData>(reader);
+				}
+			}
+
+			var keysSet = new HashSet<string>(importJson.keys);
+			var valuesSet = new HashSet<string>(importJson.values);
+
+			string key = $"{submap}/entity_default";
+			string value = entityDefaultPath.Replace("\\", "/");
+
+			if (!keysSet.Contains(key))
+			{
+				keysSet.Add(key);
+				valuesSet.Add(value);
+			}
+
+			importJson.keys = keysSet.ToList();
+			importJson.values = valuesSet.ToList();
+
+			JsonSerializer serializer = new JsonSerializer();
+			using (StreamWriter sw = new StreamWriter(exportFilePath))
+			using (JsonWriter writer = new JsonTextWriter(sw))
+			{
+					serializer.Serialize(writer, importJson);
 			}
 		}
 	}
