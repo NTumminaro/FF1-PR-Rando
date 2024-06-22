@@ -27,7 +27,7 @@ You begin your quest with the ship (the HMS Jayne) and with the bridge between C
 To complete the game, you must find the Lute and the Mystic Key, and restore the powers of the four elemental Crystals. Then, proceed to the Temple of Chaos and complete the final dungeon.
 
 ### Shop and Treasure shuffle
-At present, these flags do as they say: shuffle all possible chest contents or shop contents among their peers. There are a few quirks, though: the Masamune chest is excluded from the shuffle, and will always be found on the Tiamat floor of the Temple of Chaos (past); and a shop will not stock two of the same item.
+At present, these flags do as they say: shuffle all possible chest contents or shop contents among their peers.
 
 If you want a greater challenge, you may optionally exclude the "new" items from shops, making things like Ether and Phoenix Down only obtainable from chests.
 
