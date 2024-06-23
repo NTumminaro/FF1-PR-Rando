@@ -1,0 +1,42 @@
+{
+  "keys": [
+    "anim_info",
+    "Attack_00",
+    "Attack_01",
+    "Default_00",
+    "Default_01",
+    "Down_00",
+    "HandsUp_00",
+    "LookDown_00",
+    "LookDownB_00",
+    "LookDownL_00",
+    "MO_FF1_N101_C00",
+    "RightHandUp_00",
+    "RightHandUp_01",
+    "Surprise_00",
+    "WalkB_00",
+    "WalkB_01",
+    "WalkL_00",
+    "WalkL_01"
+  ],
+  "values": [
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/anim_info",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/Attack_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/Attack_01",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/Default_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/Default_01",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/Down_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/HandsUp_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/LookDown_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/LookDownB_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/LookDownL_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/MO_FF1_N101_C00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/RightHandUp_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/RightHandUp_01",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/Surprise_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/WalkB_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/WalkB_01",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/WalkL_00",
+    "Assets/GameAssets/Serial/Res/Chara/Map/MO_FF1_N101_C00/WalkL_01"
+  ]
+}

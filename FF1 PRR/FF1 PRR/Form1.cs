@@ -26,6 +26,7 @@ namespace FF1_PRR
 		public FF1PRR()
 		{
 			InitializeComponent();
+			PopulateSpriteSelection();
 		}
 
 		public void DetermineFlags(object sender, EventArgs e)
@@ -130,6 +131,8 @@ namespace FF1_PRR
 		private void FF1PRR_Load(object sender, EventArgs e)
 		{
 			RandoSeed.Text = (DateTime.Now.Ticks % 2147483647).ToString();
+			spriteSelection.SelectedIndex = 0;
+			characterSelection.SelectedIndex = 0;
 
 			try
 			{
@@ -139,6 +142,13 @@ namespace FF1_PRR
 					RandoSeed.Text = reader.ReadLine();
 					RandoFlags.Text = reader.ReadLine();
 					VisualFlags.Text = reader.ReadLine();
+					lastGameAssets = DateTime.Parse(reader.ReadLine());
+					string line;
+					while ((line = reader.ReadLine()) != null)
+					{
+						currentSelectionsListBox.Items.Add(line);
+					}
+
 					determineChecks(null, null);
 
 					//runChecksum();
@@ -282,6 +292,34 @@ namespace FF1_PRR
 				File.Copy(sourcePath, outputPath, true);
 			}
 
+			string[] characterFolders = {
+							"mo_ff1_p001_c00",
+							"mo_ff1_p002_c00",
+							"mo_ff1_p003_c00",
+							"mo_ff1_p004_c00",
+							"mo_ff1_p005_c00",
+							"mo_ff1_p006_c00",
+							"mo_ff1_p007_c00",
+							"mo_ff1_p008_c00",
+							"mo_ff1_p009_c00",
+							"mo_ff1_p010_c00",
+							"mo_ff1_p011_c00",
+							"mo_ff1_p012_c00",
+					};
+
+				string spritesSourcePath = Path.Combine("data", "sprites");
+				string spritesDestBasePath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR");
+
+				foreach (string characterFolder in characterFolders)
+					{
+						string sourceSpritePath = Path.Combine(spritesSourcePath, characterFolder);
+						string destSpritePath = Path.Combine(spritesDestBasePath, characterFolder);
+						if (Directory.Exists(sourceSpritePath))
+						{
+							DirectoryCopy(sourceSpritePath, destSpritePath, true);
+						}
+					}
+
 			// Iterate through the map directory and copy the files into the other map directory...
 			Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, Path.Combine("data", "master"), "MainData", "master");
 			Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, Path.Combine("data", "messages"), "Message", "message");
@@ -299,6 +337,17 @@ namespace FF1_PRR
 		{
 			restoreVanilla();
 			MessageBox.Show("Restoration to vanilla complete!");
+			currentSelectionsListBox.Items.Clear();
+
+			// Clear the list of sprites in the lastFF1PRR.txt file
+			using (StreamWriter writer = File.CreateText("lastFF1PRR.txt"))
+			{
+				writer.WriteLine(FF1PRFolder.Text);
+				writer.WriteLine(RandoSeed.Text);
+				writer.WriteLine(RandoFlags.Text);
+				writer.WriteLine(VisualFlags.Text);
+				writer.WriteLine(""); // Clear the lastGameAssets content
+			}
 		}
 
 		private void btnRandomize_Click(object sender, EventArgs e)
@@ -325,6 +374,11 @@ namespace FF1_PRR
 
 				Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, jsonFile, "Map", Path.GetFileName(jsonFile));
 			}
+
+    // string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+    // string selectedCharacter = characterSelection.SelectedItem.ToString();
+    // string selectedSprite = spriteSelection.SelectedItem.ToString();
+    // SpriteUpdater.ReplaceSprite(baseFolder, selectedCharacter, selectedSprite, FF1PRFolder.Text);
 
 			// Begin randomization
 			r1 = new Random(Convert.ToInt32(RandoSeed.Text));
@@ -510,6 +564,55 @@ namespace FF1_PRR
 			MonsterParty.mandatoryRandomEncounters(r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master"), flagNoEscapeRandomize.Checked);
 		}
 
+		private void PopulateSpriteSelection()
+		{
+				string spriteDirectory = Path.Combine(Application.StartupPath, "data", "mods", "sprites");
+				if (Directory.Exists(spriteDirectory))
+				{
+					var spriteFolders = Directory.GetDirectories(spriteDirectory);
+					foreach (var folder in spriteFolders)
+					{
+						string folderName = Path.GetFileName(folder);
+						spriteSelection.Items.Add(folderName);
+					}
+				}
+				else
+				{
+					MessageBox.Show("Sprite directory not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				}
+		}
+
+		// Event handler for Apply button click
+		private void ApplyButton_Click(object sender, EventArgs e)
+		{
+			string character = characterSelection.SelectedItem.ToString();
+			string sprite = spriteSelection.SelectedItem.ToString();
+			bool includeJobUpgrade = includeJobUpgradeCheckBox.Checked;
+			string newEntry = $"{character} ({(includeJobUpgrade ? "+JU" : "")}): {sprite}";
+
+			// Check if the character is already in the list
+			bool characterExists = false;
+			for (int i = 0; i < currentSelectionsListBox.Items.Count; i++)
+			{
+				if (currentSelectionsListBox.Items[i].ToString().StartsWith(character))
+				{
+					// Update the existing entry
+					currentSelectionsListBox.Items[i] = newEntry;
+					characterExists = true;
+					break;
+				}
+			}
+			// If character does not exist in the list, add the new entry
+			if (!characterExists)
+			{
+				currentSelectionsListBox.Items.Add(newEntry);
+			}
+
+			// Apply the sprite change
+			string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+			SpriteUpdater.ReplaceSprite(baseFolder, character, sprite, FF1PRFolder.Text, includeJobUpgrade);
+		}
+
 		private void frmFF1PRR_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			using (StreamWriter writer = File.CreateText("lastFF1PRR.txt"))
@@ -519,6 +622,10 @@ namespace FF1_PRR
 				writer.WriteLine(RandoFlags.Text);
 				writer.WriteLine(VisualFlags.Text);
 				writer.WriteLine(lastGameAssets);
+				foreach (var item in currentSelectionsListBox.Items)
+        {
+          writer.WriteLine(item.ToString());
+        }
 			}
 		}
 
