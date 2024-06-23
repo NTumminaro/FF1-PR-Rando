@@ -253,6 +253,34 @@ namespace FF1_PRR
     File.WriteAllLines(modifiedMessagePath, lines);
 		}
 
+private void ApplySelectedSprites()
+{
+    foreach (var item in currentSelectionsListBox.Items)
+    {
+        try
+        {
+            string[] parts = item.ToString().Split(new[] { ": " }, StringSplitOptions.None);
+            if (parts.Length == 2)
+            {
+                string characterPart = parts[0];
+                string spritePart = parts[1];
+
+                bool includeJobUpgrade = characterPart.StartsWith("(+JU)");
+                string character = includeJobUpgrade ? characterPart.Substring(6) : characterPart;
+
+                string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+                SpriteUpdater.ReplaceSprite(baseFolder, character, spritePart, FF1PRFolder.Text, includeJobUpgrade);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Error processing item '{item}': {ex.Message}");
+        }
+    }
+}
+
+
+
 		// This brings us back to vanilla Magicite files.  This is NOT used for uninstallation.
 		private void restoreVanilla()
         {
@@ -357,6 +385,8 @@ namespace FF1_PRR
 
 			Updater.update(FF1PRFolder.Text);
 			restoreVanilla();
+
+			ApplySelectedSprites();
 
 			// Copy over modded files
 			string DATA_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master");
@@ -583,12 +613,12 @@ namespace FF1_PRR
 		}
 
 		// Event handler for Apply button click
-		private void ApplyButton_Click(object sender, EventArgs e)
+private void ApplyButton_Click(object sender, EventArgs e)
 		{
 			string character = characterSelection.SelectedItem.ToString();
 			string sprite = spriteSelection.SelectedItem.ToString();
 			bool includeJobUpgrade = includeJobUpgradeCheckBox.Checked;
-			string newEntry = $"{character} ({(includeJobUpgrade ? "+JU" : "")}): {sprite}";
+			string newEntry = $"{(includeJobUpgrade ? "(+JU)" : "")} {character}: {sprite}";
 
 			// Check if the character is already in the list
 			bool characterExists = false;
@@ -609,8 +639,8 @@ namespace FF1_PRR
 			}
 
 			// Apply the sprite change
-			string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
-			SpriteUpdater.ReplaceSprite(baseFolder, character, sprite, FF1PRFolder.Text, includeJobUpgrade);
+			// string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+			// SpriteUpdater.ReplaceSprite(baseFolder, character, sprite, FF1PRFolder.Text, includeJobUpgrade);
 		}
 
 		private void frmFF1PRR_FormClosing(object sender, FormClosingEventArgs e)
