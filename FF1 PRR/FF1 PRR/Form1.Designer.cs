@@ -72,18 +72,27 @@ namespace FF1_PRR
 			label10 = new System.Windows.Forms.Label();
 			modeMonsterStatAdjustment = new System.Windows.Forms.ComboBox();
 			label11 = new System.Windows.Forms.Label();
+			label12 = new System.Windows.Forms.Label();
+			label13 = new System.Windows.Forms.Label();
 			modeHeroStats = new System.Windows.Forms.ComboBox();
 			flagHeroStatsStandardize = new System.Windows.Forms.CheckBox();
 			statExplanation = new System.Windows.Forms.Button();
-			flagBoostPromoted = new System.Windows.Forms.CheckBox();
+			flagBoostPromoted = new System.Windows.Forms.CheckBox();			
+			characterSelection = new System.Windows.Forms.ComboBox();
+			spriteSelection = new System.Windows.Forms.ComboBox();
+			currentSelectionsListBox = new System.Windows.Forms.ListBox();
+			includeJobUpgradeCheckBox = new System.Windows.Forms.CheckBox();
+			applyButton = new System.Windows.Forms.Button();
 			groupBox1 = new System.Windows.Forms.GroupBox();
 			groupBox2 = new System.Windows.Forms.GroupBox();
 			groupBox3 = new System.Windows.Forms.GroupBox();
 			groupBox4 = new System.Windows.Forms.GroupBox();
+			groupBox5 = new System.Windows.Forms.GroupBox();
 			groupBox1.SuspendLayout();
 			groupBox2.SuspendLayout();
 			groupBox3.SuspendLayout();
 			groupBox4.SuspendLayout();
+			groupBox5.SuspendLayout();
 			SuspendLayout();
 			// 
 			// btnRandomize
@@ -117,6 +126,68 @@ namespace FF1_PRR
 			FF1PRFolder.Size = new System.Drawing.Size(547, 27);
 			FF1PRFolder.TabIndex = 2;
 			FF1PRFolder.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY PR";
+			//
+			// characterSelection
+			//
+			characterSelection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			characterSelection.FormattingEnabled = true;
+			characterSelection.Items.AddRange(new object[] {
+					"Warrior",
+					"Thief",
+					"Monk",
+					"Red Mage",
+					"White Mage",
+					"Black Mage",
+			});
+			characterSelection.Location = new System.Drawing.Point(60, 30);
+			characterSelection.Margin = new System.Windows.Forms.Padding(2);
+			characterSelection.Name = "characterSelection";
+			characterSelection.Size = new System.Drawing.Size(200, 28);
+			characterSelection.TabIndex = 30;
+			toolTip1.SetToolTip(characterSelection, "Select the character class to replace the sprite for.");
+			//
+			// spriteSelection
+			//
+			spriteSelection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			spriteSelection.FormattingEnabled = true;
+			spriteSelection.Location = new System.Drawing.Point(60, 70);
+			spriteSelection.Margin = new System.Windows.Forms.Padding(2);
+			spriteSelection.Name = "spriteSelection";
+			spriteSelection.Size = new System.Drawing.Size(200, 28);
+			spriteSelection.TabIndex = 31;
+			toolTip1.SetToolTip(spriteSelection, "Select the sprite to replace with.");
+			//
+			// currentSelectionsListBox
+			//
+			currentSelectionsListBox.FormattingEnabled = true;
+			currentSelectionsListBox.Location = new System.Drawing.Point(10, 150);
+			currentSelectionsListBox.Margin = new System.Windows.Forms.Padding(2);
+			currentSelectionsListBox.Name = "currentSelectionsListBox";
+			currentSelectionsListBox.Size = new System.Drawing.Size(250, 140);
+			currentSelectionsListBox.TabIndex = 32;
+			//
+			// applyButton
+			//
+			applyButton.Location = new System.Drawing.Point(180, 108);
+			applyButton.Margin = new System.Windows.Forms.Padding(2);
+			applyButton.Name = "applyButton";
+			applyButton.Size = new System.Drawing.Size(80, 32);
+			applyButton.TabIndex = 33;
+			applyButton.Text = "Apply";
+			applyButton.UseVisualStyleBackColor = true;
+			applyButton.Click += new System.EventHandler(this.ApplyButton_Click);
+			//
+			// includeJobUpgradeCheckBox
+			//
+			includeJobUpgradeCheckBox.AutoSize = true;
+			includeJobUpgradeCheckBox.Location = new System.Drawing.Point(10, 112);
+			includeJobUpgradeCheckBox.Margin = new System.Windows.Forms.Padding(2);
+			includeJobUpgradeCheckBox.Name = "includeJobUpgradeCheckBox";
+			includeJobUpgradeCheckBox.Size = new System.Drawing.Size(160, 24);
+			includeJobUpgradeCheckBox.TabIndex = 34;
+			includeJobUpgradeCheckBox.Text = "Include Job Upgrade";
+			includeJobUpgradeCheckBox.UseVisualStyleBackColor = true;
+			toolTip1.SetToolTip(includeJobUpgradeCheckBox, "If checked, the sprite change will also apply to the upgraded job.");
 			// 
 			// CuteHats
 			// 
@@ -336,7 +407,7 @@ namespace FF1_PRR
 			// label7
 			// 
 			label7.AutoSize = true;
-			label7.Location = new System.Drawing.Point(5, 28);
+			label7.Location = new System.Drawing.Point(5, 24);
 			label7.Name = "label7";
 			label7.Padding = new System.Windows.Forms.Padding(3);
 			label7.Size = new System.Drawing.Size(98, 26);
@@ -349,10 +420,10 @@ namespace FF1_PRR
 			modeXPBoost.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			modeXPBoost.FormattingEnabled = true;
 			modeXPBoost.Items.AddRange(new object[] { "0.5x", "1.0x", "1.5x", "2.0x", "3.0x", "4.0x", "5.0x", "10.0x" });
-			modeXPBoost.Location = new System.Drawing.Point(106, 26);
+			modeXPBoost.Location = new System.Drawing.Point(106, 20);
 			modeXPBoost.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			modeXPBoost.Name = "modeXPBoost";
-			modeXPBoost.Size = new System.Drawing.Size(69, 28);
+			modeXPBoost.Size = new System.Drawing.Size(69, 30);
 			modeXPBoost.TabIndex = 22;
 			toolTip1.SetToolTip(modeXPBoost, "How much to increase earned XP and Gil.");
 			modeXPBoost.SelectedIndexChanged += DetermineFlags;
@@ -400,7 +471,7 @@ namespace FF1_PRR
 			// flagRebalancePrices
 			// 
 			flagRebalancePrices.AutoSize = true;
-			flagRebalancePrices.Location = new System.Drawing.Point(5, 54);
+			flagRebalancePrices.Location = new System.Drawing.Point(6, 90);
 			flagRebalancePrices.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			flagRebalancePrices.Name = "flagRebalancePrices";
 			flagRebalancePrices.Padding = new System.Windows.Forms.Padding(3);
@@ -414,7 +485,7 @@ namespace FF1_PRR
 			// flagRestoreCritRating
 			// 
 			flagRestoreCritRating.AutoSize = true;
-			flagRestoreCritRating.Location = new System.Drawing.Point(3, 51);
+			flagRestoreCritRating.Location = new System.Drawing.Point(6, 60);
 			flagRestoreCritRating.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			flagRestoreCritRating.Name = "flagRestoreCritRating";
 			flagRestoreCritRating.Padding = new System.Windows.Forms.Padding(3);
@@ -428,7 +499,7 @@ namespace FF1_PRR
 			// flagWandsAddInt
 			// 
 			flagWandsAddInt.AutoSize = true;
-			flagWandsAddInt.Location = new System.Drawing.Point(6, 84);
+			flagWandsAddInt.Location = new System.Drawing.Point(6, 120);
 			flagWandsAddInt.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			flagWandsAddInt.Name = "flagWandsAddInt";
 			flagWandsAddInt.Padding = new System.Windows.Forms.Padding(3);
@@ -469,7 +540,7 @@ namespace FF1_PRR
 			// 
 			// btnRestoreVanilla
 			// 
-			btnRestoreVanilla.Location = new System.Drawing.Point(649, 621);
+			btnRestoreVanilla.Location = new System.Drawing.Point(520, 654);
 			btnRestoreVanilla.Margin = new System.Windows.Forms.Padding(2);
 			btnRestoreVanilla.Name = "btnRestoreVanilla";
 			btnRestoreVanilla.Padding = new System.Windows.Forms.Padding(3);
@@ -483,7 +554,7 @@ namespace FF1_PRR
 			// flagReduceEncounterRate
 			// 
 			flagReduceEncounterRate.AutoSize = true;
-			flagReduceEncounterRate.Location = new System.Drawing.Point(6, 112);
+			flagReduceEncounterRate.Location = new System.Drawing.Point(6, 150);
 			flagReduceEncounterRate.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			flagReduceEncounterRate.Name = "flagReduceEncounterRate";
 			flagReduceEncounterRate.Padding = new System.Windows.Forms.Padding(3);
@@ -597,6 +668,28 @@ namespace FF1_PRR
 			label11.Text = "Hero Stats:";
 			toolTip1.SetToolTip(label11, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
 			// 
+			// label12
+			// 
+			label12.AutoSize = true;
+			label12.Location = new System.Drawing.Point(10, 30);
+			label12.Margin = new System.Windows.Forms.Padding(6);
+			label12.Name = "label12";
+			label12.Padding = new System.Windows.Forms.Padding(3);
+			label12.Size = new System.Drawing.Size(87, 26);
+			label12.TabIndex = 38;
+			label12.Text = "Job:";
+			// 
+			// label13
+			// 
+			label13.AutoSize = true;
+			label13.Location = new System.Drawing.Point(4, 70);
+			label13.Margin = new System.Windows.Forms.Padding(6);
+			label13.Name = "label13";
+			label13.Padding = new System.Windows.Forms.Padding(3);
+			label13.Size = new System.Drawing.Size(87, 26);
+			label13.TabIndex = 38;
+			label13.Text = "Sprite:";
+			// 
 			// modeHeroStats
 			// 
 			modeHeroStats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -676,11 +769,11 @@ namespace FF1_PRR
 			groupBox2.Controls.Add(modeXPBoost);
 			groupBox2.Controls.Add(flagRestoreCritRating);
 			groupBox2.Controls.Add(label7);
-			groupBox2.Location = new System.Drawing.Point(485, 165);
+			groupBox2.Location = new System.Drawing.Point(485, 125);
 			groupBox2.Margin = new System.Windows.Forms.Padding(2);
 			groupBox2.Name = "groupBox2";
 			groupBox2.Padding = new System.Windows.Forms.Padding(2);
-			groupBox2.Size = new System.Drawing.Size(274, 201);
+			groupBox2.Size = new System.Drawing.Size(274, 200);
 			groupBox2.TabIndex = 24;
 			groupBox2.TabStop = false;
 			groupBox2.Text = "Balance";
@@ -724,12 +817,29 @@ namespace FF1_PRR
 			groupBox4.TabStop = false;
 			groupBox4.Text = "Monsters && Bosses";
 			// 
+			// groupBox5
+			//
+			groupBox5.Controls.Add(characterSelection);
+			groupBox5.Controls.Add(spriteSelection);
+			groupBox5.Controls.Add(currentSelectionsListBox);
+			groupBox5.Controls.Add(applyButton);
+			groupBox5.Controls.Add(includeJobUpgradeCheckBox);
+			groupBox5.Controls.Add(label12);
+			groupBox5.Controls.Add(label13);
+			groupBox5.Location = new System.Drawing.Point(485, 330);
+			groupBox5.Name = "groupBox5";
+			groupBox5.Size = new System.Drawing.Size(274, 312);
+			groupBox5.TabIndex = 31;
+			groupBox5.TabStop = false;
+			groupBox5.Text = "Overworld Sprites";
+			// 
 			// FF1PRR
 			// 
 			AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
 			AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			ClientSize = new System.Drawing.Size(780, 694);
 			Controls.Add(btnRestoreVanilla);
+			Controls.Add(groupBox5);
 			Controls.Add(groupBox4);
 			Controls.Add(groupBox3);
 			Controls.Add(groupBox2);
@@ -761,6 +871,8 @@ namespace FF1_PRR
 			groupBox3.PerformLayout();
 			groupBox4.ResumeLayout(false);
 			groupBox4.PerformLayout();
+			groupBox5.ResumeLayout(false);
+			groupBox5.PerformLayout();
 			ResumeLayout(false);
 			PerformLayout();
 		}
@@ -817,6 +929,14 @@ namespace FF1_PRR
 		private System.Windows.Forms.Label label11;
 		private System.Windows.Forms.Button statExplanation;
 		private System.Windows.Forms.CheckBox flagBoostPromoted;
+		private System.Windows.Forms.GroupBox groupBox5;
+		private System.Windows.Forms.ComboBox characterSelection;
+		private System.Windows.Forms.ComboBox spriteSelection;
+		private System.Windows.Forms.Button applyButton;
+		private System.Windows.Forms.ListBox currentSelectionsListBox;
+		private System.Windows.Forms.Label label12;
+		private System.Windows.Forms.Label label13;
+		private System.Windows.Forms.CheckBox includeJobUpgradeCheckBox;
 	}
 }
 
