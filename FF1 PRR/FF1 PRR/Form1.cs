@@ -207,6 +207,52 @@ namespace FF1_PRR
 			}
 		}
 
+		// This Modifies the main menu and the new game menu to show the seed number.
+		private void ModifySystemMessage(string seedNumber, string sourcePath, string destPath)
+		{
+			string systemMessagePath = Path.Combine(sourcePath, "system_en.txt");
+			string modifiedMessagePath = Path.Combine(destPath, "system_en.txt");
+
+    	if (!File.Exists(systemMessagePath))
+    	{
+        string errorMessage = $"The file {systemMessagePath} was not found.";
+        throw new FileNotFoundException(errorMessage);
+    	}
+
+			var lines = File.ReadAllLines(systemMessagePath).ToList();
+			bool message183Found = false;
+			bool message181Found = false;
+
+			for (int i = 0; i < lines.Count; i++)
+			{
+        if (lines[i].StartsWith("MSG_SYSTEM_183\t"))
+        {
+					lines[i] = $"MSG_SYSTEM_183\tRandomizer Seed {seedNumber}";
+					message183Found = true;
+        }
+
+        else if (lines[i].StartsWith("MSG_SYSTEM_181\t"))
+        {
+					lines[i] += $@"\nRandomizer Seed: {seedNumber}";
+					message181Found = true;
+        }
+    	}
+
+			if (!message183Found)
+			{
+				string errorMessage = "MSG_SYSTEM_183 not found in system_en.txt.";
+				throw new Exception(errorMessage);
+			}
+
+			if (!message181Found)
+			{
+				string errorMessage = "MSG_SYSTEM_181 not found in system_en.txt.";
+				throw new Exception(errorMessage);
+			}
+
+    File.WriteAllLines(modifiedMessagePath, lines);
+		}
+
 		// This brings us back to vanilla Magicite files.  This is NOT used for uninstallation.
 		private void restoreVanilla()
         {
@@ -349,6 +395,10 @@ namespace FF1_PRR
 				// neongrey says: eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 				// Demerine says: eeeeeeeee
 			}
+
+			// Modify the system message
+			string seedNumber = RandoSeed.Text;
+			ModifySystemMessage(seedNumber, Path.Combine("data", "mods"), MESSAGE_PATH);
 
 			NewChecksum.Text = "COMPLETE";
 		}
