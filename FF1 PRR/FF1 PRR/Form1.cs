@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
 
 namespace FF1_PRR
 {
@@ -613,35 +614,42 @@ private void ApplySelectedSprites()
 		}
 
 		// Event handler for Apply button click
-private void ApplyButton_Click(object sender, EventArgs e)
+		private void ApplyButton_Click(object sender, EventArgs e)
 		{
 			string character = characterSelection.SelectedItem.ToString();
 			string sprite = spriteSelection.SelectedItem.ToString();
 			bool includeJobUpgrade = includeJobUpgradeCheckBox.Checked;
-			string newEntry = $"{(includeJobUpgrade ? "(+JU)" : "")} {character}: {sprite}";
+			string newEntry = $"{(includeJobUpgrade ? "(+JU) " : "")}{character}: {sprite}";
 
-			// Check if the character is already in the list
-			bool characterExists = false;
-			for (int i = 0; i < currentSelectionsListBox.Items.Count; i++)
-			{
-				if (currentSelectionsListBox.Items[i].ToString().StartsWith(character))
+				// Check if the character is already in the list
+				bool characterExists = false;
+				for (int i = 0; i < currentSelectionsListBox.Items.Count; i++)
 				{
-					// Update the existing entry
-					currentSelectionsListBox.Items[i] = newEntry;
-					characterExists = true;
-					break;
+					string existingEntry = currentSelectionsListBox.Items[i].ToString();
+					// Extract the character part from the existing entry using a regular expression
+					string pattern = @"(\(\+JU\)\s)?(.+):";
+					var match = Regex.Match(existingEntry, pattern);
+					if (match.Success)
+					{
+						string existingCharacter = match.Groups[2].Value.Trim();
+						if (existingCharacter == character)
+						{
+							// Update the existing entry
+							currentSelectionsListBox.Items[i] = newEntry;
+							characterExists = true;
+							break;
+						}
+					}
+				}
+
+				// If character does not exist in the list, add the new entry
+				if (!characterExists)
+				{
+						currentSelectionsListBox.Items.Add(newEntry);
 				}
 			}
-			// If character does not exist in the list, add the new entry
-			if (!characterExists)
-			{
-				currentSelectionsListBox.Items.Add(newEntry);
-			}
 
-			// Apply the sprite change
-			// string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
-			// SpriteUpdater.ReplaceSprite(baseFolder, character, sprite, FF1PRFolder.Text, includeJobUpgrade);
-		}
+
 
 		private void frmFF1PRR_FormClosing(object sender, FormClosingEventArgs e)
 		{
