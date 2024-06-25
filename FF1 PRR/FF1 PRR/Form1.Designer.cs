@@ -1,17 +1,9 @@
-﻿
-namespace FF1_PRR
+﻿namespace FF1_PRR
 {
 	partial class FF1PRR
 	{
-		/// <summary>
-		///  Required designer variable.
-		/// </summary>
 		private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		///  Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing && (components != null))
@@ -23,17 +15,13 @@ namespace FF1_PRR
 
 		#region Windows Form Designer generated code
 
-		/// <summary>
-		///  Required method for Designer support - do not modify
-		///  the contents of this method with the code editor.
-		/// </summary>
 		private void InitializeComponent()
 		{
 			components = new System.ComponentModel.Container();
 			btnRandomize = new System.Windows.Forms.Button();
 			label1 = new System.Windows.Forms.Label();
 			FF1PRFolder = new System.Windows.Forms.TextBox();
-			CuteHats = new System.Windows.Forms.CheckBox();
+			// CuteHats = new System.Windows.Forms.CheckBox();
 			flagBossShuffle = new System.Windows.Forms.CheckBox();
 			flagKeyItems = new System.Windows.Forms.CheckBox();
 			label2 = new System.Windows.Forms.Label();
@@ -42,7 +30,7 @@ namespace FF1_PRR
 			RandoSeed = new System.Windows.Forms.TextBox();
 			label3 = new System.Windows.Forms.Label();
 			NewSeed = new System.Windows.Forms.Button();
-			VisualFlags = new System.Windows.Forms.TextBox();
+			// VisualFlags = new System.Windows.Forms.TextBox();
 			label4 = new System.Windows.Forms.Label();
 			BrowseForFolder = new System.Windows.Forms.Button();
 			label5 = new System.Windows.Forms.Label();
@@ -77,11 +65,14 @@ namespace FF1_PRR
 			modeHeroStats = new System.Windows.Forms.ComboBox();
 			flagHeroStatsStandardize = new System.Windows.Forms.CheckBox();
 			statExplanation = new System.Windows.Forms.Button();
-			flagBoostPromoted = new System.Windows.Forms.CheckBox();			
+			flagBoostPromoted = new System.Windows.Forms.CheckBox();
 			characterSelection = new System.Windows.Forms.ComboBox();
 			spriteSelection = new System.Windows.Forms.ComboBox();
 			currentSelectionsListBox = new System.Windows.Forms.ListBox();
 			includeJobUpgradeCheckBox = new System.Windows.Forms.CheckBox();
+			presetDropdown = new System.Windows.Forms.ComboBox();
+			loadPresetButton = new System.Windows.Forms.Button();
+			savePresetButton = new System.Windows.Forms.Button();
 			applyButton = new System.Windows.Forms.Button();
 			groupBox1 = new System.Windows.Forms.GroupBox();
 			groupBox2 = new System.Windows.Forms.GroupBox();
@@ -126,28 +117,30 @@ namespace FF1_PRR
 			FF1PRFolder.Size = new System.Drawing.Size(547, 27);
 			FF1PRFolder.TabIndex = 2;
 			FF1PRFolder.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY PR";
-			//
+			// 
 			// characterSelection
-			//
+			// 
 			characterSelection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			characterSelection.FormattingEnabled = true;
-			characterSelection.Items.AddRange(new object[] {
+			characterSelection.Items.AddRange(new object[]
+				{
 					"Warrior",
 					"Thief",
 					"Monk",
 					"Red Mage",
 					"White Mage",
 					"Black Mage",
-			});
+				}
+			);
 			characterSelection.Location = new System.Drawing.Point(60, 30);
 			characterSelection.Margin = new System.Windows.Forms.Padding(2);
 			characterSelection.Name = "characterSelection";
 			characterSelection.Size = new System.Drawing.Size(200, 28);
 			characterSelection.TabIndex = 30;
 			toolTip1.SetToolTip(characterSelection, "Select the character class to replace the sprite for.");
-			//
+			// 
 			// spriteSelection
-			//
+			// 
 			spriteSelection.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			spriteSelection.FormattingEnabled = true;
 			spriteSelection.Location = new System.Drawing.Point(60, 70);
@@ -156,18 +149,18 @@ namespace FF1_PRR
 			spriteSelection.Size = new System.Drawing.Size(200, 28);
 			spriteSelection.TabIndex = 31;
 			toolTip1.SetToolTip(spriteSelection, "Select the sprite to replace with.");
-			//
+			// 
 			// currentSelectionsListBox
-			//
+			// 
 			currentSelectionsListBox.FormattingEnabled = true;
 			currentSelectionsListBox.Location = new System.Drawing.Point(10, 150);
 			currentSelectionsListBox.Margin = new System.Windows.Forms.Padding(2);
 			currentSelectionsListBox.Name = "currentSelectionsListBox";
 			currentSelectionsListBox.Size = new System.Drawing.Size(250, 140);
 			currentSelectionsListBox.TabIndex = 32;
-			//
+			// 
 			// applyButton
-			//
+			// 
 			applyButton.Location = new System.Drawing.Point(180, 108);
 			applyButton.Margin = new System.Windows.Forms.Padding(2);
 			applyButton.Name = "applyButton";
@@ -176,9 +169,9 @@ namespace FF1_PRR
 			applyButton.Text = "Apply";
 			applyButton.UseVisualStyleBackColor = true;
 			applyButton.Click += new System.EventHandler(this.ApplyButton_Click);
-			//
+			// 
 			// includeJobUpgradeCheckBox
-			//
+			// 
 			includeJobUpgradeCheckBox.AutoSize = true;
 			includeJobUpgradeCheckBox.Location = new System.Drawing.Point(10, 112);
 			includeJobUpgradeCheckBox.Margin = new System.Windows.Forms.Padding(2);
@@ -191,18 +184,18 @@ namespace FF1_PRR
 			// 
 			// CuteHats
 			// 
-			CuteHats.AutoSize = true;
-			CuteHats.Location = new System.Drawing.Point(485, 128);
-			CuteHats.Margin = new System.Windows.Forms.Padding(2);
-			CuteHats.Name = "CuteHats";
-			CuteHats.Padding = new System.Windows.Forms.Padding(3);
-			CuteHats.Size = new System.Drawing.Size(101, 30);
-			CuteHats.TabIndex = 3;
-			CuteHats.Text = "Cute Hats";
-			toolTip1.SetToolTip(CuteHats, "Your hat is cute.");
-			CuteHats.UseVisualStyleBackColor = true;
-			CuteHats.Visible = false;
-			CuteHats.Click += DetermineFlags;
+			// CuteHats.AutoSize = true;
+			// CuteHats.Location = new System.Drawing.Point(485, 128);
+			// CuteHats.Margin = new System.Windows.Forms.Padding(2);
+			// CuteHats.Name = "CuteHats";
+			// CuteHats.Padding = new System.Windows.Forms.Padding(3);
+			// CuteHats.Size = new System.Drawing.Size(101, 30);
+			// CuteHats.TabIndex = 3;
+			// CuteHats.Text = "Cute Hats";
+			// toolTip1.SetToolTip(CuteHats, "Your hat is cute.");
+			// CuteHats.UseVisualStyleBackColor = true;
+			// CuteHats.Visible = false;
+			// CuteHats.Click += DetermineFlags;
 			// 
 			// flagBossShuffle
 			// 
@@ -239,7 +232,7 @@ namespace FF1_PRR
 			// label2
 			// 
 			label2.AutoSize = true;
-			label2.Location = new System.Drawing.Point(12, 51);
+			label2.Location = new System.Drawing.Point(12, 170);
 			label2.Margin = new System.Windows.Forms.Padding(2);
 			label2.Name = "label2";
 			label2.Padding = new System.Windows.Forms.Padding(3);
@@ -249,7 +242,7 @@ namespace FF1_PRR
 			// 
 			// RandoFlags
 			// 
-			RandoFlags.Location = new System.Drawing.Point(128, 52);
+			RandoFlags.Location = new System.Drawing.Point(128, 170);
 			RandoFlags.Margin = new System.Windows.Forms.Padding(2);
 			RandoFlags.Name = "RandoFlags";
 			RandoFlags.Size = new System.Drawing.Size(346, 27);
@@ -299,11 +292,42 @@ namespace FF1_PRR
 			// 
 			// VisualFlags
 			// 
-			VisualFlags.Location = new System.Drawing.Point(128, 91);
-			VisualFlags.Margin = new System.Windows.Forms.Padding(2);
-			VisualFlags.Name = "VisualFlags";
-			VisualFlags.Size = new System.Drawing.Size(346, 27);
-			VisualFlags.TabIndex = 13;
+			// VisualFlags.Location = new System.Drawing.Point(128, 91);
+			// VisualFlags.Margin = new System.Windows.Forms.Padding(2);
+			// VisualFlags.Name = "VisualFlags";
+			// VisualFlags.Size = new System.Drawing.Size(346, 27);
+			// VisualFlags.TabIndex = 13;
+			// 
+			// PresetDropdown
+			// 
+			presetDropdown.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			presetDropdown.FormattingEnabled = true;
+			presetDropdown.Items.AddRange(new object[] { "Standard" });
+			presetDropdown.Location = new System.Drawing.Point(128, 130); // Adjust the location as needed
+			presetDropdown.Name = "presetDropdown";
+			presetDropdown.Size = new System.Drawing.Size(150, 28);
+			presetDropdown.TabIndex = 14;
+			//
+			// LoadPresetButton
+			//
+			loadPresetButton.Location = new System.Drawing.Point(290, 130); // Adjust the location as needed
+			loadPresetButton.Name = "loadPresetButton";
+			loadPresetButton.Size = new System.Drawing.Size(75, 28);
+			loadPresetButton.TabIndex = 15;
+			loadPresetButton.Text = "Load";
+			loadPresetButton.UseVisualStyleBackColor = true;
+			loadPresetButton.Click += new System.EventHandler(this.LoadPresetButton_Click);
+			//
+			// SavePresetButton
+			//
+			savePresetButton.Location = new System.Drawing.Point(470, 52); // Adjust the location as needed
+			savePresetButton.Name = "savePresetButton";
+			savePresetButton.Size = new System.Drawing.Size(75, 28);
+			savePresetButton.TabIndex = 16;
+			savePresetButton.Text = "Save";
+			savePresetButton.UseVisualStyleBackColor = true;
+			savePresetButton.Click += new System.EventHandler(this.SavePresetButton_Click);
+
 			// 
 			// label4
 			// 
@@ -423,7 +447,7 @@ namespace FF1_PRR
 			modeXPBoost.Location = new System.Drawing.Point(106, 20);
 			modeXPBoost.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
 			modeXPBoost.Name = "modeXPBoost";
-			modeXPBoost.Size = new System.Drawing.Size(69, 30);
+			modeXPBoost.Size = new System.Drawing.Size(69, 28);
 			modeXPBoost.TabIndex = 22;
 			toolTip1.SetToolTip(modeXPBoost, "How much to increase earned XP and Gil.");
 			modeXPBoost.SelectedIndexChanged += DetermineFlags;
@@ -569,7 +593,7 @@ namespace FF1_PRR
 			// 
 			flagReduceChaosHP.AutoSize = true;
 			flagReduceChaosHP.Location = new System.Drawing.Point(6, 22);
-			flagReduceChaosHP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+			flagReduceChaosHP.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			flagReduceChaosHP.Name = "flagReduceChaosHP";
 			flagReduceChaosHP.Padding = new System.Windows.Forms.Padding(3);
 			flagReduceChaosHP.Size = new System.Drawing.Size(153, 30);
@@ -818,7 +842,7 @@ namespace FF1_PRR
 			groupBox4.Text = "Monsters && Bosses";
 			// 
 			// groupBox5
-			//
+			// 
 			groupBox5.Controls.Add(characterSelection);
 			groupBox5.Controls.Add(spriteSelection);
 			groupBox5.Controls.Add(currentSelectionsListBox);
@@ -846,7 +870,10 @@ namespace FF1_PRR
 			Controls.Add(groupBox1);
 			Controls.Add(label6);
 			Controls.Add(BrowseForFolder);
-			Controls.Add(VisualFlags);
+			Controls.Add(presetDropdown);
+			Controls.Add(loadPresetButton);
+			Controls.Add(savePresetButton);
+			// Controls.Add(VisualFlags);
 			Controls.Add(label4);
 			Controls.Add(NewSeed);
 			Controls.Add(RandoSeed);
@@ -855,7 +882,7 @@ namespace FF1_PRR
 			Controls.Add(RandoFlags);
 			Controls.Add(label2);
 			Controls.Add(flagKeyItems);
-			Controls.Add(CuteHats);
+			// Controls.Add(CuteHats);
 			Controls.Add(FF1PRFolder);
 			Controls.Add(label1);
 			Controls.Add(btnRandomize);
@@ -882,7 +909,7 @@ namespace FF1_PRR
 		private System.Windows.Forms.Button btnRandomize;
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.TextBox FF1PRFolder;
-		private System.Windows.Forms.CheckBox CuteHats;
+		// private System.Windows.Forms.CheckBox CuteHats;
 		private System.Windows.Forms.CheckBox flagBossShuffle;
 		private System.Windows.Forms.CheckBox flagKeyItems;
 		private System.Windows.Forms.Label label2;
@@ -891,7 +918,7 @@ namespace FF1_PRR
 		private System.Windows.Forms.TextBox RandoSeed;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Button NewSeed;
-		private System.Windows.Forms.TextBox VisualFlags;
+		// private System.Windows.Forms.TextBox VisualFlags;
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Button BrowseForFolder;
 		private System.Windows.Forms.Label label5;
@@ -902,24 +929,24 @@ namespace FF1_PRR
 		private System.Windows.Forms.CheckBox flagMagicKeepPermissions;
 		private System.Windows.Forms.Label label7;
 		private System.Windows.Forms.ComboBox modeXPBoost;
-        private System.Windows.Forms.ToolTip toolTip1;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.CheckBox flagRestoreCritRating;
-        private System.Windows.Forms.CheckBox flagRebalancePrices;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.ComboBox modeTreasure;
-        private System.Windows.Forms.CheckBox flagTreasureTrad;
-        private System.Windows.Forms.CheckBox flagWandsAddInt;
-        private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox flagRebalanceBosses;
-        private System.Windows.Forms.CheckBox flagFiendsDropRibbons;
-        private System.Windows.Forms.Button btnRestoreVanilla;
-        private System.Windows.Forms.CheckBox flagReduceEncounterRate;
-        private System.Windows.Forms.CheckBox flagReduceChaosHP;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox modeMagic;
+		private System.Windows.Forms.ToolTip toolTip1;
+		private System.Windows.Forms.GroupBox groupBox1;
+		private System.Windows.Forms.CheckBox flagRestoreCritRating;
+		private System.Windows.Forms.CheckBox flagRebalancePrices;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.ComboBox modeTreasure;
+		private System.Windows.Forms.CheckBox flagTreasureTrad;
+		private System.Windows.Forms.CheckBox flagWandsAddInt;
+		private System.Windows.Forms.GroupBox groupBox2;
+		private System.Windows.Forms.GroupBox groupBox3;
+		private System.Windows.Forms.GroupBox groupBox4;
+		private System.Windows.Forms.CheckBox flagRebalanceBosses;
+		private System.Windows.Forms.CheckBox flagFiendsDropRibbons;
+		private System.Windows.Forms.Button btnRestoreVanilla;
+		private System.Windows.Forms.CheckBox flagReduceEncounterRate;
+		private System.Windows.Forms.CheckBox flagReduceChaosHP;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.ComboBox modeMagic;
 		private System.Windows.Forms.CheckBox flagNoEscapeRandomize;
 		private System.Windows.Forms.CheckBox flagNoEscapeNES;
 		private System.Windows.Forms.ComboBox modeMonsterStatAdjustment;
@@ -939,4 +966,3 @@ namespace FF1_PRR
 		private System.Windows.Forms.CheckBox includeJobUpgradeCheckBox;
 	}
 }
-

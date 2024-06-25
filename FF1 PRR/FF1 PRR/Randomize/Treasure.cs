@@ -73,7 +73,7 @@ namespace FF1_PRR.Randomize
 			// Now write the chests back
 			foreach (var chestsByFile in treasureList.GroupBy(x => x.submap))
 			{
-				string filename = Inventory.Updater.MemoriaToMagiciteFile(datapath, Path.Combine("Maps", chestsByFile.First().map, chestsByFile.First().submap, "entity_default.json"));
+				string filename = Path.Combine(datapath, chestsByFile.First().map, "Assets", "GameAssets", "Serial", "Res", "Map", chestsByFile.First().map, chestsByFile.First().submap, "entity_default.json");
 				Console.WriteLine($"Processing file: {filename}");
 				string json = File.ReadAllText(filename);
 				EvRoot entity_default = JsonConvert.DeserializeObject<EvRoot>(json);
@@ -122,8 +122,8 @@ namespace FF1_PRR.Randomize
 				{
 					serializer.Serialize(writer, entity_default);
 				}
-					// Add the entity_default file to the keys and values for Export.json
-					AddEntityDefaultToExport(datapath, chestsByFile.First().map, chestsByFile.First().submap);
+				// Add the entity_default file to the keys and values for Export.json
+				AddEntityDefaultToExport(datapath, chestsByFile.First().map, chestsByFile.First().submap);
 			}
 		}
 
@@ -133,7 +133,7 @@ namespace FF1_PRR.Randomize
 			string topKey = map.ToLower();
 			string topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", topKey);
 			string entityDefaultPath = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", map, submap, "entity_default");
-			string exportFilePath = Path.Combine(datapath, "Magicite", "FF1PRR", topKey, "keys", "Export.json");
+			string exportFilePath = Path.Combine(datapath, "keys", "Export.json");
 
 			ImportData importJson = new ImportData();
 			if (File.Exists(exportFilePath))
@@ -165,7 +165,7 @@ namespace FF1_PRR.Randomize
 			using (StreamWriter sw = new StreamWriter(exportFilePath))
 			using (JsonWriter writer = new JsonTextWriter(sw))
 			{
-					serializer.Serialize(writer, importJson);
+				serializer.Serialize(writer, importJson);
 			}
 		}
 	}
