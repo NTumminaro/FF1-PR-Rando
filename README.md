@@ -1,10 +1,11 @@
 # Final Fantasy 1 Pixel Remaster Randomizer
-This is a proof-of-concept key item randomizer for [Final Fantasy I (PR)](https://store.steampowered.com/app/1173770/FINAL_FANTASY/).
+This is a fork of gameboy9's [FF1PRR](https://github.com/gameboy9/FF1-PR-Rando) with the goal of adding more features and improving the randomizer.
+Without gameboy9's work, this project would not be possible.
+Below is the original README.md from gameboy9's repository with some modifications to reflect the changes made in this fork.
 
 ## Installation:
 1. Install Final Fantasy Pixel Remaster from Steam.
-2. Install [Memoria](https://github.com/Albeoris/Memoria.FFPR/) and export the game data by following [these instructions](https://github.com/Albeoris/Memoria.FFPR/#export).
-3. Download and unpack the [FF1PRR archive](https://github.com/gameboy9/Memoria.FFPR/releases/download/0.1/FF1.PRR.zip) in the directory of your choice.
+3. Download and unpack the [FF1PRR Release](https://github.com/gameboy9/Memoria.FFPR/releases/download/0.1/FF1.PRR.zip) in the directory of your choice.
 4. Run the .exe and set the `FF1 PR Folder` to the location of your game installation (usually `C:\Program Files (x86)\Steam\steamapps\common\FINAL FANTASY PR`)
 
 ## Usage:
@@ -15,7 +16,7 @@ Select the flags you like and press the `Randomize!` button. You do not need to 
 
 The bottom left corner of the program window will give you status information about the state of the randomizer. On slower computers, the program may take a second or two to complete randomization.
 
-The `Seed` value controls the randomization. If you want to play the same game again, or wish to race against a friend, simply ensure the same flags are selected and use the same seed value as before. You may ignore the `Gameplay Flags` and `Cosmetic Flags` fields, as they are not currently used, but in the future you will be able to copy and paste a flagstring to ensure both copies of the game have the same flags set.
+The `Seed` value controls the randomization. If you want to play the same game again, or wish to race against a friend, simply ensure the same flags are selected and use the same seed value as before. `Gameplay Flags` can be set with preset values, as well as loaded from the string in the `Gameplay Flags` box. This allows you to share your settings with others.
 
 ### Key Item randomization
 The `Randomize Key Items` flag is the heart of the randomizer. This will change the locations of the key items and events necessary to progress in the game. For example, you normally obtain the Mystic Key from waking the Elf Prince, but you might instead obtain it from Dr. Unne in Melmond after trading him the Rosetta Stone. Like in the HMS Jayne randomizer (and unlike the NES FFR), the four Crystals are also included in this randomization; you could restore the power of Earth by talking with the Sage Sadda in his cave, or the power of Fire by defeating the Kraken.
@@ -47,7 +48,6 @@ If the `Keep Permissions` flag is checked, the spells will retain their casting 
 |Restore crit rating|Sets the weapon critical hit rate to the originally intended value, which results in most endgame weapons aside from the Vorpal Sword and Sasuke's Katana having much lower chances to crit.|
 |Wands add INT|To increase the value of weapons for caster classes, they provide a small INT bonus.|
 |Reduce encounter rate|This restores the correct Ocean encounter rate of 1/3 that of land, and slightly decreases encounter chance on the overworld and dungeons, resulting in about 20% fewer encounters.|
-|Cute Hats|You're cute.|
 
 ### Known Issues
 This is a preview build of the randomizer, so there are presently several non-critical bugs or oddities.
@@ -60,3 +60,23 @@ This is a preview build of the randomizer, so there are presently several non-cr
 
 ### More information
 If you'd like to discuss the randomizer or follow its continued development, you're welcome to join the [official HMS Jayne and FF1PRR discord](https://discord.gg/QuueYMTMcS)!
+
+### Added Features and Changes
+- Added the Seed number and setting string to the Main Menu and New Game screen.
+- Added the option to change your overworld sprite to sprites from FF1, FF3, and FF4.
+- Added the ability to import and export flags, as well as save presets.
+- Shuffling regular treasure will now function correctly and not be ignored.
+
+### Planned Features
+- Add the ability to randomize the starting party.
+- Add a gamemode called "Hidden Chaos" where Chaos is placed in a random chest.
+- Add a gamemode called "Chaos Rush" where you must defeat Chaos as quickly as possible.
+- Add a gamemode called "Secret Chaos" where Chaos appears after talking to a certain NPC.
+- Add a gamemode called "Shard Hunt" where you must collect all 28 shards to open Chaos Shrine instead of the 4 Crystals.
+- Change the chaos hp checkbox to a dropdown with multiple options for chaos hp.
+- Update the UI.
+- Add the option to disable encounter toggling.
+- Implement better key item tracking (including crystals).
+- Add a setting to Disable the flash when stepping on damage tiles.
+- Add a setting to Reimplement spike tiles instead of npcs (possibly put a sprite there that represent the spike tile).
+- Add a setting to use differnt pixel remaster music.
