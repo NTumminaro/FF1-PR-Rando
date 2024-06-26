@@ -998,7 +998,7 @@ MSG_SYSTEM_363	Syncing...
 MSG_SYSTEM_364	Data sync failed.
 MSG_SYSTEM_365	Network failure.
 MSG_SYSTEM_366	Retry
-MSG_SYSTEM_360	Now Loading...
+MSG_SYSTEM_360	Now Loading
 MSG_SYSTEM_372	License verification failed. The app will close.
 MSG_SYSTEM_373	Please check your device's settings and internet connection and restart the app.
 MSG_KEY_5	You obtain the lute.
