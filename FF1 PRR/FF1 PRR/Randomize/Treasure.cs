@@ -171,50 +171,50 @@ namespace FF1_PRR.Randomize
 					serializer.Serialize(writer, entity_default);
 				}
 					// Add the entity_default file to the keys and values for Export.json
-					AddEntityDefaultToExport(datapath, chestsByFile.First().map, chestsByFile.First().submap);
+					// AddEntityDefaultToExport(datapath, chestsByFile.First().map, chestsByFile.First().submap);
 			}
 		}
 
 		// Add the entity_default file to the keys and values for Export.json
-		private void AddEntityDefaultToExport(string datapath, string map, string submap)
-		{
-			string topKey = map.ToLower();
-			string topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", topKey);
-			string entityDefaultPath = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", map, submap, "entity_default");
-			string exportFilePath = Path.Combine(datapath, "Magicite", "FF1PRR", topKey, "keys", "Export.json");
+		// private void AddEntityDefaultToExport(string datapath, string map, string submap)
+		// {
+		// 	string topKey = map.ToLower();
+		// 	string topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", topKey);
+		// 	string entityDefaultPath = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", map, submap, "entity_default");
+		// 	string exportFilePath = Path.Combine(datapath, "Magicite", "FF1PRR", topKey, "keys", "Export.json");
 
-			ImportData importJson = new ImportData();
-			if (File.Exists(exportFilePath))
-			{
-				using (StreamReader sr = new StreamReader(exportFilePath))
-				using (JsonTextReader reader = new JsonTextReader(sr))
-				{
-					JsonSerializer deserializer = new JsonSerializer();
-					importJson = deserializer.Deserialize<ImportData>(reader);
-				}
-			}
+		// 	ImportData importJson = new ImportData();
+		// 	if (File.Exists(exportFilePath))
+		// 	{
+		// 		using (StreamReader sr = new StreamReader(exportFilePath))
+		// 		using (JsonTextReader reader = new JsonTextReader(sr))
+		// 		{
+		// 			JsonSerializer deserializer = new JsonSerializer();
+		// 			importJson = deserializer.Deserialize<ImportData>(reader);
+		// 		}
+		// 	}
 
-			var keysSet = new HashSet<string>(importJson.keys);
-			var valuesSet = new HashSet<string>(importJson.values);
+		// 	var keysSet = new HashSet<string>(importJson.keys);
+		// 	var valuesSet = new HashSet<string>(importJson.values);
 
-			string key = $"{submap}/entity_default";
-			string value = entityDefaultPath.Replace("\\", "/");
+		// 	string key = $"{submap}/entity_default";
+		// 	string value = entityDefaultPath.Replace("\\", "/");
 
-			if (!keysSet.Contains(key))
-			{
-				keysSet.Add(key);
-				valuesSet.Add(value);
-			}
+		// 	if (!keysSet.Contains(key))
+		// 	{
+		// 		keysSet.Add(key);
+		// 		valuesSet.Add(value);
+		// 	}
 
-			importJson.keys = keysSet.ToList();
-			importJson.values = valuesSet.ToList();
+		// 	importJson.keys = keysSet.ToList();
+		// 	importJson.values = valuesSet.ToList();
 
-			JsonSerializer serializer = new JsonSerializer();
-			using (StreamWriter sw = new StreamWriter(exportFilePath))
-			using (JsonWriter writer = new JsonTextWriter(sw))
-			{
-					serializer.Serialize(writer, importJson);
-			}
-		}
+		// 	JsonSerializer serializer = new JsonSerializer();
+		// 	using (StreamWriter sw = new StreamWriter(exportFilePath))
+		// 	using (JsonWriter writer = new JsonTextWriter(sw))
+		// 	{
+		// 			serializer.Serialize(writer, importJson);
+		// 	}
+		// }
 	}
 }
