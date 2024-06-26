@@ -163,7 +163,7 @@ namespace FF1_PRR.Randomize
 					case "kary": location = (int)locations.marilith; break;
 					case "kraken": location = (int)locations.kraken; break;
 					case "tiamat": location = (int)locations.tiamat; break;
-					case "dr_unne": location = (int)locations.unne ; break;
+					case "dr_unne": location = (int)locations.unne; break;
 				}
 
 				if (keyItem != -1 && location != -1)
@@ -206,11 +206,11 @@ namespace FF1_PRR.Randomize
 					case (int)locations.marilith: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30051", "Map_30051_6", "sc_e_0023_2.json")); break;
 					case (int)locations.iceCave: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30061", "Map_30061_4", "sc_e_0024_2.json")); break;
 					case (int)locations.airship: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_10010", "Map_10010", "sc_e_0025_4.json")); break;
-					case (int)locations.gaia:	file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20150", "Map_20150", "sc_e_0029.json"));	break;
+					case (int)locations.gaia: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20150", "Map_20150", "sc_e_0029.json")); break;
 					case (int)locations.waterfall: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30091", "Map_30091_1", "sc_e_0026.json")); break;
 					case (int)locations.shrine5F: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30081", "Map_30081_8", "sc_e_0033.json")); break;
 					case (int)locations.kraken: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30081", "Map_30081_1", "sc_e_0036_2.json")); break;
-					case (int)locations.unne:	file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20090", "Map_20090", "sc_e_0034.json"));	break;
+					case (int)locations.unne: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20090", "Map_20090", "sc_e_0034.json")); break;
 					case (int)locations.lefein: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20160", "Map_20160", "sc_e_0035.json")); break;
 					case (int)locations.ordeals: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30071", "Map_30071_3", "sc_e_0047.json")); break;
 					case (int)locations.adamantite: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30111", "Map_30111_2", "sc_e_0051.json")); break;
@@ -232,46 +232,132 @@ namespace FF1_PRR.Randomize
 		{
 			string json = File.ReadAllText(fileName);
 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
-			foreach (var singleScript in jEvents.Mnemonics)
+
+			// Convert mnemonics array to a list
+			var mnemonicsList = jEvents.Mnemonics.ToList();
+
+			// Create a list to collect mnemonics to remove
+			var mnemonicsToRemove = new List<EventJSON.Mnemonic>();
+
+			// Create a list to collect new mnemonics to add
+			var mnemonicsToAdd = new List<(int Index, EventJSON.Mnemonic Mnemonic)>();
+
+			// Loop through mnemonics to remove crystal SysCall mnemonics and update as needed
+			for (int i = 0; i < mnemonicsList.Count; i++)
 			{
+				var singleScript = mnemonicsList[i];
+
+				// Remove existing SysCall for the relevant crystals if at a boss location
+				if (IsBossLocation(loc.ff1Event) && singleScript.mnemonic == "SysCall" && IsCrystalSysCall((string)singleScript.operands.sValues[0]))
+				{
+					mnemonicsToRemove.Add(singleScript);
+				}
+
+				// Update MsgFunfare, GetItem, and SetFlag mnemonics
 				if (singleScript.mnemonic == "MsgFunfare")
+				{
 					singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
+				}
+
 				if (singleScript.mnemonic == "GetItem" && singleScript.operands.iValues[1] >= 0)
 				{
-					int keyItem = 2;
-					switch (loc.keyItem)
-					{
-						case (int)flags.floater: keyItem = 55; break;
-						case (int)flags.chime: keyItem = 56; break;
-						case (int)flags.cube: keyItem = 58; break;
-						case (int)flags.oxyale: keyItem = 60; break;
-						case (int)flags.crown: keyItem = 46; break;
-						case (int)flags.crystalEye: keyItem = 47; break;
-						case (int)flags.joltTonic: keyItem = 48; break;
-						case (int)flags.mysticKey: keyItem = 49; break;
-						case (int)flags.nitroPowder: keyItem = 50; break;
-						case (int)flags.starRuby: keyItem = 53; break;
-						case (int)flags.rod: keyItem = 54; break;
-						case (int)flags.slab: keyItem = 52; break;
-						case (int)flags.adamantite: keyItem = 51; break;
-						case (int)flags.lute: keyItem = 45; break;
-						case (int)flags.ratTail: keyItem = 57; break;
-						case (int)flags.excalibur: keyItem = 92; break;
-					}
+					int keyItem = GetKeyItemValue(loc.keyItem);
 					singleScript.operands.iValues[0] = keyItem;
 					singleScript.operands.iValues[1] = keyItem == 2 ? 0 : 1;
+
+					// Add new SysCall if the key item is a crystal
+					string crystalName = GetCrystalName(loc.keyItem);
+					if (!string.IsNullOrEmpty(crystalName))
+					{
+						var newSysCall = new EventJSON.Mnemonic
+						{
+							mnemonic = "SysCall",
+							operands = new EventJSON.Operands
+							{
+								iValues = new int?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+								rValues = new float?[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f },
+								sValues = new string[] { crystalName, "", "", "", "", "", "", "" }
+							},
+							type = 1,
+							comment = ""
+						};
+
+						mnemonicsToAdd.Add((i + 1, newSysCall));
+					}
 				}
+
 				if (singleScript.mnemonic == "SetFlag" && singleScript.operands.iValues[0] < 100 && singleScript.operands.sValues[0] == "ScenarioFlag1")
+				{
 					singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
+				}
 			}
 
-			JsonSerializer serializer = new JsonSerializer();
-
-			using (StreamWriter sw = new StreamWriter(fileName))
-			using (JsonWriter writer = new JsonTextWriter(sw))
+			// Remove the collected mnemonics
+			foreach (var mnemonic in mnemonicsToRemove)
 			{
-				serializer.Serialize(writer, jEvents);
+				mnemonicsList.Remove(mnemonic);
 			}
+
+			// Add the new SysCall mnemonics at the specified indexes
+			foreach (var newMnemonic in mnemonicsToAdd.OrderByDescending(m => m.Index))
+			{
+				mnemonicsList.Insert(newMnemonic.Index, newMnemonic.Mnemonic);
+			}
+
+			// Convert the list back to an array
+			jEvents.Mnemonics = mnemonicsList.ToArray();
+
+			string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
+			File.WriteAllText(fileName, updatedJson);
+		}
+
+		private bool IsCrystalSysCall(string sValue)
+		{
+			return sValue == "黄色クリスタル点灯" || sValue == "赤色クリスタル点灯" || sValue == "青色クリスタル点灯" || sValue == "緑色クリスタル点灯";
+		}
+
+		private string GetCrystalName(int keyItem)
+		{
+			switch (keyItem)
+			{
+				case (int)flags.earthCrystal: return "黄色クリスタル点灯";
+				case (int)flags.fireCrystal: return "赤色クリスタル点灯";
+				case (int)flags.waterCrystal: return "青色クリスタル点灯";
+				case (int)flags.airCrystal: return "緑色クリスタル点灯";
+				default: return null;
+			}
+		}
+
+		private int GetKeyItemValue(int keyItem)
+		{
+			switch (keyItem)
+			{
+				case (int)flags.floater: return 55;
+				case (int)flags.chime: return 56;
+				case (int)flags.cube: return 58;
+				case (int)flags.oxyale: return 60;
+				case (int)flags.crown: return 46;
+				case (int)flags.crystalEye: return 47;
+				case (int)flags.joltTonic: return 48;
+				case (int)flags.mysticKey: return 49;
+				case (int)flags.nitroPowder: return 50;
+				case (int)flags.starRuby: return 53;
+				case (int)flags.rod: return 54;
+				case (int)flags.slab: return 52;
+				case (int)flags.adamantite: return 51;
+				case (int)flags.lute: return 45;
+				case (int)flags.ratTail: return 57;
+				case (int)flags.excalibur: return 92;
+				default: return 2;
+			}
+		}
+
+		private bool IsBossLocation(int ff1Event)
+		{
+			return ff1Event == (int)locations.tiamat ||
+						 ff1Event == (int)locations.kraken ||
+						 ff1Event == (int)locations.lich ||
+						 ff1Event == (int)locations.marilith;
 		}
 	}
 }
