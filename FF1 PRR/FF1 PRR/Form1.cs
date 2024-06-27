@@ -22,8 +22,7 @@ namespace FF1_PRR
 		Random r1;
 		DateTime lastGameAssets;
 		const string defaultVisualFlags = "0";
-		const string defaultFlags = "huCP900";
-
+		const string defaultFlags = "huCP90010";
 		public FF1PRR()
 		{
 			InitializeComponent();
@@ -40,11 +39,17 @@ namespace FF1_PRR
 			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagReduceEncounterRate }));
 			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt }));
 			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted }));
-			// Combo boxes time...
 			flags += convertIntToChar(modeShops.SelectedIndex + (8 * modeXPBoost.SelectedIndex));
 			flags += convertIntToChar(modeTreasure.SelectedIndex + (8 * modeMagic.SelectedIndex));
 			flags += convertIntToChar(modeMonsterStatAdjustment.SelectedIndex + (16 * 0));
 			flags += convertIntToChar(modeHeroStats.SelectedIndex);
+
+			// Add Chaos HP index to the flag string
+			flags += chaosHpTrackBar.Value.ToString();
+
+			// Add Jack in the Box flag to the flag string
+			flags += flagJackInTheBox.Checked ? "1" : "0";
+
 			RandoFlags.Text = flags;
 
 			flags = "";
@@ -54,9 +59,9 @@ namespace FF1_PRR
 
 		private void determineChecks(object sender, EventArgs e)
 		{
-			if (loading && RandoFlags.Text.Length < 7)
+			if (loading && RandoFlags.Text.Length < 9)  // Adjusted length check to include new Chaos HP index and Jack in the Box flag
 				RandoFlags.Text = defaultFlags;
-			else if (RandoFlags.Text.Length < 7)
+			else if (RandoFlags.Text.Length < 9)
 				return;
 
 			if (loading && VisualFlags.Text.Length < 1)
@@ -77,10 +82,22 @@ namespace FF1_PRR
 			modeMonsterStatAdjustment.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(5, 1))) % 16;
 			modeHeroStats.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) % 8;
 
+			// Extract and set the Chaos HP value
+			int chaosHpIndex = int.Parse(flags.Substring(7, 1));
+			if (chaosHpIndex >= 0 && chaosHpIndex < chaosHpTrackBar.Maximum + 1)
+			{
+				chaosHpTrackBar.Value = chaosHpIndex;
+				int[] hpValues = { 1, 9999, 20000, 30000 };
+				int selectedHp = hpValues[chaosHpIndex];
+				chaosHpLabel.Text = $"Chaos HP: {selectedHp}";
+			}
+
+			// Extract and set the Jack in the Box flag
+			flagJackInTheBox.Checked = flags.Substring(8, 1) == "1";
+
 			flags = VisualFlags.Text;
 			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(0, 1))), new CheckBox[] { CuteHats });
 
-			// Need to disable randomize "no escapes" if the original "no escape" is not checked.
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 
 			loading = false;
@@ -180,8 +197,8 @@ namespace FF1_PRR
 			if (!dir.Exists)
 			{
 				throw new DirectoryNotFoundException(
-					"Source directory does not exist or could not be found: "
-					+ sourceDirName);
+						"Source directory does not exist or could not be found: "
+						+ sourceDirName);
 			}
 
 			DirectoryInfo[] dirs = dir.GetDirectories();
@@ -214,11 +231,11 @@ namespace FF1_PRR
 			string systemMessagePath = Path.Combine(sourcePath, "system_en.txt");
 			string modifiedMessagePath = Path.Combine(destPath, "system_en.txt");
 
-    	if (!File.Exists(systemMessagePath))
-    	{
-        string errorMessage = $"The file {systemMessagePath} was not found.";
-        throw new FileNotFoundException(errorMessage);
-    	}
+			if (!File.Exists(systemMessagePath))
+			{
+				string errorMessage = $"The file {systemMessagePath} was not found.";
+				throw new FileNotFoundException(errorMessage);
+			}
 
 			var lines = File.ReadAllLines(systemMessagePath).ToList();
 			bool message183Found = false;
@@ -226,18 +243,18 @@ namespace FF1_PRR
 
 			for (int i = 0; i < lines.Count; i++)
 			{
-        if (lines[i].StartsWith("MSG_SYSTEM_183\t"))
-        {
+				if (lines[i].StartsWith("MSG_SYSTEM_183\t"))
+				{
 					lines[i] = $"MSG_SYSTEM_183\tRandomizer Seed {seedNumber}";
 					message183Found = true;
-        }
+				}
 
-        else if (lines[i].StartsWith("MSG_SYSTEM_181\t"))
-        {
+				else if (lines[i].StartsWith("MSG_SYSTEM_181\t"))
+				{
 					lines[i] += $@"\nRandomizer Seed: {seedNumber}";
 					message181Found = true;
-        }
-    	}
+				}
+			}
 
 			if (!message183Found)
 			{
@@ -251,40 +268,40 @@ namespace FF1_PRR
 				throw new Exception(errorMessage);
 			}
 
-    File.WriteAllLines(modifiedMessagePath, lines);
+			File.WriteAllLines(modifiedMessagePath, lines);
 		}
 
-private void ApplySelectedSprites()
-{
-    foreach (var item in currentSelectionsListBox.Items)
-    {
-        try
-        {
-            string[] parts = item.ToString().Split(new[] { ": " }, StringSplitOptions.None);
-            if (parts.Length == 2)
-            {
-                string characterPart = parts[0];
-                string spritePart = parts[1];
+		private void ApplySelectedSprites()
+		{
+			foreach (var item in currentSelectionsListBox.Items)
+			{
+				try
+				{
+					string[] parts = item.ToString().Split(new[] { ": " }, StringSplitOptions.None);
+					if (parts.Length == 2)
+					{
+						string characterPart = parts[0];
+						string spritePart = parts[1];
 
-                bool includeJobUpgrade = characterPart.StartsWith("(+JU)");
-                string character = includeJobUpgrade ? characterPart.Substring(6) : characterPart;
+						bool includeJobUpgrade = characterPart.StartsWith("(+JU)");
+						string character = includeJobUpgrade ? characterPart.Substring(6) : characterPart;
 
-                string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
-                SpriteUpdater.ReplaceSprite(baseFolder, character, spritePart, FF1PRFolder.Text, includeJobUpgrade);
-            }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Error processing item '{item}': {ex.Message}");
-        }
-    }
-}
+						string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+						SpriteUpdater.ReplaceSprite(baseFolder, character, spritePart, FF1PRFolder.Text, includeJobUpgrade);
+					}
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Error processing item '{item}': {ex.Message}");
+				}
+			}
+		}
 
 
 
 		// This brings us back to vanilla Magicite files.  This is NOT used for uninstallation.
 		private void restoreVanilla()
-        {
+		{
 			string[] DATA_MASTER = {
 				"ability.csv", // used by Magic randomization
 				"product.csv", // used by Shop randomization
@@ -300,7 +317,7 @@ private void ApplySelectedSprites()
 			};
 			string[] DATA_MESSAGE =
 			{
-				"system_en.txt" // used by Key Item randomization
+								"system_en.txt" // used by Key Item randomization
             };
 
 			Directory.CreateDirectory(Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master")); // <-- We'll be creating an Export.json soon
@@ -310,57 +327,113 @@ private void ApplySelectedSprites()
 			string DATA_MESSAGE_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message");
 			string RES_MAP_PATH = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"); // , "Assets", "GameAssets", "Serial", "Res", "Map"
 
-			foreach (string i in DATA_MASTER){
+			foreach (string i in DATA_MASTER)
+			{
 				string outputPath = Path.Combine(DATA_MASTER_PATH, i);
 				string sourcePath = Path.Combine("data", "assets", i);
 				File.Copy(sourcePath, outputPath, true);
 			}
-			foreach (string i in DATA_MESSAGE){
+			foreach (string i in DATA_MESSAGE)
+			{
 				string outputPath = Path.Combine(DATA_MESSAGE_PATH, i);
 				string sourcePath = Path.Combine("data", "assets", i);
 				File.Copy(sourcePath, outputPath, true);
 			}
 
 			string[] characterFolders = {
-							"mo_ff1_p001_c00",
-							"mo_ff1_p002_c00",
-							"mo_ff1_p003_c00",
-							"mo_ff1_p004_c00",
-							"mo_ff1_p005_c00",
-							"mo_ff1_p006_c00",
-							"mo_ff1_p007_c00",
-							"mo_ff1_p008_c00",
-							"mo_ff1_p009_c00",
-							"mo_ff1_p010_c00",
-							"mo_ff1_p011_c00",
-							"mo_ff1_p012_c00",
-					};
+														"mo_ff1_p001_c00",
+														"mo_ff1_p002_c00",
+														"mo_ff1_p003_c00",
+														"mo_ff1_p004_c00",
+														"mo_ff1_p005_c00",
+														"mo_ff1_p006_c00",
+														"mo_ff1_p007_c00",
+														"mo_ff1_p008_c00",
+														"mo_ff1_p009_c00",
+														"mo_ff1_p010_c00",
+														"mo_ff1_p011_c00",
+														"mo_ff1_p012_c00",
+										};
 
-				string spritesSourcePath = Path.Combine("data", "sprites");
-				string spritesDestBasePath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR");
+			string spritesSourcePath = Path.Combine("data", "sprites");
+			string spritesDestBasePath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR");
 
-				foreach (string characterFolder in characterFolders)
-					{
-						string sourceSpritePath = Path.Combine(spritesSourcePath, characterFolder);
-						string destSpritePath = Path.Combine(spritesDestBasePath, characterFolder);
-						if (Directory.Exists(sourceSpritePath))
-						{
-							DirectoryCopy(sourceSpritePath, destSpritePath, true);
-						}
-					}
+			foreach (string characterFolder in characterFolders)
+			{
+				string sourceSpritePath = Path.Combine(spritesSourcePath, characterFolder);
+				string destSpritePath = Path.Combine(spritesDestBasePath, characterFolder);
+
+				if (Directory.Exists(destSpritePath))
+				{
+					Directory.Delete(destSpritePath, true);
+				}
+
+				if (Directory.Exists(sourceSpritePath))
+				{
+					DirectoryCopy(sourceSpritePath, destSpritePath, true);
+				}
+			}
+
 
 			// Iterate through the map directory and copy the files into the other map directory...
 			Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, Path.Combine("data", "master"), "MainData", "master");
 			Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, Path.Combine("data", "messages"), "Message", "message");
 
 			// Iterate through the map directory and copy the files into the other map directory...
-			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "maps"), "*.*", SearchOption.AllDirectories))
+			foreach (string mapDir in Directory.GetDirectories(Path.Combine("data", "maps")))
 			{
-				if (jsonFile.Count(f => f == '\\') != 2) continue;
+				// Copy the package.json file if it exists in the map directory
+				string packageJsonPath = Path.Combine(mapDir, "package.json");
+				if (File.Exists(packageJsonPath))
+				{
+					string destPackageJsonPath = Path.Combine(RES_MAP_PATH, "Magicite", "FF1PRR", Path.GetFileName(mapDir), "Assets", "GameAssets", "Serial", "Res", "Map", Path.GetFileName(mapDir), "package.json");
+					Directory.CreateDirectory(Path.GetDirectoryName(destPackageJsonPath));
+					File.Copy(packageJsonPath, destPackageJsonPath, true);
+				}
 
-				Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, jsonFile, "Map", Path.GetFileName(jsonFile));
+				// Copy each submap directory
+				foreach (string submapDir in Directory.GetDirectories(mapDir))
+				{
+					string topKey = Path.GetFileName(mapDir);
+					string submapName = Path.GetFileName(submapDir);
+					RemoveCustomScripts(RES_MAP_PATH, topKey, submapName);
+					Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, submapDir, "Map", topKey);
+				}
 			}
 		}
+
+		private void RemoveCustomScripts(string resMapPath, string mapDirName, string submapDirName)
+		{
+			string mapRootPath = Path.Combine(resMapPath, "Magicite", "FF1PRR", mapDirName, "Assets", "GameAssets", "Serial", "Res", "Map", mapDirName);
+			string[] customScripts = { "sc_t_0099.json", "sc_t_0099_after.json" };
+			string logFilePath = Path.Combine(resMapPath, "log.txt");
+
+			foreach (string script in customScripts)
+			{
+				string scriptPath = Path.Combine(mapRootPath, submapDirName, script);
+
+				// Log the path being checked to a file
+				using (StreamWriter sw = new StreamWriter(logFilePath, true))
+				{
+					sw.WriteLine($"Checking path: {scriptPath}");
+				}
+
+				if (File.Exists(scriptPath))
+				{
+					File.Delete(scriptPath);
+				}
+				else
+				{
+					// Log the missing file to the log file
+					using (StreamWriter sw = new StreamWriter(logFilePath, true))
+					{
+						sw.WriteLine($"File not found: {scriptPath}");
+					}
+				}
+			}
+		}
+
+
 
 		private void btnRestoreVanilla_Click(object sender, EventArgs e)
 		{
@@ -398,6 +471,7 @@ private void ApplySelectedSprites()
 			File.Copy(Path.Combine("data", "mods", "system_en.txt"), Path.Combine(MESSAGE_PATH, "system_en.txt"), true);
 			if (flagShopsTrad.Checked) File.Copy(Path.Combine("data", "mods", "productTraditional.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
+			if (flagJackInTheBox.Checked) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(DATA_PATH, "script.csv"), true);
 			// Iterate through the map directory and copy the files into the other map directory...
 			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "mods", "maps"), "*.*", SearchOption.AllDirectories))
 			{
@@ -406,10 +480,10 @@ private void ApplySelectedSprites()
 				Inventory.Updater.MemoriaToMagiciteCopy(RES_MAP_PATH, jsonFile, "Map", Path.GetFileName(jsonFile));
 			}
 
-    // string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
-    // string selectedCharacter = characterSelection.SelectedItem.ToString();
-    // string selectedSprite = spriteSelection.SelectedItem.ToString();
-    // SpriteUpdater.ReplaceSprite(baseFolder, selectedCharacter, selectedSprite, FF1PRFolder.Text);
+			// string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+			// string selectedCharacter = characterSelection.SelectedItem.ToString();
+			// string selectedSprite = spriteSelection.SelectedItem.ToString();
+			// SpriteUpdater.ReplaceSprite(baseFolder, selectedCharacter, selectedSprite, FF1PRFolder.Text);
 
 			// Begin randomization
 			r1 = new Random(Convert.ToInt32(RandoSeed.Text));
@@ -434,10 +508,10 @@ private void ApplySelectedSprites()
 			NewChecksum.Text = "COMPLETE";
 		}
 		private class DatabaseEdit
-        {
+		{
 			public string file { get; set; }
-			public string name { get; set; } 
-			public string id { get; set; } 
+			public string name { get; set; }
+			public string id { get; set; }
 			public string field { get; set; }
 			public string value { get; set; }
 			public string comment { get; set; }
@@ -452,7 +526,7 @@ private void ApplySelectedSprites()
 			}
 		}
 		private List<DatabaseEdit> addEdits(string filename)
-        {
+		{
 			List<DatabaseEdit> edits;
 			using (StreamReader reader = new StreamReader(Path.Combine("data", filename)))
 			using (CsvReader csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
@@ -462,29 +536,31 @@ private void ApplySelectedSprites()
 			return edits;
 		}
 		private void doDatabaseEdits()
-        {
+		{
+			UpdateChaosHpCsv();
+
 			List<DatabaseEdit> editsToMake = new List<DatabaseEdit>();
 			string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master");
 			if (flagRebalancePrices.Checked)
-            {
+			{
 				// Advance the RNG
 				r1.NextBytes(new byte[1]);
 				editsToMake.AddRange(addEdits("dataRebalancePrices.csv"));
 			}
 			if (flagFiendsDropRibbons.Checked)
-            {
+			{
 				// Advance the RNG
 				r1.NextBytes(new byte[2]);
 				editsToMake.AddRange(addEdits("dataFiendsDropRibbons.csv"));
 			}
 			if (flagRebalanceBosses.Checked)
-            {
+			{
 				// Advance the RNG
 				r1.NextBytes(new byte[4]);
 				editsToMake.AddRange(addEdits("dataRebalanceBosses.csv"));
 			}
 			if (flagRestoreCritRating.Checked)
-            {
+			{
 				// Advance the RNG
 				r1.NextBytes(new byte[8]);
 				editsToMake.AddRange(addEdits("dataRestoreCritRating.csv"));
@@ -510,17 +586,17 @@ private void ApplySelectedSprites()
 
 			// Now apply the edits
 			foreach (var editsByFile in editsToMake.GroupBy(x => x.file))
-            {
+			{
 				List<dynamic> fileToEdit;
 				using (StreamReader reader = new StreamReader(Path.Combine(dataPath, editsByFile.Key)))
 				using (CsvReader csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
 				{
 					fileToEdit = csv.GetRecords<dynamic>().ToList();
 					foreach (var edit in editsByFile)
-                    {
+					{
 						var itemDict = fileToEdit.Find(x => x.id == edit.id) as IDictionary<string, object>;
 						itemDict[edit.field] = edit.value;
-                    }
+					}
 				}
 				using (StreamWriter writer = new StreamWriter(Path.Combine(dataPath, editsByFile.Key)))
 				using (CsvWriter csv = new CsvWriter(writer, System.Globalization.CultureInfo.InvariantCulture))
@@ -531,59 +607,59 @@ private void ApplySelectedSprites()
 		}
 		private void randomizeShops()
 		{
-			Shops randoShops = new Shops(r1, modeShops.SelectedIndex, 
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"), 
-				flagShopsTrad.Checked);
+			Shops randoShops = new Shops(r1, modeShops.SelectedIndex,
+					Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
+					flagShopsTrad.Checked);
 		}
 
 		private void randomizeMagic()
 		{
 			Magic magicData = new Magic(r1, modeMagic.SelectedIndex,
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "ability.csv"),
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
-				flagMagicShuffleShops.Checked, flagMagicKeepPermissions.Checked) ;
+					Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "ability.csv"),
+					Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
+					flagMagicShuffleShops.Checked, flagMagicKeepPermissions.Checked);
 		}
 
 		private void randomizeKeyItems()
 		{
 			KeyItems randoKeyItems = new KeyItems(r1,
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets")); // , "Assets", "GameAssets", "Serial", "Res", "Map"
+					Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets")); // , "Assets", "GameAssets", "Serial", "Res", "Map"
 		}
 		private void randomizeTreasure()
-        {
+		{
 			Treasure randoChests = new Treasure(r1, modeTreasure.SelectedIndex,
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), // , "Assets", "GameAssets", "Serial", "Res", "Map"
-				flagTreasureTrad.Checked, flagFiendsDropRibbons.Checked);
+					Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), // , "Assets", "GameAssets", "Serial", "Res", "Map"
+					flagTreasureTrad.Checked, flagFiendsDropRibbons.Checked, flagJackInTheBox.Checked);
 		}
 
 		private void randomizeHeroStats()
 		{
-			Stats.RandomizeStats(modeHeroStats.SelectedIndex, flagHeroStatsStandardize.Checked, flagBoostPromoted.Checked, r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master"), 
-				Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message"));
+			Stats.RandomizeStats(modeHeroStats.SelectedIndex, flagHeroStatsStandardize.Checked, flagBoostPromoted.Checked, r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master"),
+					Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message"));
 		}
 
 		private void monsterBoost()
 		{
 			double xp = modeXPBoost.SelectedIndex == 0 ? 0.5 :
-				modeXPBoost.SelectedIndex == 1 ? 1.0 :
-				modeXPBoost.SelectedIndex == 2 ? 1.5 :
-				modeXPBoost.SelectedIndex == 3 ? 2.0 :
-				modeXPBoost.SelectedIndex == 4 ? 3.0 :
-				modeXPBoost.SelectedIndex == 5 ? 4.0 :
-				modeXPBoost.SelectedIndex == 6 ? 5.0 : 10;
+					modeXPBoost.SelectedIndex == 1 ? 1.0 :
+					modeXPBoost.SelectedIndex == 2 ? 1.5 :
+					modeXPBoost.SelectedIndex == 3 ? 2.0 :
+					modeXPBoost.SelectedIndex == 4 ? 3.0 :
+					modeXPBoost.SelectedIndex == 5 ? 4.0 :
+					modeXPBoost.SelectedIndex == 6 ? 5.0 : 10;
 
 			double minStatAdjustment = modeMonsterStatAdjustment.SelectedIndex == 1 ? 0.6666667 :
-				modeMonsterStatAdjustment.SelectedIndex == 2 ? 0.5 :
-				modeMonsterStatAdjustment.SelectedIndex == 3 ? 0.3333333 :
-				modeMonsterStatAdjustment.SelectedIndex == 4 ? 0.25 :
-				modeMonsterStatAdjustment.SelectedIndex == 5 ? 0.2 : 1;
+					modeMonsterStatAdjustment.SelectedIndex == 2 ? 0.5 :
+					modeMonsterStatAdjustment.SelectedIndex == 3 ? 0.3333333 :
+					modeMonsterStatAdjustment.SelectedIndex == 4 ? 0.25 :
+					modeMonsterStatAdjustment.SelectedIndex == 5 ? 0.2 : 1;
 
 			double maxStatAdjustment = modeMonsterStatAdjustment.SelectedIndex == 6 ? 1.25 :
-				modeMonsterStatAdjustment.SelectedIndex == 1 || modeMonsterStatAdjustment.SelectedIndex == 7 ? 1.5 :
-				modeMonsterStatAdjustment.SelectedIndex == 2 || modeMonsterStatAdjustment.SelectedIndex == 8 ? 2 :
-				modeMonsterStatAdjustment.SelectedIndex == 3 || modeMonsterStatAdjustment.SelectedIndex == 9 ? 3 :
-				modeMonsterStatAdjustment.SelectedIndex == 4 || modeMonsterStatAdjustment.SelectedIndex == 10 ? 4 :
-				modeMonsterStatAdjustment.SelectedIndex == 5 || modeMonsterStatAdjustment.SelectedIndex == 11 ? 5 : 1;
+					modeMonsterStatAdjustment.SelectedIndex == 1 || modeMonsterStatAdjustment.SelectedIndex == 7 ? 1.5 :
+					modeMonsterStatAdjustment.SelectedIndex == 2 || modeMonsterStatAdjustment.SelectedIndex == 8 ? 2 :
+					modeMonsterStatAdjustment.SelectedIndex == 3 || modeMonsterStatAdjustment.SelectedIndex == 9 ? 3 :
+					modeMonsterStatAdjustment.SelectedIndex == 4 || modeMonsterStatAdjustment.SelectedIndex == 10 ? 4 :
+					modeMonsterStatAdjustment.SelectedIndex == 5 || modeMonsterStatAdjustment.SelectedIndex == 11 ? 5 : 1;
 
 			string monsterFile = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "monster.csv");
 
@@ -597,20 +673,20 @@ private void ApplySelectedSprites()
 
 		private void PopulateSpriteSelection()
 		{
-				string spriteDirectory = Path.Combine(Application.StartupPath, "data", "mods", "sprites");
-				if (Directory.Exists(spriteDirectory))
+			string spriteDirectory = Path.Combine(Application.StartupPath, "data", "mods", "sprites");
+			if (Directory.Exists(spriteDirectory))
+			{
+				var spriteFolders = Directory.GetDirectories(spriteDirectory);
+				foreach (var folder in spriteFolders)
 				{
-					var spriteFolders = Directory.GetDirectories(spriteDirectory);
-					foreach (var folder in spriteFolders)
-					{
-						string folderName = Path.GetFileName(folder);
-						spriteSelection.Items.Add(folderName);
-					}
+					string folderName = Path.GetFileName(folder);
+					spriteSelection.Items.Add(folderName);
 				}
-				else
-				{
-					MessageBox.Show("Sprite directory not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-				}
+			}
+			else
+			{
+				MessageBox.Show("Sprite directory not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		// Event handler for Apply button click
@@ -621,33 +697,70 @@ private void ApplySelectedSprites()
 			bool includeJobUpgrade = includeJobUpgradeCheckBox.Checked;
 			string newEntry = $"{(includeJobUpgrade ? "(+JU) " : "")}{character}: {sprite}";
 
-				// Check if the character is already in the list
-				bool characterExists = false;
-				for (int i = 0; i < currentSelectionsListBox.Items.Count; i++)
+			// Check if the character is already in the list
+			bool characterExists = false;
+			for (int i = 0; i < currentSelectionsListBox.Items.Count; i++)
+			{
+				string existingEntry = currentSelectionsListBox.Items[i].ToString();
+				// Extract the character part from the existing entry using a regular expression
+				string pattern = @"(\(\+JU\)\s)?(.+):";
+				var match = Regex.Match(existingEntry, pattern);
+				if (match.Success)
 				{
-					string existingEntry = currentSelectionsListBox.Items[i].ToString();
-					// Extract the character part from the existing entry using a regular expression
-					string pattern = @"(\(\+JU\)\s)?(.+):";
-					var match = Regex.Match(existingEntry, pattern);
-					if (match.Success)
+					string existingCharacter = match.Groups[2].Value.Trim();
+					if (existingCharacter == character)
 					{
-						string existingCharacter = match.Groups[2].Value.Trim();
-						if (existingCharacter == character)
-						{
-							// Update the existing entry
-							currentSelectionsListBox.Items[i] = newEntry;
-							characterExists = true;
-							break;
-						}
+						// Update the existing entry
+						currentSelectionsListBox.Items[i] = newEntry;
+						characterExists = true;
+						break;
 					}
 				}
+			}
 
-				// If character does not exist in the list, add the new entry
-				if (!characterExists)
+			// If character does not exist in the list, add the new entry
+			if (!characterExists)
+			{
+				currentSelectionsListBox.Items.Add(newEntry);
+			}
+		}
+
+		private void ChaosHpTrackBar_Scroll(object sender, EventArgs e)
+		{
+			int[] hpValues = { 1, 9999, 20000, 30000 };
+			int selectedIndex = chaosHpTrackBar.Value;
+			int selectedHp = hpValues[selectedIndex];
+			chaosHpLabel.Text = $"Chaos HP: {selectedHp}";
+
+			DetermineFlags(sender, e);
+		}
+
+		private void flagReduceChaosHP_CheckedChanged(object sender, EventArgs e)
+		{
+			chaosHpTrackBar.Enabled = !flagReduceChaosHP.Checked;
+		}
+
+		private void UpdateChaosHpCsv()
+		{
+			string filePath = Path.Combine("data", "dataReduceChaosHP.csv");
+			var lines = File.ReadAllLines(filePath).ToList();
+
+			int[] hpValues = { 1, 9999, 20000, 30000 };
+			int selectedHp = hpValues[chaosHpTrackBar.Value];
+
+			for (int i = 0; i < lines.Count; i++)
+			{
+				if (lines[i].StartsWith("monster.csv,Chaos,128,hp"))
 				{
-						currentSelectionsListBox.Items.Add(newEntry);
+					var parts = lines[i].Split(',');
+					parts[4] = selectedHp.ToString(); // Update the HP value
+					lines[i] = string.Join(",", parts);
+					break;
 				}
 			}
+
+			File.WriteAllLines(filePath, lines);
+		}
 
 
 
@@ -661,9 +774,9 @@ private void ApplySelectedSprites()
 				writer.WriteLine(VisualFlags.Text);
 				writer.WriteLine(lastGameAssets);
 				foreach (var item in currentSelectionsListBox.Items)
-        {
-          writer.WriteLine(item.ToString());
-        }
+				{
+					writer.WriteLine(item.ToString());
+				}
 			}
 		}
 
@@ -681,14 +794,19 @@ private void ApplySelectedSprites()
 		private void statExplanation_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("None - Keep stats at vanilla\r\n" +
-				"Shuffle - Each character will get the same stats at level up, but when they earn them are shuffled around\r\n" +
-				"Standard - Each character will get a percentage chance of a strong level up consistent to their class\r\n" +
-				"Silly - Stat growth is randomized, but will be approx. similar to the stat gains in the base game\r\n" +
-				"Wild - Randomized stat growth.  Similar to base game stats, but can vary wildly\r\n" +
-				"Chaos - Randomized stat growth.  Characters can have any stat gain\r\n" +
-				"Standardized - For None, Shuffle, and Standard, make stat gains consistent for each play for the seed.  Great for races!\r\n" +
-				"Boost promoted classes - 25% chance of higher stats on shuffle and standard, 25%, +/-, higher stats on silly, wild, and chaos for promoted classes\r\n" +
-				"NOTE:  Accuracy and magic defense is only randomized in silly, wild, or chaos settings");
+					"Shuffle - Each character will get the same stats at level up, but when they earn them are shuffled around\r\n" +
+					"Standard - Each character will get a percentage chance of a strong level up consistent to their class\r\n" +
+					"Silly - Stat growth is randomized, but will be approx. similar to the stat gains in the base game\r\n" +
+					"Wild - Randomized stat growth.  Similar to base game stats, but can vary wildly\r\n" +
+					"Chaos - Randomized stat growth.  Characters can have any stat gain\r\n" +
+					"Standardized - For None, Shuffle, and Standard, make stat gains consistent for each play for the seed.  Great for races!\r\n" +
+					"Boost promoted classes - 25% chance of higher stats on shuffle and standard, 25%, +/-, higher stats on silly, wild, and chaos for promoted classes\r\n" +
+					"NOTE:  Accuracy and magic defense is only randomized in silly, wild, or chaos settings");
+		}
+
+		private void RandoSeed_TextChanged(object sender, EventArgs e)
+		{
+
 		}
 	}
 }
