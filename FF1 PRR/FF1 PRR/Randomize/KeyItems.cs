@@ -232,132 +232,181 @@ namespace FF1_PRR.Randomize
 		{
 			string json = File.ReadAllText(fileName);
 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
-
-			// Convert mnemonics array to a list
-			var mnemonicsList = jEvents.Mnemonics.ToList();
-
-			// Create a list to collect mnemonics to remove
-			var mnemonicsToRemove = new List<EventJSON.Mnemonic>();
-
-			// Create a list to collect new mnemonics to add
-			var mnemonicsToAdd = new List<(int Index, EventJSON.Mnemonic Mnemonic)>();
-
-			// Loop through mnemonics to remove crystal SysCall mnemonics and update as needed
-			for (int i = 0; i < mnemonicsList.Count; i++)
+			foreach (var singleScript in jEvents.Mnemonics)
 			{
-				var singleScript = mnemonicsList[i];
-
-				// Remove existing SysCall for the relevant crystals if at a boss location
-				if (IsBossLocation(loc.ff1Event) && singleScript.mnemonic == "SysCall" && IsCrystalSysCall((string)singleScript.operands.sValues[0]))
-				{
-					mnemonicsToRemove.Add(singleScript);
-				}
-
-				// Update MsgFunfare, GetItem, and SetFlag mnemonics
 				if (singleScript.mnemonic == "MsgFunfare")
-				{
 					singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
-				}
-
 				if (singleScript.mnemonic == "GetItem" && singleScript.operands.iValues[1] >= 0)
 				{
-					int keyItem = GetKeyItemValue(loc.keyItem);
+					int keyItem = 2;
+					switch (loc.keyItem)
+					{
+						case (int)flags.floater: keyItem = 55; break;
+						case (int)flags.chime: keyItem = 56; break;
+						case (int)flags.cube: keyItem = 58; break;
+						case (int)flags.oxyale: keyItem = 60; break;
+						case (int)flags.crown: keyItem = 46; break;
+						case (int)flags.crystalEye: keyItem = 47; break;
+						case (int)flags.joltTonic: keyItem = 48; break;
+						case (int)flags.mysticKey: keyItem = 49; break;
+						case (int)flags.nitroPowder: keyItem = 50; break;
+						case (int)flags.starRuby: keyItem = 53; break;
+						case (int)flags.rod: keyItem = 54; break;
+						case (int)flags.slab: keyItem = 52; break;
+						case (int)flags.adamantite: keyItem = 51; break;
+						case (int)flags.lute: keyItem = 45; break;
+						case (int)flags.ratTail: keyItem = 57; break;
+						case (int)flags.excalibur: keyItem = 92; break;
+					}
 					singleScript.operands.iValues[0] = keyItem;
 					singleScript.operands.iValues[1] = keyItem == 2 ? 0 : 1;
-
-					// Add new SysCall if the key item is a crystal
-					string crystalName = GetCrystalName(loc.keyItem);
-					if (!string.IsNullOrEmpty(crystalName))
-					{
-						var newSysCall = new EventJSON.Mnemonic
-						{
-							mnemonic = "SysCall",
-							operands = new EventJSON.Operands
-							{
-								iValues = new int?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-								rValues = new float?[] { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f },
-								sValues = new string[] { crystalName, "", "", "", "", "", "", "" }
-							},
-							type = 1,
-							comment = ""
-						};
-
-						mnemonicsToAdd.Add((i + 1, newSysCall));
-					}
 				}
-
 				if (singleScript.mnemonic == "SetFlag" && singleScript.operands.iValues[0] < 100 && singleScript.operands.sValues[0] == "ScenarioFlag1")
-				{
 					singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
-				}
 			}
 
-			// Remove the collected mnemonics
-			foreach (var mnemonic in mnemonicsToRemove)
+			JsonSerializer serializer = new JsonSerializer();
+
+			using (StreamWriter sw = new StreamWriter(fileName))
+			using (JsonWriter writer = new JsonTextWriter(sw))
 			{
-				mnemonicsList.Remove(mnemonic);
+				serializer.Serialize(writer, jEvents);
 			}
-
-			// Add the new SysCall mnemonics at the specified indexes
-			foreach (var newMnemonic in mnemonicsToAdd.OrderByDescending(m => m.Index))
-			{
-				mnemonicsList.Insert(newMnemonic.Index, newMnemonic.Mnemonic);
-			}
-
-			// Convert the list back to an array
-			jEvents.Mnemonics = mnemonicsList.ToArray();
-
-			string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
-			File.WriteAllText(fileName, updatedJson);
-		}
-
-		private bool IsCrystalSysCall(string sValue)
-		{
-			return sValue == "黄色クリスタル点灯" || sValue == "赤色クリスタル点灯" || sValue == "青色クリスタル点灯" || sValue == "緑色クリスタル点灯";
-		}
-
-		private string GetCrystalName(int keyItem)
-		{
-			switch (keyItem)
-			{
-				case (int)flags.earthCrystal: return "黄色クリスタル点灯";
-				case (int)flags.fireCrystal: return "赤色クリスタル点灯";
-				case (int)flags.waterCrystal: return "青色クリスタル点灯";
-				case (int)flags.airCrystal: return "緑色クリスタル点灯";
-				default: return null;
-			}
-		}
-
-		private int GetKeyItemValue(int keyItem)
-		{
-			switch (keyItem)
-			{
-				case (int)flags.floater: return 55;
-				case (int)flags.chime: return 56;
-				case (int)flags.cube: return 58;
-				case (int)flags.oxyale: return 60;
-				case (int)flags.crown: return 46;
-				case (int)flags.crystalEye: return 47;
-				case (int)flags.joltTonic: return 48;
-				case (int)flags.mysticKey: return 49;
-				case (int)flags.nitroPowder: return 50;
-				case (int)flags.starRuby: return 53;
-				case (int)flags.rod: return 54;
-				case (int)flags.slab: return 52;
-				case (int)flags.adamantite: return 51;
-				case (int)flags.lute: return 45;
-				case (int)flags.ratTail: return 57;
-				case (int)flags.excalibur: return 92;
-				default: return 2;
-			}
-		}
-
-		private bool IsBossLocation(int ff1Event)
-		{
-			return ff1Event == (int)locations.tiamat ||
-						 ff1Event == (int)locations.kraken ||
-						 ff1Event == (int)locations.lich ||
-						 ff1Event == (int)locations.marilith;
 		}
 	}
 }
+
+// 		private void JsonRewrite(string fileName, locationData loc)
+// 		{
+// 			string json = File.ReadAllText(fileName);
+// 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
+
+// 			// Convert mnemonics array to a list
+// 			var mnemonicsList = jEvents.Mnemonics.ToList();
+
+// 			// Create a list to collect mnemonics to remove
+// 			var mnemonicsToRemove = new List<EventJSON.Mnemonic>();
+
+// 			// Create a list to collect new mnemonics to add
+// 			var mnemonicsToAdd = new List<(int Index, EventJSON.Mnemonic Mnemonic)>();
+
+// 			// Loop through mnemonics to remove crystal SysCall mnemonics and update as needed
+// 			for (int i = 0; i < mnemonicsList.Count; i++)
+// 			{
+// 				var singleScript = mnemonicsList[i];
+
+// 				// Remove existing SysCall for the relevant crystals if at a boss location
+// 				if (IsBossLocation(loc.ff1Event) && singleScript.mnemonic == "SysCall" && IsCrystalSysCall((string)singleScript.operands.sValues[0]))
+// 				{
+// 					mnemonicsToRemove.Add(singleScript);
+// 				}
+
+// 				// Update MsgFunfare, GetItem, and SetFlag mnemonics
+// 				if (singleScript.mnemonic == "MsgFunfare")
+// 				{
+// 					singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
+// 				}
+
+// 				if (singleScript.mnemonic == "GetItem" && singleScript.operands.iValues[1] >= 0)
+// 				{
+// 					int keyItem = GetKeyItemValue(loc.keyItem);
+// 					singleScript.operands.iValues[0] = keyItem;
+// 					singleScript.operands.iValues[1] = keyItem == 2 ? 0 : 1;
+
+// 					// Add new SysCall if the key item is a crystal
+// 					string crystalName = GetCrystalName(loc.keyItem);
+// 					if (!string.IsNullOrEmpty(crystalName))
+// 					{
+// 						var newSysCall = new EventJSON.Mnemonic
+// 						{
+// 							mnemonic = "SysCall",
+// 							operands = new EventJSON.Operands
+// 							{
+// 								iValues = new int?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+// 								rValues = new float?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+// 								sValues = new string[] { crystalName, "", "", "", "", "", "", "" }
+// 							},
+// 							type = 1,
+// 							comment = "",
+// 							label = singleScript.label ?? ""
+// 						};
+
+// 						mnemonicsToAdd.Add((i + 1, newSysCall));
+// 					}
+// 				}
+
+// 				if (singleScript.mnemonic == "SetFlag" && singleScript.operands.iValues[0] < 100 && singleScript.operands.sValues[0] == "ScenarioFlag1")
+// 				{
+// 					singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
+// 				}
+// 			}
+
+// 			// Remove the collected mnemonics
+// 			foreach (var mnemonic in mnemonicsToRemove)
+// 			{
+// 				mnemonicsList.Remove(mnemonic);
+// 			}
+
+// 			// Add the new SysCall mnemonics at the specified indexes
+// 			foreach (var newMnemonic in mnemonicsToAdd.OrderByDescending(m => m.Index))
+// 			{
+// 				mnemonicsList.Insert(newMnemonic.Index, newMnemonic.Mnemonic);
+// 			}
+
+// 			// Convert the list back to an array
+// 			jEvents.Mnemonics = mnemonicsList.ToArray();
+
+// 			string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
+// 			File.WriteAllText(fileName, updatedJson);
+// 		}
+
+// 		private bool IsCrystalSysCall(string sValue)
+// 		{
+// 			return sValue == "黄色クリスタル点灯" || sValue == "赤色クリスタル点灯" || sValue == "青色クリスタル点灯" || sValue == "緑色クリスタル点灯";
+// 		}
+
+// 		private string GetCrystalName(int keyItem)
+// 		{
+// 			switch (keyItem)
+// 			{
+// 				case (int)flags.earthCrystal: return "黄色クリスタル点灯";
+// 				case (int)flags.fireCrystal: return "赤色クリスタル点灯";
+// 				case (int)flags.waterCrystal: return "青色クリスタル点灯";
+// 				case (int)flags.airCrystal: return "緑色クリスタル点灯";
+// 				default: return null;
+// 			}
+// 		}
+
+// 		private int GetKeyItemValue(int keyItem)
+// 		{
+// 			switch (keyItem)
+// 			{
+// 				case (int)flags.floater: return 55;
+// 				case (int)flags.chime: return 56;
+// 				case (int)flags.cube: return 58;
+// 				case (int)flags.oxyale: return 60;
+// 				case (int)flags.crown: return 46;
+// 				case (int)flags.crystalEye: return 47;
+// 				case (int)flags.joltTonic: return 48;
+// 				case (int)flags.mysticKey: return 49;
+// 				case (int)flags.nitroPowder: return 50;
+// 				case (int)flags.starRuby: return 53;
+// 				case (int)flags.rod: return 54;
+// 				case (int)flags.slab: return 52;
+// 				case (int)flags.adamantite: return 51;
+// 				case (int)flags.lute: return 45;
+// 				case (int)flags.ratTail: return 57;
+// 				case (int)flags.excalibur: return 92;
+// 				default: return 2;
+// 			}
+// 		}
+
+// 		private bool IsBossLocation(int ff1Event)
+// 		{
+// 			return ff1Event == (int)locations.tiamat ||
+// 						 ff1Event == (int)locations.kraken ||
+// 						 ff1Event == (int)locations.lich ||
+// 						 ff1Event == (int)locations.marilith;
+// 		}
+// 	}
+// }

@@ -205,7 +205,8 @@ namespace FF1_PRR.Randomize
 			var keysSet = new HashSet<string>(importJson.keys);
 			var valuesSet = new HashSet<string>(importJson.values);
 
-			string key = $"{scriptName}";
+			string submap = Path.GetFileName(submapPath);
+			string key = $"{submap}/{scriptName}";
 			string value = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", Path.GetFileName(mapRootPath), Path.GetFileName(submapPath), scriptName).Replace("\\", "/");
 			if (!keysSet.Contains(key))
 			{
