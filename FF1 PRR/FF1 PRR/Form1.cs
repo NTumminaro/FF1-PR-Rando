@@ -317,7 +317,8 @@ namespace FF1_PRR
 			};
 			string[] DATA_MESSAGE =
 			{
-								"system_en.txt" // used by Key Item randomization
+								"system_en.txt", // used by Key Item randomization
+								"story_mes_en.txt" // used by jack in the box
             };
 
 			Directory.CreateDirectory(Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master")); // <-- We'll be creating an Export.json soon
@@ -472,7 +473,9 @@ namespace FF1_PRR
 			if (flagShopsTrad.Checked) File.Copy(Path.Combine("data", "mods", "productTraditional.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			if (flagJackInTheBox.Checked) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(DATA_PATH, "script.csv"), true);
-			// Iterate through the map directory and copy the files into the other map directory...
+			// Iterate through the map directory and copy the files into the other map directory...			
+			if (flagJackInTheBox.Checked) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
+			
 			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "mods", "maps"), "*.*", SearchOption.AllDirectories))
 			{
 				if (jsonFile.Count(f => f == '\\') != 3) continue;
