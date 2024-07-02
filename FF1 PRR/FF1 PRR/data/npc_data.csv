@@ -1,0 +1,263 @@
+id,map,submap,name,asset_id,script_id,message_key,comment
+40,Map_20011,Map_20011_1,8:コーネリア女王,13,208,,8:Queen Cornelia
+41,Map_20011,Map_20011_1,9:コーネリア姫の妹,16,209,,9:Princess Cornelia's Sister
+28,Map_20011,Map_20011_1,1:兵士,18,201,,1:Soldier
+29,Map_20011,Map_20011_1,2:兵士,18,202,,2:Soldier
+30,Map_20011,Map_20011_1,3:兵士,18,203,,3:Soldier
+31,Map_20011,Map_20011_1,4:村人(おじいさん),28,204,,4:Villager (old man)
+32,Map_20011,Map_20011_1,5:村人(おじいさん),28,205,,5:Villager (old man)
+37,Map_20011,Map_20011_1,6:学者,46,206,,6:Scholar
+38,Map_20011,Map_20011_1,7:村人(女性),24,207,,7:Villager (female)
+11,Map_20011,Map_20011_2,2:兵士,18,284,,2:Soldier
+116,Map_20020,Map_20020,1:村人(女性),24,0,MSG_KON_CTY_01,1:Villager (female)
+117,Map_20020,Map_20020,3:踊り子,40,210,,3:Dancer
+118,Map_20020,Map_20020,2:兵士,18,0,MSG_KON_CTY_13,2:Soldier
+119,Map_20020,Map_20020,4:村人(男性),21,0,MSG_KON_CTY_29,4:Villager (Male)
+120,Map_20020,Map_20020,8:村人(女性),24,214,,8:Villager (female)
+121,Map_20020,Map_20020,5:村人(おばあさん),30,211,MSG_KON_CTY_14,5:Villager(おばあさん)
+122,Map_20020,Map_20020,6:村人(おじいさん),28,212,,6:Villager (old man)
+124,Map_20020,Map_20020,7:兵士,18,213,,7:Soldier
+5,Map_20021,Map_20021_1,2:村人(おじいさん),28,287,,2:Villager (old man)
+6,Map_20021,Map_20021_1,4:村人(おじいさん),28,289,,4:Villager (old man)
+7,Map_20021,Map_20021_1,3:村人(おじいさん),28,288,,3:Villager (old man)
+8,Map_20021,Map_20021_1,5:村人(おじいさん),28,290,,5:Villager (old man)
+10,Map_20031,Map_20031_1,4:ほうき,104,0,MSG_MAT_03,4:Broom
+11,Map_20031,Map_20031_1,3:ほうき,104,0,MSG_MAT_03,3:Broom
+12,Map_20031,Map_20031_1,2:ほうき,104,0,MSG_MAT_03,2:Broom
+9,Map_20031,Map_20031_1,5:ほうき,104,0,MSG_MAT_03,5:Broom
+22,Map_20040,Map_20040,村人(モヒカン)青,36,217,,Villager (Mohawk) Blue
+38,Map_20040,Map_20040,村人(男性)①,21,218,,Villager (Male)①
+1,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽),61,0,MSG_DWF_CAV_03,Dwarf (yellow triangle knit cap)
+3,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽)④,61,291,,Dwarf (yellow triangle knit cap)④
+27,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽),61,300,MSG_DWF_CAV_09,Dwarf (yellow triangle knit cap)
+28,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽),61,0,MSG_DWF_CAV_06,Dwarf (yellow triangle knit cap)
+29,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽)③,61,223,,Dwarf (yellow triangle knit cap)③
+30,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽),61,0,MSG_DWF_CAV_13,Dwarf (yellow triangle knit cap)
+32,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽),61,0,MSG_DWF_CAV_10,Dwarf (yellow triangle knit cap)
+33,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽),61,0,MSG_DWF_CAV_03,Dwarf (yellow triangle knit cap)
+34,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽)②,61,222,,Dwarf (yellow triangle knit cap)②
+35,Map_20051,Map_20051_1,ドワーフ(黄色の三角ニット帽)①,61,221,,Dwarf (yellow triangle knit cap)①
+47,Map_20060,Map_20060,エルフ(村人)⑦,60,292,,Elf (villager)⑦
+48,Map_20060,Map_20060,エルフ青ローブ⑥,59,229,,Elf Blue Robe⑥
+49,Map_20060,Map_20060,エルフ(村人)⑤,60,228,,Elf (villager)⑤
+50,Map_20060,Map_20060,エルフ(村人)④,60,227,,Elf (villager)④
+51,Map_20060,Map_20060,エルフ(村人)③,60,226,,Elf (villager)③
+52,Map_20060,Map_20060,エルフ(村人),60,0,MSG_ELF_CTY_11,Elf (villager)
+53,Map_20060,Map_20060,エルフ青ローブ②,59,225,,Elf Blue Robe②
+54,Map_20060,Map_20060,エルフ(村人)①,60,224,,Elf (villager)①
+99,Map_20071,Map_20071_1,エルフ(村人)④,60,233,,Elf (villager)④
+100,Map_20071,Map_20071_1,エルフ(村人)③,60,232,,Elf (villager)③
+101,Map_20071,Map_20071_1,エルフ(村人)②,60,231,,Elf (villager)②
+102,Map_20071,Map_20071_1,エルフ(村人)①,60,230,,Elf (villager)①
+103,Map_20071,Map_20071_1,エルフ(村人),60,0,MSG_ELF_CAS_09,Elf (villager)
+104,Map_20071,Map_20071_1,エルフ(村人),60,0,MSG_ELF_CAS_10,Elf (villager)
+97,Map_20081,Map_20081_1,コウモリ,83,0,MSG_PND_01,Bat
+98,Map_20081,Map_20081_1,コウモリ,83,0,MSG_PND_01,Bat
+99,Map_20081,Map_20081_1,コウモリ,83,0,MSG_PND_01,Bat
+100,Map_20081,Map_20081_1,コウモリ,83,0,MSG_PND_01,Bat
+101,Map_20081,Map_20081_1,コウモリ,83,0,MSG_PND_01,Bat
+102,Map_20081,Map_20081_1,コウモリ,83,0,MSG_PND_01,Bat
+75,Map_20090,Map_20090,②村人（男性）,21,0,MSG_MMD_CTY_09,②Villager（Male）
+78,Map_20090,Map_20090,③村人（おじいさん）,28,238,,③Villager（Old Man）
+79,Map_20090,Map_20090,④村人（男性）,21,239,,④Villager（Male）
+80,Map_20090,Map_20090,⑤村人（男性）,21,240,,⑤Villager（Male）
+81,Map_20090,Map_20090,⑥村人（男性）,21,241,,⑥Villager（Male）
+82,Map_20090,Map_20090,⑦村人（女性）,24,0,MSG_MMD_CTY_22,⑦Villager（Woman）
+83,Map_20090,Map_20090,⑧村人（男性）,21,242,,⑧Villager（Male）
+84,Map_20090,Map_20090,⑨村人（女性）,24,243,,⑨Villager（Woman）
+85,Map_20090,Map_20090,⑩村人（男性）,21,244,,⑩Villager（Male）
+86,Map_20090,Map_20090,⑪ドワーフ,61,245,,⑪Dwarf
+88,Map_20090,Map_20090,⑫村人（おじいさん）,28,0,MSG_MMD_CTY_19,⑫Villager（Old Man）
+89,Map_20090,Map_20090,⑬村人（男性）,21,246,,⑬Villager（Male）
+90,Map_20090,Map_20090,⑭村人（男性）,21,0,MSG_MMD_CTY_12,⑭Villager（Male）
+35,Map_20110,Map_20110,女性,24,0,MSG_CLK_CTY_01,Woman
+34,Map_20110,Map_20110,男性,21,257,MSG_CLK_CTY_02,Male
+37,Map_20110,Map_20110,11.賢者,28,0,MSG_CLK_CTY_04,11.Sage
+38,Map_20110,Map_20110,10.賢者,28,256,MSG_CLK_CTY_05,10.Sage
+39,Map_20110,Map_20110,9.賢者,28,255,MSG_CLK_CTY_07,9.Sage
+40,Map_20110,Map_20110,8.賢者,28,254,MSG_CLK_CTY_09,8.Sage
+41,Map_20110,Map_20110,7.賢者,28,253,MSG_CLK_CTY_11,7.Sage
+42,Map_20110,Map_20110,6.賢者,28,252,MSG_CLK_CTY_13,6.Sage
+43,Map_20110,Map_20110,5.賢者,28,251,MSG_CLK_CTY_15,5.Sage
+44,Map_20110,Map_20110,4.賢者,28,250,MSG_CLK_CTY_17,4.Sage
+45,Map_20110,Map_20110,3.賢者,28,0,MSG_CLK_CTY_19,3.Sage
+46,Map_20110,Map_20110,2.賢者,28,249,MSG_CLK_CTY_20,2.Sage
+36,Map_20110,Map_20110,予言者ルカーン,67,0,MSG_CLK_CTY_23,Prophet Lukahn -------------------------------
+62,Map_20121,Map_20121_1,ドラゴン9,66,0,MSG_DRG_CAV_11,Dragon9
+63,Map_20121,Map_20121_1,ドラゴン6,66,0,MSG_DRG_CAV_08,Dragon6
+64,Map_20121,Map_20121_1,ドラゴン7,66,0,MSG_DRG_CAV_09,Dragon7
+65,Map_20121,Map_20121_1,ドラゴン1,66,0,MSG_DRG_CAV_03,Dragon1
+66,Map_20121,Map_20121_1,ドラゴン2,66,0,MSG_DRG_CAV_04,Dragon2
+67,Map_20121,Map_20121_1,ドラゴン3,66,0,MSG_DRG_CAV_05,Dragon3
+68,Map_20121,Map_20121_1,ドラゴン4,66,0,MSG_DRG_CAV_06,Dragon4
+69,Map_20121,Map_20121_1,ドラゴン5,66,0,MSG_DRG_CAV_07,Dragon5
+70,Map_20121,Map_20121_1,ドラゴン8,66,0,MSG_DRG_CAV_10,Dragon8
+8,Map_20121,Map_20121_3,ドラゴン10,66,0,MSG_DRG_CAV_12,Dragon10
+9,Map_20121,Map_20121_3,NPC,66,0,MSG_DRG_CAV_13,NPC
+46,Map_20130,Map_20130,2:村人(おじいさん),28,259,MSG_ORK_CTY_12,2:Villager (old man)
+47,Map_20130,Map_20130,11:男性,21,0,MSG_ORK_CTY_03,11:Male
+49,Map_20130,Map_20130,4:ドラゴン,66,260,MSG_ORK_CTY_15,4:Dragon
+50,Map_20130,Map_20130,8:魔女,52,0,MSG_ORK_CTY_11,8:魔女
+51,Map_20130,Map_20130,7:村人(女性),24,0,MSG_ORK_CTY_17,7:Villager (female)
+52,Map_20130,Map_20130,9:モヒカン頭,36,0,MSG_ORK_CTY_09,9:Mohawk Head
+53,Map_20130,Map_20130,6:学者,46,261,MSG_ORK_CTY_06,6:Scholar
+54,Map_20130,Map_20130,5:村人(女性),24,0,MSG_ORK_CTY_08,5:Villager (female)
+55,Map_20130,Map_20130,15:村人(おじいさん),28,0,MSG_ORK_CTY_02,15:Villager (old man)
+56,Map_20130,Map_20130,10:海賊(下っ端),54,0,MSG_ORK_CTY_10,10:Pirate (Underling)
+57,Map_20130,Map_20130,12:モヒカン頭,36,0,MSG_ORK_CTY_05,12:Mohawk Head
+58,Map_20130,Map_20130,13:踊り子,40,0,MSG_ORK_CTY_04,13:Dancer
+59,Map_20130,Map_20130,14:兵士,18,0,MSG_ORK_CTY_01,14:Soldier
+80,Map_20130,Map_20130,3:村人(男性),21,0,MSG_ORK_CTY_18,3:Villager (Male)
+96,Map_20150,Map_20150,1:村人(男性),21,0,MSG_GAI_CTY_12,1:Villager (Male)
+97,Map_20150,Map_20150,2:村人(男性),21,0,MSG_GAI_CTY_07,2:Villager (Male)
+98,Map_20150,Map_20150,3:学者,46,0,MSG_GAI_CTY_06,3:Scholar
+99,Map_20150,Map_20150,4:学者,46,262,MSG_GAI_CTY_10,4:Scholar
+100,Map_20150,Map_20150,5:踊り子,40,0,MSG_GAI_CTY_14,5:Dancer
+101,Map_20150,Map_20150,7:魔女,52,0,MSG_GAI_CTY_08,7:Witch
+102,Map_20150,Map_20150,6:動くほうき,104,0,MSG_GAI_CTY_09,6:動くBroom
+103,Map_20150,Map_20150,9:村人(女性),24,0,MSG_GAI_CTY_03,9:Villager (female)
+104,Map_20150,Map_20150,8:村人(男性),21,0,MSG_GAI_CTY_04,8:Villager (Male)
+105,Map_20150,Map_20150,10:村人(男性),21,0,MSG_GAI_CTY_05,10:Villager (Male)
+106,Map_20150,Map_20150,11:村人(女性),24,0,MSG_GAI_CTY_15,11:Villager (female)
+107,Map_20150,Map_20150,12:学者,46,0,MSG_GAI_CTY_02,12:Scholar
+108,Map_20150,Map_20150,13:海賊(下っ端),54,0,MSG_GAI_CTY_01,13:Pirate (Underling) -------------------------------
+133,Map_20160,Map_20160,1ルフェイン人,77,263,,1Lufenian
+134,Map_20160,Map_20160,8ルフェイン人,77,270,,8Lufenian
+135,Map_20160,Map_20160,7ルフェイン人,77,269,,7Lufenian
+136,Map_20160,Map_20160,2ルフェイン人,77,264,,2Lufenian
+137,Map_20160,Map_20160,3ルフェイン人,77,265,,3Lufenian
+138,Map_20160,Map_20160,4ルフェイン人,77,266,,4Lufenian
+139,Map_20160,Map_20160,5ルフェイン人,77,267,,5Lufenian
+140,Map_20160,Map_20160,6ルフェイン人,77,268,,6Lufenian
+141,Map_20160,Map_20160,9ルフェイン人,77,271,,9Lufenian
+142,Map_20160,Map_20160,10ルフェイン人,77,272,,10Lufenian
+143,Map_20160,Map_20160,11ルフェイン人,77,273,,11Lufenian
+144,Map_20160,Map_20160,12ルフェイン人,77,274,,12Lufenian
+145,Map_20160,Map_20160,13ルフェイン人,77,275,,13Lufenian
+163,Map_30011,Map_30011_1,コウモリ1,83,276,MSG_CHS_01,Bat1
+164,Map_30011,Map_30011_1,コウモリ2,83,277,MSG_CHS_01,Bat2
+165,Map_30011,Map_30011_1,コウモリ3,83,278,MSG_CHS_01,Bat3
+166,Map_30011,Map_30011_1,コウモリ4,83,279,MSG_CHS_01,Bat4
+167,Map_30011,Map_30011_1,コウモリ5,83,280,MSG_CHS_01,Bat5
+5,Map_30021,Map_30021_1,コウモリ,83,0,MSG_PND_01,Bat
+6,Map_30021,Map_30021_1,コウモリ,83,0,MSG_PND_01,Bat
+7,Map_30021,Map_30021_1,コウモリ,83,0,MSG_PND_01,Bat
+8,Map_30021,Map_30021_1,コウモリ,83,0,MSG_PND_01,Bat
+77,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+78,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+79,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+80,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+81,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+82,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+83,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+84,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+85,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+86,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+87,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+88,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+89,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+90,Map_30021,Map_30021_2,コウモリ,83,0,MSG_PND_01,Bat
+204,Map_30021,Map_30021_3,強制エンカウント,187,400,,Forced Encounter
+101,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+102,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+103,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+104,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+105,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+106,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+107,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+108,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+109,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+110,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+111,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+112,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+113,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+114,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+115,Map_30021,Map_30021_3,コウモリ,83,0,MSG_PND_01,Bat
+36,Map_30031,Map_30031_1,強制エンカウント,187,401,,Forced Encounter
+37,Map_30031,Map_30031_1,強制エンカウント,187,426,,Forced Encounter
+38,Map_30031,Map_30031_1,強制エンカウント,187,427,,Forced Encounter
+33,Map_30031,Map_30031_2,11.コウモリ,83,0,MSG_ERH_CAV_01,11.Bat
+74,Map_30031,Map_30031_2,強制エンカウント,187,402,,Forced Encounter
+46,Map_30031,Map_30031_2,1.コウモリ,83,0,MSG_ERH_CAV_01,1.Bat
+17,Map_30031,Map_30031_2,2.コウモリ,83,0,MSG_ERH_CAV_01,2.Bat
+19,Map_30031,Map_30031_2,3.コウモリ,83,0,MSG_ERH_CAV_01,3.Bat
+22,Map_30031,Map_30031_2,4.コウモリ,83,0,MSG_ERH_CAV_01,4.Bat
+23,Map_30031,Map_30031_2,5.コウモリ,83,0,MSG_ERH_CAV_01,5.Bat
+25,Map_30031,Map_30031_2,6.コウモリ,83,0,MSG_ERH_CAV_01,6.Bat
+27,Map_30031,Map_30031_2,7.コウモリ,83,0,MSG_ERH_CAV_01,7.Bat
+29,Map_30031,Map_30031_2,8.コウモリ,83,0,MSG_ERH_CAV_01,8.Bat
+30,Map_30031,Map_30031_2,9.コウモリ,83,0,MSG_ERH_CAV_01,9.Bat
+31,Map_30031,Map_30031_2,10.コウモリ,83,0,MSG_ERH_CAV_01,10.Bat
+35,Map_30031,Map_30031_2,12.コウモリ,83,0,MSG_ERH_CAV_01,12.Bat
+37,Map_30031,Map_30031_2,13.コウモリ,83,0,MSG_ERH_CAV_01,13.Bat
+56,Map_30031,Map_30031_3,7.コウモリ,83,0,MSG_ERH_CAV_01,7.Bat
+57,Map_30031,Map_30031_3,8.コウモリ,83,0,MSG_ERH_CAV_01,8.Bat
+58,Map_30031,Map_30031_3,9.コウモリ,83,0,MSG_ERH_CAV_01,9.Bat
+99,Map_30031,Map_30031_3,強制エンカウント,187,403,,Forced Encounter
+42,Map_30031,Map_30031_3,1.コウモリ,83,0,MSG_ERH_CAV_01,1.Bat
+44,Map_30031,Map_30031_3,2.コウモリ,83,0,MSG_ERH_CAV_01,2.Bat
+48,Map_30031,Map_30031_3,3.コウモリ,83,0,MSG_ERH_CAV_01,3.Bat
+50,Map_30031,Map_30031_3,4.コウモリ,83,0,MSG_ERH_CAV_01,4.Bat
+52,Map_30031,Map_30031_3,5.コウモリ,83,0,MSG_ERH_CAV_01,5.Bat
+54,Map_30031,Map_30031_3,6.コウモリ,83,0,MSG_ERH_CAV_01,6.Bat
+60,Map_30031,Map_30031_3,10.コウモリ,83,0,MSG_ERH_CAV_01,10.Bat
+62,Map_30031,Map_30031_3,11.コウモリ,83,0,MSG_ERH_CAV_01,11.Bat
+63,Map_30031,Map_30031_3,12.コウモリ,83,0,MSG_ERH_CAV_01,12.Bat
+65,Map_30031,Map_30031_3,13.コウモリ,83,0,MSG_ERH_CAV_01,13.Bat
+16,Map_30031,Map_30031_4,1.コウモリ,83,0,MSG_ERH_CAV_01,1.Bat
+38,Map_30031,Map_30031_4,13.コウモリ,83,0,MSG_ERH_CAV_01,13.Bat
+41,Map_30031,Map_30031_4,14.コウモリ,83,0,MSG_ERH_CAV_01,14.Bat
+18,Map_30031,Map_30031_4,2.コウモリ,83,0,MSG_ERH_CAV_01,2.Bat
+20,Map_30031,Map_30031_4,3.コウモリ,83,0,MSG_ERH_CAV_01,3.Bat
+21,Map_30031,Map_30031_4,4.コウモリ,83,0,MSG_ERH_CAV_01,4.Bat
+22,Map_30031,Map_30031_4,5.コウモリ,83,0,MSG_ERH_CAV_01,5.Bat
+24,Map_30031,Map_30031_4,6.コウモリ,83,0,MSG_ERH_CAV_01,6.Bat
+26,Map_30031,Map_30031_4,7.コウモリ,83,0,MSG_ERH_CAV_01,7.Bat
+28,Map_30031,Map_30031_4,8.コウモリ,83,0,MSG_ERH_CAV_01,8.Bat
+30,Map_30031,Map_30031_4,9.コウモリ,83,0,MSG_ERH_CAV_01,9.Bat
+32,Map_30031,Map_30031_4,10.コウモリ,83,0,MSG_ERH_CAV_01,10.Bat
+34,Map_30031,Map_30031_4,11.コウモリ,83,0,MSG_ERH_CAV_01,11.Bat
+36,Map_30031,Map_30031_4,12.コウモリ,83,0,MSG_ERH_CAV_01,12.Bat
+11,Map_30031,Map_30031_5,1.コウモリ,83,0,MSG_ERH_CAV_01,1.Bat
+14,Map_30031,Map_30031_5,2.コウモリ,83,0,MSG_ERH_CAV_01,2.Bat
+16,Map_30031,Map_30031_5,3.コウモリ,83,0,MSG_ERH_CAV_01,3.Bat
+17,Map_30031,Map_30031_5,4.コウモリ,83,0,MSG_ERH_CAV_01,4.Bat
+19,Map_30031,Map_30031_5,5.コウモリ,83,0,MSG_ERH_CAV_01,5.Bat
+22,Map_30031,Map_30031_5,6.コウモリ,83,0,MSG_ERH_CAV_01,6.Bat
+24,Map_30031,Map_30031_5,7.コウモリ,83,0,MSG_ERH_CAV_01,7.Bat
+26,Map_30031,Map_30031_5,8.コウモリ,83,0,MSG_ERH_CAV_01,8.Bat
+27,Map_30031,Map_30031_5,9.コウモリ,83,0,MSG_ERH_CAV_01,9.Bat
+29,Map_30031,Map_30031_5,10.コウモリ,83,0,MSG_ERH_CAV_01,10.Bat
+69,Map_30051,Map_30051_2,強制エンカウント,187,404,,Forced Encounter
+80,Map_30051,Map_30051_5,強制エンカウント,187,405,,Forced Encounter
+93,Map_30051,Map_30051_6,強制エンカウント,187,406,,Forced Encounter
+37,Map_30061,Map_30061_5,強制エンカウント,187,407,,Forced Encounter
+26,Map_30071,Map_30071_3,強制エンカウント①,187,408,,Forced Encounter①
+27,Map_30071,Map_30071_3,強制エンカウント②,187,409,,Forced Encounter②
+109,Map_30081,Map_30081_2,強制エンカウント,187,410,,Forced Encounter
+118,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_02,Mermaid
+119,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_11,Mermaid
+120,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_03,Mermaid
+121,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_10,Mermaid
+122,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_12,Mermaid
+123,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_04,Mermaid
+124,Map_30081,Map_30081_8,人魚①,69,282,,Mermaid①
+125,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_09,Mermaid
+126,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_05,Mermaid
+127,Map_30081,Map_30081_8,人魚,69,0,MSG_SEA_DAN_08,Mermaid
+56,Map_30091,Map_30091_1,強制エンカウント,187,430,,Forced Encounter
+20,Map_30091,Map_30091_1,1.コウモリ,83,0,MSG_FAL_DAN_01,1.Bat
+21,Map_30091,Map_30091_1,2.コウモリ,83,0,MSG_FAL_DAN_01,2.Bat
+22,Map_30091,Map_30091_1,3.コウモリ,83,0,MSG_FAL_DAN_01,3.Bat
+23,Map_30091,Map_30091_1,4.コウモリ,83,0,MSG_FAL_DAN_01,4.Bat
+24,Map_30091,Map_30091_1,5.コウモリ,83,0,MSG_FAL_DAN_01,5.Bat
+25,Map_30091,Map_30091_1,6.コウモリ,83,0,MSG_FAL_DAN_01,6.Bat
+26,Map_30091,Map_30091_1,7.コウモリ,83,0,MSG_FAL_DAN_01,7.Bat
+27,Map_30091,Map_30091_1,8.コウモリ,83,0,MSG_FAL_DAN_01,8.Bat
+28,Map_30091,Map_30091_1,9.コウモリ,83,0,MSG_FAL_DAN_01,9.Bat
+24,Map_30101,Map_30101_1,ロボット(78),78,0,MSG_MRG_DAN_01,Robot(78)
+26,Map_30101,Map_30101_2,ロボット(78),78,0,MSG_MRG_DAN_02,Robot(78)
+13,Map_30101,Map_30101_3,ロボット(78),78,0,MSG_MRG_DAN_03,Robot(78)
+27,Map_30101,Map_30101_3,強制エンカウント：ブルードラゴン,187,411,,Forced Encounter：ブルーDragon
+67,Map_30111,Map_30111_3,ロボット(78),78,0,MSG_WND_DAN_02,Robot(78)
+30,Map_30121,Map_30121_3,強制エンカウント：デスアイ,187,412,,Forced Encounter：Death Eye
