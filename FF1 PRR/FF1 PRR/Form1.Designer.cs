@@ -1,15 +1,14 @@
-﻿
-namespace FF1_PRR
+﻿namespace FF1_PRR
 {
     partial class FF1PRR
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -24,8 +23,7 @@ namespace FF1_PRR
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -91,12 +89,20 @@ namespace FF1_PRR
             groupBox3 = new System.Windows.Forms.GroupBox();
             groupBox4 = new System.Windows.Forms.GroupBox();
             groupBox5 = new System.Windows.Forms.GroupBox();
+            tabControl = new System.Windows.Forms.TabControl();
+            tabPageSettings = new System.Windows.Forms.TabPage();
+            tabPageCosmetics = new System.Windows.Forms.TabPage();
+            flagSecretChaos = new System.Windows.Forms.CheckBox();
+            modeShuffleNPCs = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).BeginInit();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
+            tabControl.SuspendLayout();
+            tabPageSettings.SuspendLayout();
+            tabPageCosmetics.SuspendLayout();
             SuspendLayout();
             // 
             // btnRandomize
@@ -870,17 +876,77 @@ namespace FF1_PRR
             groupBox5.TabStop = false;
             groupBox5.Text = "Overworld Sprites";
             // 
+            // tabControl
+            // 
+            tabControl.Controls.Add(tabPageSettings);
+            tabControl.Controls.Add(tabPageCosmetics);
+            tabControl.Location = new System.Drawing.Point(10, 10);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new System.Drawing.Size(650, 480);
+            tabControl.TabIndex = 32;
+            // 
+            // tabPageSettings
+            // 
+            tabPageSettings.Controls.Add(groupBox1);
+            tabPageSettings.Controls.Add(groupBox2);
+            tabPageSettings.Controls.Add(groupBox3);
+            tabPageSettings.Controls.Add(groupBox4);
+            tabPageSettings.Location = new System.Drawing.Point(4, 24);
+            tabPageSettings.Name = "tabPageSettings";
+            tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
+            tabPageSettings.Size = new System.Drawing.Size(642, 452);
+            tabPageSettings.TabIndex = 0;
+            tabPageSettings.Text = "Settings";
+            tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // tabPageCosmetics
+            // 
+            tabPageCosmetics.Controls.Add(groupBox5);
+            tabPageCosmetics.Location = new System.Drawing.Point(4, 24);
+            tabPageCosmetics.Name = "tabPageCosmetics";
+            tabPageCosmetics.Padding = new System.Windows.Forms.Padding(3);
+            tabPageCosmetics.Size = new System.Drawing.Size(642, 452);
+            tabPageCosmetics.TabIndex = 1;
+            tabPageCosmetics.Text = "Cosmetics";
+            tabPageCosmetics.UseVisualStyleBackColor = true;
+            // 
+            // flagSecretChaos
+            // 
+            flagSecretChaos = new System.Windows.Forms.CheckBox();
+            flagSecretChaos.AutoSize = true;
+            flagSecretChaos.Location = new System.Drawing.Point(424, 130); // Adjust the location as needed
+            flagSecretChaos.Name = "flagSecretChaos";
+            flagSecretChaos.Size = new System.Drawing.Size(104, 24);
+            flagSecretChaos.TabIndex = 50;
+            flagSecretChaos.Text = "Secret Chaos";
+            flagSecretChaos.UseVisualStyleBackColor = true;
+            flagSecretChaos.CheckedChanged += new System.EventHandler(DetermineFlags);
+
+            // 
+            // modeShuffleNPCs
+            // 
+            modeShuffleNPCs = new System.Windows.Forms.ComboBox();
+            modeShuffleNPCs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeShuffleNPCs.FormattingEnabled = true;
+            modeShuffleNPCs.Items.AddRange(new object[] {
+            "None",
+            "1:1",
+            "All Random",
+            "Oops All Garland"});
+            modeShuffleNPCs.Location = new System.Drawing.Point(424, 160); // Adjust the location as needed
+            modeShuffleNPCs.Name = "modeShuffleNPCs";
+            modeShuffleNPCs.Size = new System.Drawing.Size(104, 28);
+            modeShuffleNPCs.TabIndex = 51;
+            modeShuffleNPCs.SelectedIndexChanged += new System.EventHandler(DetermineFlags);
+            // 
             // FF1PRR
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(682, 520);
+            Controls.Add(tabControl);
             Controls.Add(btnRestoreVanilla);
-            Controls.Add(groupBox5);
-            Controls.Add(groupBox4);
-            Controls.Add(groupBox3);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
             Controls.Add(label6);
             Controls.Add(BrowseForFolder);
             Controls.Add(VisualFlags);
@@ -913,6 +979,9 @@ namespace FF1_PRR
             groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
+            tabControl.ResumeLayout(false);
+            tabPageSettings.ResumeLayout(false);
+            tabPageCosmetics.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -980,7 +1049,10 @@ namespace FF1_PRR
         private System.Windows.Forms.CheckBox flagJackInTheBox;
         private System.Windows.Forms.TrackBar chaosHpTrackBar;
         private System.Windows.Forms.Label chaosHpLabel;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageSettings;
+        private System.Windows.Forms.TabPage tabPageCosmetics;
+        private System.Windows.Forms.CheckBox flagSecretChaos;
+        private System.Windows.Forms.ComboBox modeShuffleNPCs;
     }
-
 }
-

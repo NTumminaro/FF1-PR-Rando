@@ -39,7 +39,7 @@ namespace FF1_PRR
 			string flags = "";
 			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagReduceEncounterRate }));
 			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt }));
-			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted }));
+			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos }));
 			flags += convertIntToChar(modeShops.SelectedIndex + (8 * modeXPBoost.SelectedIndex));
 			flags += convertIntToChar(modeTreasure.SelectedIndex + (8 * modeMagic.SelectedIndex));
 			flags += convertIntToChar(modeMonsterStatAdjustment.SelectedIndex + (16 * 0));
@@ -51,18 +51,36 @@ namespace FF1_PRR
 			// Add Jack in the Box flag to the flag string
 			flags += flagJackInTheBox.Checked ? "1" : "0";
 
+			// Add new settings for Shuffle NPCs
+			flags += modeShuffleNPCs.SelectedIndex.ToString();
+
 			RandoFlags.Text = flags;
 
 			flags = "";
 			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { CuteHats }));
 			VisualFlags.Text = flags;
+
+			// Handle the case where both Jack in the Box and Secret Chaos are selected
+			if (flagJackInTheBox.Checked && flagSecretChaos.Checked)
+			{
+				Random random = new Random(Convert.ToInt32(RandoSeed.Text));
+				if (random.Next(2) == 0)
+				{
+					flagJackInTheBox.Checked = false;
+				}
+				else
+				{
+					flagSecretChaos.Checked = false;
+				}
+			}
 		}
+
 
 		private void determineChecks(object sender, EventArgs e)
 		{
-			if (loading && RandoFlags.Text.Length < 9)  // Adjusted length check to include new Chaos HP index and Jack in the Box flag
+			if (loading && RandoFlags.Text.Length < 10)  // Adjusted length check to include new settings
 				RandoFlags.Text = defaultFlags;
-			else if (RandoFlags.Text.Length < 9)
+			else if (RandoFlags.Text.Length < 10)
 				return;
 
 			if (loading && VisualFlags.Text.Length < 1)
@@ -75,7 +93,7 @@ namespace FF1_PRR
 			string flags = RandoFlags.Text;
 			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(0, 1))), new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagReduceEncounterRate });
 			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(1, 1))), new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt });
-			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(2, 1))), new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted });
+			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(2, 1))), new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos });
 			modeShops.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(3, 1))) % 8;
 			modeXPBoost.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(3, 1))) / 8;
 			modeTreasure.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(4, 1))) % 8;
@@ -96,6 +114,9 @@ namespace FF1_PRR
 			// Extract and set the Jack in the Box flag
 			flagJackInTheBox.Checked = flags.Substring(8, 1) == "1";
 
+			// Set new settings for Shuffle NPCs
+			modeShuffleNPCs.SelectedIndex = int.Parse(flags.Substring(9, 1));
+
 			flags = VisualFlags.Text;
 			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(0, 1))), new CheckBox[] { CuteHats });
 
@@ -103,6 +124,7 @@ namespace FF1_PRR
 
 			loading = false;
 		}
+
 
 		private int checkboxesToNumber(CheckBox[] boxes)
 		{
@@ -506,25 +528,32 @@ namespace FF1_PRR
 			}
 
 
-			string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets");
-			bool hiddenChaos = false; // Set this based on your testing needs
-			bool shuffleAssetIds = false; // Set this based on your testing needs
-			bool allGarland = false;
-			NPCs npcs = new NPCs(r1, dataPath, hiddenChaos, shuffleAssetIds, allGarland);
-			if (hiddenChaos) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(DATA_PATH, "script.csv"), true);
-			// Iterate through the map directory and copy the files into the other map directory...			
-			if (hiddenChaos) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
+			// string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets");
+			// bool hiddenChaos = false; // Set this based on your testing needs
+			// bool shuffleAssetIds = false; // Set this based on your testing needs
+			// bool allGarland = false;
+			if (modeShuffleNPCs.SelectedIndex > 0 || flagSecretChaos.Checked)
+				bool allGarland = false;
+			{
+				if (modeShuffleNPCs.SelectedIndex == 3) allGarland = true;
+				NPCs npcs = new NPCs(r1, RES_MAP_PATH, flagSecretChaos.Checked, modeShuffleNPCs.SelectedIndex > 0, allGarland);
+			}
+			{
+				NPCs npcs = new NPCs(r1, dataPath, hiddenChaos, shuffleAssetIds, allGarland);
+				if (flagSecretChaos.Checked) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(RES_MAP_PATH, "script.csv"), true);
+				// Iterate through the map directory and copy the files into the other map directory...			
+				if (flagSecretChaos.Checked) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
 
-			// Modify the system message
-			string seedNumber = RandoSeed.Text;
-			ModifySystemMessage(seedNumber, Path.Combine("data", "mods"), MESSAGE_PATH);
+				// Modify the system message
+				string seedNumber = RandoSeed.Text;
+				ModifySystemMessage(seedNumber, Path.Combine("data", "mods"), MESSAGE_PATH);
 
-			bool oopsAllGarland = false;
-			string mapObjectFile = Path.Combine("data", "master", "mapobject.csv");
-			new NPCAssets(r1, mapObjectFile, DATA_PATH, oopsAllGarland);
+				bool oopsAllGarland = false;
+				string mapObjectFile = Path.Combine("data", "master", "mapobject.csv");
+				new NPCAssets(r1, mapObjectFile, DATA_PATH, oopsAllGarland);
 
-			NewChecksum.Text = "COMPLETE";
-		}
+				NewChecksum.Text = "COMPLETE";
+			}
 		private class DatabaseEdit
 		{
 			public string file { get; set; }
