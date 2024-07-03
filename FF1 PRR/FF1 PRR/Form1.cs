@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace FF1_PRR
 {
@@ -504,16 +505,23 @@ namespace FF1_PRR
 				// Demerine says: eeeeeeeee
 			}
 
-			// Call NPCs constructor for testing
+
 			string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets");
-			bool hiddenChaos = true; // Set this based on your testing needs
-			bool shuffleAssetIds = true; // Set this based on your testing needs
+			bool hiddenChaos = false; // Set this based on your testing needs
+			bool shuffleAssetIds = false; // Set this based on your testing needs
 			bool allGarland = false;
 			NPCs npcs = new NPCs(r1, dataPath, hiddenChaos, shuffleAssetIds, allGarland);
+			if (hiddenChaos) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(DATA_PATH, "script.csv"), true);
+			// Iterate through the map directory and copy the files into the other map directory...			
+			if (hiddenChaos) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
 
 			// Modify the system message
 			string seedNumber = RandoSeed.Text;
 			ModifySystemMessage(seedNumber, Path.Combine("data", "mods"), MESSAGE_PATH);
+
+			bool oopsAllGarland = false;
+			string mapObjectFile = Path.Combine("data", "master", "mapobject.csv");
+			new NPCAssets(r1, mapObjectFile, DATA_PATH, oopsAllGarland);
 
 			NewChecksum.Text = "COMPLETE";
 		}

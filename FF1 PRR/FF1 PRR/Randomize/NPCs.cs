@@ -20,6 +20,9 @@ namespace FF1_PRR.Randomize
       public string asset_id { get; set; }
       public string message_key { get; set; }
       public string script_id { get; set; }
+      public bool exclude { get; set; }
+      public string file_name { get; set; }
+
     }
 
     private class PackageJson
@@ -107,7 +110,11 @@ namespace FF1_PRR.Randomize
       //   }
       // }
 
+      List<NPCInfo> regularNPCs = npcList.Where(npc => !npc.exclude).ToList();
+      List<NPCInfo> excludedNPCs = npcList.Where(npc => npc.exclude).ToList();
+
       List<string> assetIdList = customAssetIds;
+
 
       // Assign script_id and set foldername for JackInTheBox
       if (hiddenChaos)
@@ -115,10 +122,10 @@ namespace FF1_PRR.Randomize
         // var zeroScriptNPCs = npcList.Where(npc => npc.script_id == "0").ToList();
         // if (zeroScriptNPCs.Any())
         // {
-        var randomNPC = npcList[r1.Next(npcList.Count)];
+        var randomNPC = regularNPCs[r1.Next(regularNPCs.Count)];
         LogMessage($"Assigning Chaos script_id to NPC ID {randomNPC.id} in map {randomNPC.map}, submap {randomNPC.submap}");
         randomNPC.script_id = "542";
-        
+
         string mapdirectory = Inventory.Updater.MemoriaToMagiciteFile(datapath, Path.Combine("Maps", randomNPC.map, randomNPC.submap));
         string mapRootPath = Path.Combine(datapath, "Magicite", "FF1PRR", randomNPC.map);
         AddScriptsToSubmap(mapdirectory, mapRootPath);
@@ -175,41 +182,59 @@ namespace FF1_PRR.Randomize
       }
 
       // Now write the NPCs back
-      foreach (var npcsByFile in npcList.GroupBy(x => x.submap))
+      // Now write the NPCs back
+      foreach (var npc in npcList)
       {
-        string filename = Inventory.Updater.MemoriaToMagiciteFile(datapath, Path.Combine("Maps", npcsByFile.First().map, npcsByFile.First().submap, "entity_default.json"));
-        string json = File.ReadAllText(filename);
+        string filename = string.IsNullOrEmpty(npc.file_name) ? "entity_default.json" : npc.file_name;
+        string filePath = Inventory.Updater.MemoriaToMagiciteFile(datapath, Path.Combine("Maps", npc.map, npc.submap, filename));
+
+        string json = File.ReadAllText(filePath);
         EvRoot entity_default = JsonConvert.DeserializeObject<EvRoot>(json);
-        foreach (var npc in npcsByFile)
+
+        bool npcFound = false;
+        foreach (EvLayer layer in entity_default.layers)
         {
-          bool npcFound = false;
-          foreach (EvLayer layer in entity_default.layers)
+          foreach (EvObject obj in layer.objects)
           {
-            foreach (EvObject obj in layer.objects)
+            if (obj.id == npc.id)
             {
-              if (obj.id == npc.id)
+              LogMessage($"Found NPC with id {npc.id} in map {npc.map}, submap {npc.submap}. Updating asset_id to {npc.asset_id}");
+              obj.properties.Find(x => x.name == "asset_id").value = npc.asset_id.ToString();
+
+              // Update script_id and action_id only if script_id is 542
+              if (npc.script_id == "542")
               {
-                LogMessage($"Found NPC with id {npc.id} in map {npc.map}, submap {npc.submap}. Updating script_id to {npc.script_id} and asset_id to {npc.asset_id}");
+                LogMessage($"Updating script_id to {npc.script_id} and setting action_id to 2 for NPC ID {npc.id} due to script_id 542");
                 obj.properties.Find(x => x.name == "script_id").value = npc.script_id.ToString();
-                obj.properties.Find(x => x.name == "asset_id").value = npc.asset_id.ToString();
-                npcFound = true;
-                break;
-              }
-            }
-            if (npcFound) break;
-          }
-          if (!npcFound)
-          {
-            LogMessage($"NPC with id {npc.id} not found in map {npc.map}, submap {npc.submap}. Object IDs and properties checked:");
-            foreach (var layer in entity_default.layers)
-            {
-              foreach (var obj in layer.objects)
-              {
-                LogMessage($"Object ID: {obj.id}, Object Name: {obj.name}");
-                foreach (var prop in obj.properties)
+
+                var actionProperty = obj.properties.Find(x => x.name == "action_id");
+                if (actionProperty == null)
                 {
-                  LogMessage($"Property Name: {prop.name}, Property Value: {prop.value}");
+                  LogMessage($"Error: action_id property not found for NPC ID {npc.id}");
                 }
+                else
+                {
+                  actionProperty.value = "2";
+                }
+              }
+
+              npcFound = true;
+              break;
+            }
+          }
+          if (npcFound) break;
+        }
+        if (!npcFound)
+        {
+          LogMessage($"NPC with id {npc.id} not found in map {npc.map}, submap {npc.submap}. Object IDs and properties checked:");
+          foreach (var layer in entity_default.layers)
+          {
+            foreach (var obj in layer.objects)
+            {
+              LogMessage($"Object ID: {obj.id}, Object Name: {obj.name}");
+              foreach (var prop in obj.properties)
+              {
+                LogMessage($"Property Name: {prop.name}, Property Value: {prop.value}");
               }
             }
           }
@@ -217,7 +242,7 @@ namespace FF1_PRR.Randomize
 
         JsonSerializer serializer = new JsonSerializer();
 
-        using (StreamWriter sw = new StreamWriter(filename))
+        using (StreamWriter sw = new StreamWriter(filePath))
         using (JsonWriter writer = new JsonTextWriter(sw))
         {
           serializer.Serialize(writer, entity_default);
