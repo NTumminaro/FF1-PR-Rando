@@ -11,6 +11,7 @@ namespace FF1_PRR.Randomize
 {
   public class NPCs
   {
+    private readonly string chaosLogFilePath;
     private class NPCInfo
     {
       public int id { get; set; }
@@ -87,28 +88,14 @@ namespace FF1_PRR.Randomize
             "201", "202", "203", "204",
         };
 
-    public NPCs(Random r1, string datapath, bool hiddenChaos, bool shuffleAssetIds, bool AllGarland)
+    public NPCs(Random r1, string datapath, bool hiddenChaos, bool shuffleAssetIds)
     {
-      logFilePath = Path.Combine(datapath, "npc_changes_log.txt");
+      chaosLogFilePath = Path.Combine(datapath, "chaos_location.txt");
       using (var reader = new StreamReader(Path.Combine("data", "npc_data.csv")))
       using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
       {
         npcList = csv.GetRecords<NPCInfo>().ToList();
       }
-
-      LogMessage("Starting NPC randomization...");
-
-      // Shuffle asset_ids if the flag is set
-      // if (shuffleAssetIds)
-      // {
-      //   var assetIdList = npcList.Select(npc => npc.asset_id).ToList();
-      //   assetIdList.Shuffle(r1);
-      //   for (int i = 0; i < npcList.Count; i++)
-      //   {
-      //     LogMessage($"Shuffling asset_id for NPC ID {npcList[i].id}: {npcList[i].asset_id} -> {assetIdList[i]}");
-      //     npcList[i].asset_id = assetIdList[i];
-      //   }
-      // }
 
       List<NPCInfo> regularNPCs = npcList.Where(npc => !npc.exclude).ToList();
       List<NPCInfo> excludedNPCs = npcList.Where(npc => npc.exclude).ToList();
@@ -119,69 +106,35 @@ namespace FF1_PRR.Randomize
       // Assign script_id and set foldername for JackInTheBox
       if (hiddenChaos)
       {
-        // var zeroScriptNPCs = npcList.Where(npc => npc.script_id == "0").ToList();
-        // if (zeroScriptNPCs.Any())
-        // {
         var randomNPC = regularNPCs[r1.Next(regularNPCs.Count)];
-        LogMessage($"Assigning Chaos script_id to NPC ID {randomNPC.id} in map {randomNPC.map}, submap {randomNPC.submap}");
         randomNPC.script_id = "542";
 
         string mapdirectory = Inventory.Updater.MemoriaToMagiciteFile(datapath, Path.Combine("Maps", randomNPC.map, randomNPC.submap));
         string mapRootPath = Path.Combine(datapath, "Magicite", "FF1PRR", randomNPC.map);
         AddScriptsToSubmap(mapdirectory, mapRootPath);
         AddScriptsToPackageJson(datapath, randomNPC.map, randomNPC.submap);
-        // }
       }
 
-      // if (shuffleAssetIds)
-      // {
-      //   var uniqueAssetIds = npcList.Select(npc => npc.asset_id).Distinct().ToList();
-      //   uniqueAssetIds.Shuffle(r1);
-
-      //   var evenlyDistributedAssetIds = new List<string>();
-      //   while (evenlyDistributedAssetIds.Count < npcList.Count)
-      //   {
-      //     evenlyDistributedAssetIds.AddRange(uniqueAssetIds);
-      //   }
-      //   evenlyDistributedAssetIds = evenlyDistributedAssetIds.Take(npcList.Count).ToList();
-      //   evenlyDistributedAssetIds.Shuffle(r1);
-
-      //   for (int i = 0; i < npcList.Count; i++)
-      //   {
-      //     LogMessage($"Shuffling asset_id for NPC ID {npcList[i].id}: {npcList[i].asset_id} -> {evenlyDistributedAssetIds[i]}");
-      //     npcList[i].asset_id = evenlyDistributedAssetIds[i];
-      //   }
-      // }
-      if (AllGarland)
+      if (shuffleAssetIds)
       {
-        foreach (var npc in npcList)
+        assetIdList.Shuffle(r1);
+
+        var evenlyDistributedAssetIds = new List<string>();
+        while (evenlyDistributedAssetIds.Count < npcList.Count)
         {
-          npc.asset_id = "85";
+          evenlyDistributedAssetIds.AddRange(assetIdList);
         }
-      }
-      else
-      {
-        if (shuffleAssetIds)
+        evenlyDistributedAssetIds = evenlyDistributedAssetIds.Take(npcList.Count).ToList();
+        evenlyDistributedAssetIds.Shuffle(r1);
+
+        for (int i = 0; i < npcList.Count; i++)
         {
-          assetIdList.Shuffle(r1);
-
-          var evenlyDistributedAssetIds = new List<string>();
-          while (evenlyDistributedAssetIds.Count < npcList.Count)
-          {
-            evenlyDistributedAssetIds.AddRange(assetIdList);
-          }
-          evenlyDistributedAssetIds = evenlyDistributedAssetIds.Take(npcList.Count).ToList();
-          evenlyDistributedAssetIds.Shuffle(r1);
-
-          for (int i = 0; i < npcList.Count; i++)
-          {
-            LogMessage($"Shuffling asset_id for NPC ID {npcList[i].id}: {npcList[i].asset_id} -> {evenlyDistributedAssetIds[i]}");
-            npcList[i].asset_id = evenlyDistributedAssetIds[i];
-          }
+          // LogMessage($"Shuffling asset_id for NPC ID {npcList[i].id}: {npcList[i].asset_id} -> {evenlyDistributedAssetIds[i]}");
+          npcList[i].asset_id = evenlyDistributedAssetIds[i];
         }
       }
 
-      // Now write the NPCs back
+
       // Now write the NPCs back
       foreach (var npc in npcList)
       {
@@ -198,19 +151,19 @@ namespace FF1_PRR.Randomize
           {
             if (obj.id == npc.id)
             {
-              LogMessage($"Found NPC with id {npc.id} in map {npc.map}, submap {npc.submap}. Updating asset_id to {npc.asset_id}");
+              // LogMessage($"Found NPC with id {npc.id} in map {npc.map}, submap {npc.submap}. Updating asset_id to {npc.asset_id}");
               obj.properties.Find(x => x.name == "asset_id").value = npc.asset_id.ToString();
 
               // Update script_id and action_id only if script_id is 542
               if (npc.script_id == "542")
               {
-                LogMessage($"Updating script_id to {npc.script_id} and setting action_id to 2 for NPC ID {npc.id} due to script_id 542");
+                // LogMessage($"Updating script_id to {npc.script_id} and setting action_id to 2 for NPC ID {npc.id} due to script_id 542");
                 obj.properties.Find(x => x.name == "script_id").value = npc.script_id.ToString();
 
                 var actionProperty = obj.properties.Find(x => x.name == "action_id");
                 if (actionProperty == null)
                 {
-                  LogMessage($"Error: action_id property not found for NPC ID {npc.id}");
+                  // LogMessage($"Error: action_id property not found for NPC ID {npc.id}");
                 }
                 else
                 {
@@ -226,15 +179,15 @@ namespace FF1_PRR.Randomize
         }
         if (!npcFound)
         {
-          LogMessage($"NPC with id {npc.id} not found in map {npc.map}, submap {npc.submap}. Object IDs and properties checked:");
+          // LogMessage($"NPC with id {npc.id} not found in map {npc.map}, submap {npc.submap}. Object IDs and properties checked:");
           foreach (var layer in entity_default.layers)
           {
             foreach (var obj in layer.objects)
             {
-              LogMessage($"Object ID: {obj.id}, Object Name: {obj.name}");
+              // LogMessage($"Object ID: {obj.id}, Object Name: {obj.name}");
               foreach (var prop in obj.properties)
               {
-                LogMessage($"Property Name: {prop.name}, Property Value: {prop.value}");
+                // LogMessage($"Property Name: {prop.name}, Property Value: {prop.value}");
               }
             }
           }
@@ -248,7 +201,7 @@ namespace FF1_PRR.Randomize
           serializer.Serialize(writer, entity_default);
         }
       }
-      LogMessage("NPC randomization complete.");
+      // LogMessage("NPC randomization complete.");
     }
 
     private void AddScriptsToSubmap(string submapPath, string mapRootPath)
@@ -341,15 +294,25 @@ namespace FF1_PRR.Randomize
       }
     }
 
-    private void LogMessage(string message)
+    // private void LogMessage(string message)
+    // {
+    //   using (StreamWriter sw = new StreamWriter(logFilePath, true))
+    //   {
+    //     sw.WriteLine($"{DateTime.Now}: {message}");
+    //   }
+    // }
+
+    private void LogChaosLocation(string message)
     {
-      using (StreamWriter sw = new StreamWriter(logFilePath, true))
+      using (StreamWriter sw = new StreamWriter(chaosLogFilePath, true))
       {
         sw.WriteLine($"{DateTime.Now}: {message}");
       }
     }
   }
 }
+
+
 
 // Extension method for shuffling lists
 public static class ListExtensions

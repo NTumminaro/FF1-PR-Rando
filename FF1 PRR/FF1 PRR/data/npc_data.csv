@@ -272,5 +272,3 @@ id,map,submap,name,asset_id,script_id,message_key,comment,exclude,file_name
 66,Map_20110,Map_20110,1.賢者,28,41,MSG_CLK_CTY_22,Sage (Cannoe),true,ev_e_0023.json
 67,Map_20110,Map_20110,1.賢者,28,41,MSG_CLK_CTY_22,Sage (Cannoe),true,ev_e_0021.json
 68,Map_20110,Map_20110,1.賢者,28,41,MSG_CLK_CTY_22,Sage (Cannoe),true,ev_e_0015.json
-159,Map_20160,Map_20160,15ルフェイン人,0,0,,15Lufenian,true,ev_e_0035.json
-156,Map_20160,Map_20160,15ルフェイン人,0,0,,15Lufenian,true,ev_e_0034.json

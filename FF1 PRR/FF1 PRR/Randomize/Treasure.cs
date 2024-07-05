@@ -11,6 +11,7 @@ namespace FF1_PRR.Randomize
 {
 	public class Treasure
 	{
+		private readonly string chaosLogFilePath;
 		private class ChestInfo
 		{
 			public int flag_id { get; set; }
@@ -83,6 +84,8 @@ namespace FF1_PRR.Randomize
 
 		public Treasure(Random r1, int randoLevel, string datapath, bool traditional, bool fiendsRibbons, bool jackInTheBox)
 		{
+			chaosLogFilePath = Path.Combine(datapath, "chaos_location.txt");
+
 			using (var reader = new StreamReader(Path.Combine("data", "chestInfo.csv")))
 			using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
 			{
@@ -165,6 +168,8 @@ namespace FF1_PRR.Randomize
 											string mapRootPath = Path.Combine(datapath, "Magicite", "FF1PRR", chestsByFile.First().map);
 											AddScriptsToSubmap(mapdirectory, mapRootPath);
 											AddScriptsToPackageJson(datapath, chestsByFile.First().map, chestsByFile.First().submap);
+											LogChaosLocation($"JackInTheBox placed in chest in {chestsByFile.First().map}, submap {chestsByFile.First().submap}, content Id {chest.content_id}");
+
 										}
 										goto NextChest;
 									}
@@ -194,6 +199,14 @@ namespace FF1_PRR.Randomize
 			// Update Export.json with the new scripts
 			UpdateExportJson(mapRootPath, submapPath, "sc_t_0099");
 			UpdateExportJson(mapRootPath, submapPath, "sc_t_0099_after");
+		}
+
+		private void LogChaosLocation(string message)
+		{
+			using (StreamWriter sw = new StreamWriter(chaosLogFilePath, true))
+			{
+				sw.WriteLine($"{DateTime.Now}: {message}");
+			}
 		}
 
 		private void UpdateExportJson(string mapRootPath, string submapPath, string scriptName)
