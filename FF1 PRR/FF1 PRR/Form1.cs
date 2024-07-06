@@ -526,7 +526,6 @@ namespace FF1_PRR
 			if (flagShopsTrad.Checked) File.Copy(Path.Combine("data", "mods", "productTraditional.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			if (useJackInTheBox) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(DATA_PATH, "script.csv"), true);
-			// Iterate through the map directory and copy the files into the other map directory...			
 			if (useJackInTheBox) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
 
 			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "mods", "maps"), "*.*", SearchOption.AllDirectories))
@@ -562,22 +561,33 @@ namespace FF1_PRR
 			// bool shuffleAssetIds = false; // Set this based on your testing needs
 			// bool allGarland = false;
 			// bool shuffleAssetIds = false;
-			string mapObjectFile = Path.Combine("data", "master", "mapobject.csv");
+			string modsDir = Path.Combine("data", "mods");
 
 
-			if (useSecretChaos) new NPCs(r1, dataPath, useSecretChaos, false);
+			if (useSecretChaos && modeShuffleNPCs.SelectedIndex == 3) 
+			{
+				new NPCs(r1, dataPath, useSecretChaos, true);
+			}
+			else if (useSecretChaos && modeShuffleNPCs.SelectedIndex != 3)
+			{
+				new NPCs(r1, dataPath, useSecretChaos, false);
+			}
+
+			if (modeShuffleNPCs.SelectedIndex == 0)
+			{
+				new NPCAssets(r1, modsDir, DATA_PATH, false, false);
+			}
 
 			if (modeShuffleNPCs.SelectedIndex == 1)
 			{
-				new NPCAssets(r1, mapObjectFile, DATA_PATH, false);
+				new NPCAssets(r1, modsDir, DATA_PATH, false, true);
 			}
 			if (modeShuffleNPCs.SelectedIndex == 2)
 			{
-				new NPCAssets(r1, mapObjectFile, DATA_PATH, true);
+				new NPCAssets(r1, modsDir, DATA_PATH, true, false);
 			}
 
 			if (useSecretChaos) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(RES_MAP_PATH, "script.csv"), true);
-			// Iterate through the map directory and copy the files into the other map directory...			
 			if (useSecretChaos) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
 
 			// Modify the system message

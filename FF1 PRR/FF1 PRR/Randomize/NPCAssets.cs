@@ -19,11 +19,15 @@ namespace FF1_PRR.Randomize
       public bool shuffle { get; set; } // New field to determine if it should be shuffled
     }
 
-    public NPCAssets(Random r1, string fileName, string gameDir, bool oopsAllGarland)
+    public NPCAssets(Random r1, string modsDir, string gameDir, bool oopsAllGarland, bool shuffleNPCs)
     {
+      string modsFilePath = Path.Combine(modsDir, "mapobject.csv");
+      string gameFilePath = Path.Combine(gameDir, "mapobject.csv");
+
       List<MapObject> mapObjects;
 
-      using (var reader = new StreamReader(fileName))
+      // Read from the mods directory
+      using (var reader = new StreamReader(modsFilePath))
       using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
       {
         mapObjects = csv.GetRecords<MapObject>().ToList();
@@ -40,7 +44,7 @@ namespace FF1_PRR.Randomize
           obj.asset_name = "mo_ff1_n038_c00";
         }
       }
-      else
+      else if (shuffleNPCs)
       {
         List<string> assetNames = shuffleObjects.Select(mo => mo.asset_name).ToList();
         assetNames.Shuffle(r1);
@@ -60,9 +64,8 @@ namespace FF1_PRR.Randomize
         }
       }
 
-      // Remove the shuffle column and write the modified list back to the game directory
-      string outputFilePath = Path.Combine(gameDir, "mapobject.csv");
-      using (var writer = new StreamWriter(outputFilePath))
+      // Remove the shuffle column and write the modified list back to the mods directory
+      using (var writer = new StreamWriter(modsFilePath))
       using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
       {
         // Write header manually
@@ -82,6 +85,9 @@ namespace FF1_PRR.Randomize
           csv.NextRecord();
         }
       }
+
+      // Copy the modified file from mods directory to game directory
+      File.Copy(modsFilePath, gameFilePath, true);
     }
   }
 }

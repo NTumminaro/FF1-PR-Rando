@@ -954,7 +954,7 @@
             // 
             modeShuffleNPCs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             modeShuffleNPCs.FormattingEnabled = true;
-            modeShuffleNPCs.Items.AddRange(new object[] { "None", "1:1", "Oops All Garland" });
+            modeShuffleNPCs.Items.AddRange(new object[] { "None", "1:1", "Oops All Garland", "All Random" });
             modeShuffleNPCs.Location = new System.Drawing.Point(130, 19);
             modeShuffleNPCs.Name = "modeShuffleNPCs";
             modeShuffleNPCs.Size = new System.Drawing.Size(104, 23);
