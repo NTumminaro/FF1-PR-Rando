@@ -527,6 +527,7 @@ namespace FF1_PRR
 			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			if (useJackInTheBox) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(DATA_PATH, "script.csv"), true);
 			if (useJackInTheBox) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
+			if (flagDockAnywhere.Checked) File.Copy(Path.Combine("data", "mods", "attribute.json"), Path.Combine(RES_MAP_PATH, "Map_10010", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_10010", "attribute.json"), true);
 
 			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "mods", "maps"), "*.*", SearchOption.AllDirectories))
 			{
