@@ -64,8 +64,8 @@ namespace FF1_PRR.Randomize
         }
       }
 
-      // Remove the shuffle column and write the modified list back to the mods directory
-      using (var writer = new StreamWriter(modsFilePath))
+      // Write the modified list directly to the game directory
+      using (var writer = new StreamWriter(gameFilePath))
       using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
       {
         // Write header manually
@@ -85,9 +85,23 @@ namespace FF1_PRR.Randomize
           csv.NextRecord();
         }
       }
+    }
+  }
 
-      // Copy the modified file from mods directory to game directory
-      File.Copy(modsFilePath, gameFilePath, true);
+  // Extension method for shuffling lists
+  public static class ListExtensions
+  {
+    public static void Shuffle<T>(this IList<T> list, Random random)
+    {
+      int n = list.Count;
+      while (n > 1)
+      {
+        n--;
+        int k = random.Next(n + 1);
+        T value = list[k];
+        list[k] = list[n];
+        list[n] = value;
+      }
     }
   }
 }
