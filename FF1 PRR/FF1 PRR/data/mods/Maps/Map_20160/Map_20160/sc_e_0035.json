@@ -5,7 +5,7 @@
 		"KeepBadStatusVisual": 0,
 		"RidingVehicle": 0
 	},
-	"Segments": [{ "Label": "Main", "EntryPoint": 0, "Count": 11 }],
+	"Segments": [{ "Label": "Main", "EntryPoint": 0, "Count": 12 }],
 	"ScriptLocal": [],
 	"ScriptLocalValue": [],
 	"Mnemonics": [
@@ -20,7 +20,7 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [133, 1, 8, 0, 0, 0, 0, 0],
+				"iValues": [133, 1, 9, 0, 0, 0, 0, 0],
 				"rValues": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
@@ -78,6 +78,17 @@
 				"iValues": [255, 0, 0, 0, 0, 0, 0, 0],
 				"rValues": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 				"sValues": ["TreasureFlag2", "", "", "", "", "", "", ""]
+			},
+			"type": 1,
+			"comment": ""
+		},
+		{
+			"label": "",
+			"mnemonic": "SysCall",
+			"operands": {
+				"iValues": [0, 0, 0, 0, 0, 0, 0, 0],
+				"rValues": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
+				"sValues": ["キー入力待ち", "", "", "", "", "", "", ""]
 			},
 			"type": 1,
 			"comment": ""

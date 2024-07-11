@@ -23,7 +23,8 @@ namespace FF1_PRR
 		Random r1;
 		DateTime lastGameAssets;
 		const string defaultVisualFlags = "0";
-		const string defaultFlags = "hianX1201";
+		const string defaultFlags = "ha00vP1010";
+
 		public FF1PRR()
 		{
 			InitializeComponent();
@@ -37,9 +38,23 @@ namespace FF1_PRR
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 
 			string flags = "";
-			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagReduceEncounterRate }));
-			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt }));
-			flags += convertIntToChar(checkboxesToNumber(new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos }));
+			flags += ConvertFlagsToString(new CheckBox[] {
+								flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops,
+								flagMagicKeepPermissions, flagReduceEncounterRate
+						});
+
+			flags += ConvertFlagsToString(new CheckBox[] {
+								flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices,
+								flagRestoreCritRating, flagWandsAddInt
+						});
+
+			flags += ConvertFlagsToString(new CheckBox[] {
+								flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize,
+								flagBoostPromoted, flagSecretChaos
+						});
+
+			flags += ConvertFlagsToString(new CheckBox[] { flagDockAnywhere, flagShuffleCanoe });
+
 			flags += convertIntToChar(modeShops.SelectedIndex + (8 * modeXPBoost.SelectedIndex));
 			flags += convertIntToChar(modeTreasure.SelectedIndex + (8 * modeMagic.SelectedIndex));
 			flags += convertIntToChar(modeMonsterStatAdjustment.SelectedIndex + (16 * 0));
@@ -60,25 +75,24 @@ namespace FF1_PRR
 			// Handle the case where both Jack in the Box and Secret Chaos are selected
 			// if (flagJackInTheBox.Checked && flagSecretChaos.Checked)
 			// {
-			// 	Random random = new Random(Convert.ToInt32(RandoSeed.Text));
-			// 	if (random.Next(2) == 0)
-			// 	{
-			// 		useJackInTheBox = true;
-			// 		useSecretChaos = false;
-			// 	}
-			// 	else
-			// 	{
-			// 		useJackInTheBox = false;
-			// 		useSecretChaos = true;
-			// 	}
+			//     Random random = new Random(Convert.ToInt32(RandoSeed.Text));
+			//     if (random.Next(2) == 0)
+			//     {
+			//         useJackInTheBox = true;
+			//         useSecretChaos = false;
+			//     }
+			//     else
+			//     {
+			//         useJackInTheBox = false;
+			//         useSecretChaos = true;
+			//     }
 			// }
 			// else
 			// {
-			// 	useJackInTheBox = flagJackInTheBox.Checked;
-			// 	useSecretChaos = flagSecretChaos.Checked;
+			//     useJackInTheBox = flagJackInTheBox.Checked;
+			//     useSecretChaos = flagSecretChaos.Checked;
 			// }
 		}
-
 
 		private void determineChecks(object sender, EventArgs e)
 		{
@@ -95,18 +109,32 @@ namespace FF1_PRR
 			loading = true;
 
 			string flags = RandoFlags.Text;
-			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(0, 1))), new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagReduceEncounterRate });
-			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(1, 1))), new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt });
-			numberToCheckboxes(convertChartoInt(Convert.ToChar(flags.Substring(2, 1))), new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos });
-			modeShops.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(3, 1))) % 8;
-			modeXPBoost.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(3, 1))) / 8;
-			modeTreasure.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(4, 1))) % 8;
-			modeMagic.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(4, 1))) / 8;
-			modeMonsterStatAdjustment.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(5, 1))) % 16;
-			modeHeroStats.SelectedIndex = convertChartoInt(Convert.ToChar(flags.Substring(6, 1))) % 8;
+			ApplyFlagsToCheckboxes(flags.Substring(0, 1), new CheckBox[] {
+								flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops,
+								flagMagicKeepPermissions, flagReduceEncounterRate
+						});
+
+			ApplyFlagsToCheckboxes(flags.Substring(1, 1), new CheckBox[] {
+								flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices,
+								flagRestoreCritRating, flagWandsAddInt
+						});
+
+			ApplyFlagsToCheckboxes(flags.Substring(2, 1), new CheckBox[] {
+								flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize,
+								flagBoostPromoted, flagSecretChaos
+						});
+
+			ApplyFlagsToCheckboxes(flags.Substring(3, 1), new CheckBox[] { flagDockAnywhere, flagShuffleCanoe });
+
+			modeShops.SelectedIndex = convertChartoInt(flags[4]) % 8;
+			modeXPBoost.SelectedIndex = convertChartoInt(flags[4]) / 8;
+			modeTreasure.SelectedIndex = convertChartoInt(flags[5]) % 8;
+			modeMagic.SelectedIndex = convertChartoInt(flags[5]) / 8;
+			modeMonsterStatAdjustment.SelectedIndex = convertChartoInt(flags[6]) % 16;
+			modeHeroStats.SelectedIndex = convertChartoInt(flags[7]) % 8;
 
 			// Extract and set the Chaos HP value
-			int chaosHpIndex = int.Parse(flags.Substring(7, 1));
+			int chaosHpIndex = int.Parse(flags[8].ToString());
 			if (chaosHpIndex >= 0 && chaosHpIndex < chaosHpTrackBar.Maximum + 1)
 			{
 				chaosHpTrackBar.Value = chaosHpIndex;
@@ -116,32 +144,33 @@ namespace FF1_PRR
 			}
 
 			// Extract and set the Jack in the Box flag
-			flagJackInTheBox.Checked = flags.Substring(8, 1) == "1";
+			flagJackInTheBox.Checked = flags[9] == '1';
 
 			flags = VisualFlags.Text;
-			modeShuffleNPCs.SelectedIndex = int.Parse(flags.Substring(0, 1));
+			modeShuffleNPCs.SelectedIndex = int.Parse(flags[0].ToString());
 
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 
 			loading = false;
 		}
 
-
-		private int checkboxesToNumber(CheckBox[] boxes)
+		private string ConvertFlagsToString(CheckBox[] boxes)
 		{
 			int number = 0;
-			for (int lnI = 0; lnI < Math.Min(boxes.Length, 6); lnI++)
-				number += boxes[lnI].Checked ? (int)Math.Pow(2, lnI) : 0;
-
-			return number;
+			for (int i = 0; i < boxes.Length; i++)
+			{
+				number += boxes[i].Checked ? (int)Math.Pow(2, i) : 0;
+			}
+			return convertIntToChar(number);
 		}
 
-		private int numberToCheckboxes(int number, CheckBox[] boxes)
+		private void ApplyFlagsToCheckboxes(string flagSegment, CheckBox[] boxes)
 		{
-			for (int lnI = 0; lnI < Math.Min(boxes.Length, 6); lnI++)
-				boxes[lnI].Checked = number % ((int)Math.Pow(2, lnI + 1)) >= (int)Math.Pow(2, lnI);
-
-			return number;
+			int number = convertChartoInt(flagSegment[0]);
+			for (int i = 0; i < boxes.Length; i++)
+			{
+				boxes[i].Checked = (number & (1 << i)) != 0;
+			}
 		}
 
 		private string convertIntToChar(int number)
@@ -159,16 +188,39 @@ namespace FF1_PRR
 
 		private int convertChartoInt(char character)
 		{
-			if (character >= Convert.ToChar("0") && character <= Convert.ToChar("9"))
-				return character - 48;
-			if (character >= Convert.ToChar("A") && character <= Convert.ToChar("Z"))
-				return character - 55;
-			if (character >= Convert.ToChar("a") && character <= Convert.ToChar("z"))
-				return character - 61;
-			if (character == Convert.ToChar("!")) return 62;
-			if (character == Convert.ToChar("@")) return 63;
+			if (character >= '0' && character <= '9')
+				return character - '0';
+			if (character >= 'A' && character <= 'Z')
+				return character - 'A' + 10;
+			if (character >= 'a' && character <= 'z')
+				return character - 'a' + 36;
+			if (character == '!') return 62;
+			if (character == '@') return 63;
 			return 0;
 		}
+
+		private void btnLoadFlags_Click(object sender, EventArgs e)
+		{
+			string inputFlags = RandoFlags.Text;
+
+			if (!string.IsNullOrEmpty(inputFlags))
+			{
+				// Split the input string into RandoFlags and VisualFlags if necessary
+				if (inputFlags.Length >= 10)
+				{
+					RandoFlags.Text = inputFlags.Substring(0, 10); // Adjust length as necessary
+				}
+
+				if (inputFlags.Length > 10)
+				{
+					VisualFlags.Text = inputFlags.Substring(10);
+				}
+
+				// Call determineChecks to apply the flags
+				determineChecks(null, null);
+			}
+		}
+
 
 		private void FF1PRR_Load(object sender, EventArgs e)
 		{
@@ -193,7 +245,6 @@ namespace FF1_PRR
 
 					determineChecks(null, null);
 
-					//runChecksum();
 					loading = false;
 				}
 			}
@@ -201,12 +252,11 @@ namespace FF1_PRR
 			{
 				RandoFlags.Text = defaultFlags;
 				VisualFlags.Text = defaultVisualFlags;
-				// ignore error
 				loading = false;
 				determineChecks(null, null);
 			}
-
 		}
+
 
 		private void NewSeed_Click(object sender, EventArgs e)
 		{
@@ -269,13 +319,13 @@ namespace FF1_PRR
 			{
 				if (lines[i].StartsWith("MSG_SYSTEM_183\t"))
 				{
-					lines[i] = $"MSG_SYSTEM_183\tRandomizer Seed {seedNumber}";
+					lines[i] = $"MSG_SYSTEM_183\tSeed: {seedNumber} - Flags: {RandoFlags.Text}";
 					message183Found = true;
 				}
 
 				else if (lines[i].StartsWith("MSG_SYSTEM_181\t"))
 				{
-					lines[i] += $@"\nRandomizer Seed: {seedNumber}";
+					lines[i] += $@"\nSeed: {seedNumber} - Flags: {RandoFlags.Text}";
 					message181Found = true;
 				}
 			}
@@ -527,7 +577,6 @@ namespace FF1_PRR
 			else File.Copy(Path.Combine("data", "mods", "product.csv"), Path.Combine(DATA_PATH, "product.csv"), true);
 			if (useJackInTheBox) File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(DATA_PATH, "script.csv"), true);
 			if (useJackInTheBox) File.Copy(Path.Combine("data", "mods", "story_mes_en.txt"), Path.Combine(MESSAGE_PATH, "story_mes_en.txt"), true);
-			if (flagDockAnywhere.Checked) File.Copy(Path.Combine("data", "mods", "attribute.json"), Path.Combine(RES_MAP_PATH, "Map_10010", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_10010", "attribute.json"), true);
 
 			foreach (string jsonFile in Directory.GetDirectories(Path.Combine("data", "mods", "maps"), "*.*", SearchOption.AllDirectories))
 			{
@@ -557,6 +606,8 @@ namespace FF1_PRR
 			// Demerine says: eeeeeeeee
 			// }
 
+			if (flagDockAnywhere.Checked) File.Copy(Path.Combine("data", "mods", "attribute.json"), Path.Combine(RES_MAP_PATH, "Magicite", "FF1PRR", "Map_10010", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_10010", "Map_10010", "attribute.json"), true);
+
 			string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets");
 			// bool hiddenChaos = false; // Set this based on your testing needs
 			// bool shuffleAssetIds = false; // Set this based on your testing needs
@@ -565,7 +616,7 @@ namespace FF1_PRR
 			string modsDir = Path.Combine("data", "mods");
 
 
-			if (useSecretChaos && modeShuffleNPCs.SelectedIndex == 3) 
+			if (useSecretChaos && modeShuffleNPCs.SelectedIndex == 3)
 			{
 				new NPCs(r1, dataPath, useSecretChaos, true);
 			}
@@ -714,7 +765,7 @@ namespace FF1_PRR
 		private void randomizeKeyItems()
 		{
 			KeyItems randoKeyItems = new KeyItems(r1,
-							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets")); // , "Assets", "GameAssets", "Serial", "Res", "Map"
+							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), flagDockAnywhere.Checked, flagShuffleCanoe.Checked); // , "Assets", "GameAssets", "Serial", "Res", "Map"
 		}
 		private void randomizeTreasure(bool useJackInTheBox)
 		{
@@ -857,17 +908,24 @@ namespace FF1_PRR
 
 		private void frmFF1PRR_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			using (StreamWriter writer = File.CreateText("lastFF1PRR.txt"))
+			try
 			{
-				writer.WriteLine(FF1PRFolder.Text);
-				writer.WriteLine(RandoSeed.Text);
-				writer.WriteLine(RandoFlags.Text);
-				writer.WriteLine(VisualFlags.Text);
-				writer.WriteLine(lastGameAssets);
-				foreach (var item in currentSelectionsListBox.Items)
+				using (StreamWriter writer = File.CreateText("lastFF1PRR.txt"))
 				{
-					writer.WriteLine(item.ToString());
+					writer.WriteLine(FF1PRFolder.Text);
+					writer.WriteLine(RandoSeed.Text);
+					writer.WriteLine(RandoFlags.Text);
+					writer.WriteLine(VisualFlags.Text);
+					writer.WriteLine(lastGameAssets.ToString());
+					foreach (var item in currentSelectionsListBox.Items)
+					{
+						writer.WriteLine(item.ToString());
+					}
 				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show($"Error saving settings: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}
 

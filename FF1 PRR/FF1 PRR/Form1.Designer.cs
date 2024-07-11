@@ -87,6 +87,8 @@
             groupBox5 = new System.Windows.Forms.GroupBox();
             tabControl = new System.Windows.Forms.TabControl();
             tabPageSettings = new System.Windows.Forms.TabPage();
+            flagShuffleCanoe = new System.Windows.Forms.CheckBox();
+            flagDockAnywhere = new System.Windows.Forms.CheckBox();
             groupBox6 = new System.Windows.Forms.GroupBox();
             groupBox4 = new System.Windows.Forms.GroupBox();
             chaosHpLabel = new System.Windows.Forms.Label();
@@ -96,6 +98,7 @@
             groupBox8 = new System.Windows.Forms.GroupBox();
             label9 = new System.Windows.Forms.Label();
             modeShuffleNPCs = new System.Windows.Forms.ComboBox();
+            btnLoadFlags = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -187,7 +190,7 @@
             RandoFlags.Location = new System.Drawing.Point(112, 39);
             RandoFlags.Margin = new System.Windows.Forms.Padding(2);
             RandoFlags.Name = "RandoFlags";
-            RandoFlags.Size = new System.Drawing.Size(303, 23);
+            RandoFlags.Size = new System.Drawing.Size(230, 23);
             RandoFlags.TabIndex = 7;
             // 
             // NewChecksum
@@ -831,6 +834,8 @@
             // 
             // tabPageSettings
             // 
+            tabPageSettings.Controls.Add(flagShuffleCanoe);
+            tabPageSettings.Controls.Add(flagDockAnywhere);
             tabPageSettings.Controls.Add(groupBox6);
             tabPageSettings.Controls.Add(groupBox4);
             tabPageSettings.Controls.Add(groupBox1);
@@ -846,6 +851,28 @@
             tabPageSettings.TabIndex = 0;
             tabPageSettings.Text = "Settings";
             tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // flagShuffleCanoe
+            // 
+            flagShuffleCanoe.AutoSize = true;
+            flagShuffleCanoe.Location = new System.Drawing.Point(298, 7);
+            flagShuffleCanoe.Name = "flagShuffleCanoe";
+            flagShuffleCanoe.Size = new System.Drawing.Size(100, 19);
+            flagShuffleCanoe.TabIndex = 101;
+            flagShuffleCanoe.Text = "Shuffle Canoe";
+            flagShuffleCanoe.UseVisualStyleBackColor = true;
+            flagShuffleCanoe.CheckedChanged += DetermineFlags;
+            // 
+            // flagDockAnywhere
+            // 
+            flagDockAnywhere.AutoSize = true;
+            flagDockAnywhere.Location = new System.Drawing.Point(157, 7);
+            flagDockAnywhere.Name = "flagDockAnywhere";
+            flagDockAnywhere.Size = new System.Drawing.Size(135, 19);
+            flagDockAnywhere.TabIndex = 100;
+            flagDockAnywhere.Text = "Dock Ship Anywhere";
+            flagDockAnywhere.UseVisualStyleBackColor = true;
+            flagDockAnywhere.CheckedChanged += DetermineFlags;
             // 
             // groupBox6
             // 
@@ -961,11 +988,24 @@
             modeShuffleNPCs.TabIndex = 51;
             modeShuffleNPCs.SelectedIndexChanged += DetermineFlags;
             // 
+            // btnLoadFlags
+            // 
+            btnLoadFlags.Location = new System.Drawing.Point(351, 38);
+            btnLoadFlags.Margin = new System.Windows.Forms.Padding(2);
+            btnLoadFlags.Name = "btnLoadFlags";
+            btnLoadFlags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            btnLoadFlags.Size = new System.Drawing.Size(64, 25);
+            btnLoadFlags.TabIndex = 33;
+            btnLoadFlags.Text = "Load";
+            btnLoadFlags.UseVisualStyleBackColor = true;
+            btnLoadFlags.Click += btnLoadFlags_Click;
+            // 
             // FF1PRR
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(682, 520);
+            Controls.Add(btnLoadFlags);
             Controls.Add(tabControl);
             Controls.Add(btnRestoreVanilla);
             Controls.Add(label6);
@@ -1079,5 +1119,8 @@
         private System.Windows.Forms.CheckBox flagBossShuffle;
         private System.Windows.Forms.GroupBox groupBox8;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox flagDockAnywhere;
+        private System.Windows.Forms.CheckBox flagShuffleCanoe;
+        private System.Windows.Forms.Button btnLoadFlags;
     }
 }
