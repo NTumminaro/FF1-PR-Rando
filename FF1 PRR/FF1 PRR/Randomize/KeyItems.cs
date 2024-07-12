@@ -58,7 +58,7 @@ namespace FF1_PRR.Randomize
 			vampire = 11,
 			sage = 12,
 			lich = 13,
-			crescentLake = 14,
+			lukahn = 14,
 			marilith = 15,
 			iceCave = 16,
 			airship = 17,
@@ -70,7 +70,7 @@ namespace FF1_PRR.Randomize
 			lefein = 23,
 			ordeals = 24,
 			adamantite = 25,
-			tiamat = 26
+			tiamat = 26,
 		}
 
 		private class locationData
@@ -85,13 +85,16 @@ namespace FF1_PRR.Randomize
 			}
 		}
 
-		public KeyItems(Random r1, string directory)
+		public KeyItems(Random r1, string directory, bool flagDockAnywhere, bool flagShuffleCanoe)
 		{
 			List<locationData> ld = new List<locationData>();
 			List<int> complete = new List<int>();
 
 			Process p = new Process();
-			p.StartInfo = new ProcessStartInfo(Path.Combine("clingo", "clingo"), Path.Combine("clingo", "KeyItemSolvingShip.lp") + " " + Path.Combine("clingo", "KeyItemDataShip.lp") + " --sign-def=3 --seed=" + r1.Next().ToString().Trim() + " --outf=2")
+			string keyItemDataFile = flagDockAnywhere ? "KeyItemDataShipDockAnywhere.lp" : "KeyItemDataShip.lp";
+			string keyItemSolvingFile = flagShuffleCanoe ? "KeyItemSolvingShipShuffleCanoe.lp" : "KeyItemSolvingShip.lp";
+
+			p.StartInfo = new ProcessStartInfo(Path.Combine("clingo", "clingo"), Path.Combine("clingo", keyItemSolvingFile) + " " + Path.Combine("clingo", keyItemDataFile) + " --sign-def=3 --seed=" + r1.Next().ToString().Trim() + " --outf=2")
 			{
 				RedirectStandardOutput = true,
 				UseShellExecute = false
@@ -136,6 +139,7 @@ namespace FF1_PRR.Randomize
 					case "water": keyItem = (int)flags.waterCrystal; break;
 					case "air": keyItem = (int)flags.airCrystal; break;
 					case "lufienish": keyItem = (int)flags.learnLufuin; break;
+					case "canoe": keyItem = (int)flags.canoe; break;
 				}
 
 				switch (values[1])
@@ -164,6 +168,7 @@ namespace FF1_PRR.Randomize
 					case "kraken": location = (int)locations.kraken; break;
 					case "tiamat": location = (int)locations.tiamat; break;
 					case "dr_unne": location = (int)locations.unne; break;
+					case "lukahn": location = (int)locations.lukahn; break; // Added lukahn
 				}
 
 				if (keyItem != -1 && location != -1)
@@ -202,7 +207,7 @@ namespace FF1_PRR.Randomize
 					case (int)locations.vampire: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30031", "Map_30031_3", "sc_e_0017.json")); break;
 					case (int)locations.sage: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20101", "Map_20101_1", "sc_e_0019.json")); break;
 					case (int)locations.lich: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30031", "Map_30031_5", "sc_e_0021_2.json")); break;
-					case (int)locations.crescentLake: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20110", "Map_20110", "sc_e_0022.json")); break;
+					case (int)locations.lukahn: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_20110", "Map_20110", "sc_e_0022.json")); break;
 					case (int)locations.marilith: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30051", "Map_30051_6", "sc_e_0023_2.json")); break;
 					case (int)locations.iceCave: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_30061", "Map_30061_4", "sc_e_0024_2.json")); break;
 					case (int)locations.airship: file = Inventory.Updater.MemoriaToMagiciteFile(directory, Path.Combine("Map", "Map_10010", "Map_10010", "sc_e_0025_4.json")); break;
@@ -228,185 +233,383 @@ namespace FF1_PRR.Randomize
 			// SetVehicle - 3/145/160 for airship.  4/145/162 for ship.
 		}
 
+		// 		private void JsonRewrite(string fileName, locationData loc)
+		// 		{
+		// 			string json = File.ReadAllText(fileName);
+		// 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
+		// 			foreach (var singleScript in jEvents.Mnemonics)
+		// 			{
+		// 				if (singleScript.mnemonic == "MsgFunfare")
+		// 					singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
+		// 				if (singleScript.mnemonic == "GetItem" && singleScript.operands.iValues[1] >= 0)
+		// 				{
+		// 					int keyItem = 2;
+		// 					switch (loc.keyItem)
+		// 					{
+		// 						case (int)flags.floater: keyItem = 55; break;
+		// 						case (int)flags.chime: keyItem = 56; break;
+		// 						case (int)flags.cube: keyItem = 58; break;
+		// 						case (int)flags.oxyale: keyItem = 60; break;
+		// 						case (int)flags.crown: keyItem = 46; break;
+		// 						case (int)flags.crystalEye: keyItem = 47; break;
+		// 						case (int)flags.joltTonic: keyItem = 48; break;
+		// 						case (int)flags.mysticKey: keyItem = 49; break;
+		// 						case (int)flags.nitroPowder: keyItem = 50; break;
+		// 						case (int)flags.starRuby: keyItem = 53; break;
+		// 						case (int)flags.rod: keyItem = 54; break;
+		// 						case (int)flags.slab: keyItem = 52; break;
+		// 						case (int)flags.adamantite: keyItem = 51; break;
+		// 						case (int)flags.lute: keyItem = 45; break;
+		// 						case (int)flags.ratTail: keyItem = 57; break;
+		// 						case (int)flags.excalibur: keyItem = 92; break;
+		// 					}
+		// 					singleScript.operands.iValues[0] = keyItem;
+		// 					singleScript.operands.iValues[1] = keyItem == 2 ? 0 : 1;
+		// 				}
+		// 				if (singleScript.mnemonic == "SetFlag" && singleScript.operands.iValues[0] < 100 && singleScript.operands.sValues[0] == "ScenarioFlag1")
+		// 					singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
+		// 			}
+
+		// 			JsonSerializer serializer = new JsonSerializer();
+
+		// 			using (StreamWriter sw = new StreamWriter(fileName))
+		// 			using (JsonWriter writer = new JsonTextWriter(sw))
+		// 			{
+		// 				serializer.Serialize(writer, jEvents);
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// private void JsonRewrite(string fileName, locationData loc)
+		// {
+		// 	string json = File.ReadAllText(fileName);
+		// 	EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
+		// 	var mnemonicsList = jEvents.Mnemonics.ToList();
+
+		// 	// Remove the SysCall for the canoe if it is being placed elsewhere
+		// 	if (loc.keyItem != (int)flags.canoe)
+		// 	{
+		// 		mnemonicsList.RemoveAll(m => m.mnemonic == "SysCall" && m.operands.sValues[0] == "カヌーの入手");
+		// 	}
+
+		// 	// Flag to track if we need to add the SysCall for the canoe
+		// 	bool addCanoeSysCall = false;
+		// 	bool placeholderReplaced = false;
+
+		// 	for (int i = 0; i < mnemonicsList.Count; i++)
+		// 	{
+		// 		var singleScript = mnemonicsList[i];
+
+		// 		if (singleScript.mnemonic == "MsgFunfare")
+		// 		{
+		// 			if (loc.keyItem == (int)flags.canoe)
+		// 			{
+		// 				singleScript.operands.sValues[0] = "MSG_GET_CANOE_02";
+		// 			}
+		// 			else
+		// 			{
+		// 				singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
+		// 			}
+		// 		}
+
+		// 		if (singleScript.mnemonic == "GetItem" && singleScript.operands.iValues[1] >= 0)
+		// 		{
+		// 			int keyItem = 2;
+		// 			switch (loc.keyItem)
+		// 			{
+		// 				case (int)flags.floater: keyItem = 55; break;
+		// 				case (int)flags.chime: keyItem = 56; break;
+		// 				case (int)flags.cube: keyItem = 58; break;
+		// 				case (int)flags.oxyale: keyItem = 60; break;
+		// 				case (int)flags.crown: keyItem = 46; break;
+		// 				case (int)flags.crystalEye: keyItem = 47; break;
+		// 				case (int)flags.joltTonic: keyItem = 48; break;
+		// 				case (int)flags.mysticKey: keyItem = 49; break;
+		// 				case (int)flags.nitroPowder: keyItem = 50; break;
+		// 				case (int)flags.starRuby: keyItem = 53; break;
+		// 				case (int)flags.rod: keyItem = 54; break;
+		// 				case (int)flags.slab: keyItem = 52; break;
+		// 				case (int)flags.adamantite: keyItem = 51; break;
+		// 				case (int)flags.lute: keyItem = 45; break;
+		// 				case (int)flags.ratTail: keyItem = 57; break;
+		// 				case (int)flags.excalibur: keyItem = 92; break;
+		// 				case (int)flags.canoe: keyItem = 61; break; // Handle the canoe
+		// 			}
+		// 			singleScript.operands.iValues[0] = keyItem;
+		// 			singleScript.operands.iValues[1] = keyItem == 2 ? 0 : 1;
+
+		// 			// If the item is the canoe, set the flag to add the SysCall
+		// 			if (loc.keyItem == (int)flags.canoe)
+		// 			{
+		// 				addCanoeSysCall = true;
+		// 			}
+		// 		}
+
+		// 		if (singleScript.mnemonic == "SetFlag" && singleScript.operands.iValues[0] < 100 && singleScript.operands.sValues[0] == "ScenarioFlag1")
+		// 		{
+		// 			if (loc.keyItem == (int)flags.canoe)
+		// 			{
+		// 				singleScript.operands.iValues[0] = 22; // Special flag for canoe
+		// 			}
+		// 			else
+		// 			{
+		// 				singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
+		// 			}
+		// 		}
+
+		// 		// Check for the placeholder SysCall and replace it
+		// 		if (singleScript.mnemonic == "SysCall" && singleScript.operands.sValues[0] == "キー入力待ち")
+		// 		{
+		// 			if (loc.keyItem == (int)flags.canoe)
+		// 			{
+		// 				singleScript.operands.sValues[0] = "カヌーの入手"; // Specific SysCall for canoe
+		// 				placeholderReplaced = true;
+		// 			}
+		// 		}
+		// 	}
+
+		// 	// Add the SysCall for the canoe if needed and no placeholder was replaced
+		// 	if (addCanoeSysCall && !placeholderReplaced)
+		// 	{
+		// 		bool foundMsgFunfare = false;
+
+		// 		for (int i = 0; i < mnemonicsList.Count; i++)
+		// 		{
+		// 			if (mnemonicsList[i].mnemonic == "MsgFunfare")
+		// 			{
+		// 				foundMsgFunfare = true;
+		// 			}
+
+		// 			if (foundMsgFunfare && mnemonicsList[i].mnemonic == "Exit")
+		// 			{
+		// 				var canoeSysCall = new EventJSON.Mnemonic
+		// 				{
+		// 					mnemonic = "SysCall",
+		// 					operands = new EventJSON.Operands
+		// 					{
+		// 						iValues = new int?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+		// 						rValues = new float?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+		// 						sValues = new string[] { "カヌーの入手", "", "", "", "", "", "", "" }
+		// 					},
+		// 					type = 1,
+		// 					comment = ""
+		// 				};
+		// 				mnemonicsList.Insert(i, canoeSysCall);
+		// 				break;
+		// 			}
+		// 		}
+		// 	}
+
+		// 	// Serialize and save the updated JSON
+		// 	jEvents.Mnemonics = mnemonicsList.ToArray();
+		// 	string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
+		// 	File.WriteAllText(fileName, updatedJson);
+		// }
+
 		private void JsonRewrite(string fileName, locationData loc)
 		{
 			string json = File.ReadAllText(fileName);
 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
-			foreach (var singleScript in jEvents.Mnemonics)
+			var mnemonicsList = jEvents.Mnemonics.ToList();
+
+			// Replace the SysCall for the canoe and crystals if they are being placed elsewhere
+			if (loc.keyItem != (int)flags.canoe)
 			{
+				ReplaceSysCall(mnemonicsList, "カヌーの入手", "キー入力待ち");
+			}
+			if (!IsCrystal(loc.keyItem))
+			{
+				ReplaceCrystalSysCalls(mnemonicsList);
+			}
+
+			// Flags to track if we need to add the SysCall for the canoe or crystals
+			bool addCanoeSysCall = false;
+			bool addCrystalSysCall = false;
+			bool placeholderReplaced = false;
+
+			for (int i = 0; i < mnemonicsList.Count; i++)
+			{
+				var singleScript = mnemonicsList[i];
+
 				if (singleScript.mnemonic == "MsgFunfare")
-					singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
+				{
+					if (loc.keyItem == (int)flags.canoe)
+					{
+						singleScript.operands.sValues[0] = "MSG_GET_CANOE_02";
+					}
+					else
+					{
+						singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
+					}
+				}
+
 				if (singleScript.mnemonic == "GetItem" && singleScript.operands.iValues[1] >= 0)
 				{
-					int keyItem = 2;
-					switch (loc.keyItem)
-					{
-						case (int)flags.floater: keyItem = 55; break;
-						case (int)flags.chime: keyItem = 56; break;
-						case (int)flags.cube: keyItem = 58; break;
-						case (int)flags.oxyale: keyItem = 60; break;
-						case (int)flags.crown: keyItem = 46; break;
-						case (int)flags.crystalEye: keyItem = 47; break;
-						case (int)flags.joltTonic: keyItem = 48; break;
-						case (int)flags.mysticKey: keyItem = 49; break;
-						case (int)flags.nitroPowder: keyItem = 50; break;
-						case (int)flags.starRuby: keyItem = 53; break;
-						case (int)flags.rod: keyItem = 54; break;
-						case (int)flags.slab: keyItem = 52; break;
-						case (int)flags.adamantite: keyItem = 51; break;
-						case (int)flags.lute: keyItem = 45; break;
-						case (int)flags.ratTail: keyItem = 57; break;
-						case (int)flags.excalibur: keyItem = 92; break;
-					}
+					int keyItem = GetKeyItemValue(loc.keyItem);
 					singleScript.operands.iValues[0] = keyItem;
 					singleScript.operands.iValues[1] = keyItem == 2 ? 0 : 1;
+
+					// If the item is the canoe, set the flag to add the SysCall
+					if (loc.keyItem == (int)flags.canoe)
+					{
+						addCanoeSysCall = true;
+					}
+
+					// If the item is a crystal, set the flag to add the SysCall
+					if (IsCrystal(loc.keyItem))
+					{
+						addCrystalSysCall = true;
+					}
 				}
+
 				if (singleScript.mnemonic == "SetFlag" && singleScript.operands.iValues[0] < 100 && singleScript.operands.sValues[0] == "ScenarioFlag1")
-					singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
+				{
+					if (loc.keyItem == (int)flags.canoe)
+					{
+						singleScript.operands.iValues[0] = 22; // Special flag for canoe
+					}
+					else
+					{
+						singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
+					}
+				}
+
+				// Check for the placeholder SysCall and replace it
+				if (singleScript.mnemonic == "SysCall" && singleScript.operands.sValues[0] == "キー入力待ち")
+				{
+					if (loc.keyItem == (int)flags.canoe)
+					{
+						singleScript.operands.sValues[0] = "カヌーの入手"; // Specific SysCall for canoe
+						placeholderReplaced = true;
+					}
+					else if (IsCrystal(loc.keyItem))
+					{
+						singleScript.operands.sValues[0] = GetCrystalSysCall(loc.keyItem); // Specific SysCall for crystal
+						placeholderReplaced = true;
+					}
+				}
 			}
 
-			JsonSerializer serializer = new JsonSerializer();
-
-			using (StreamWriter sw = new StreamWriter(fileName))
-			using (JsonWriter writer = new JsonTextWriter(sw))
+			// Add the SysCall for the canoe if needed and no placeholder was replaced
+			if (addCanoeSysCall && !placeholderReplaced)
 			{
-				serializer.Serialize(writer, jEvents);
+				AddSysCall(mnemonicsList, "カヌーの入手");
+			}
+
+			// Add the SysCall for the crystal if needed and no placeholder was replaced
+			if (addCrystalSysCall && !placeholderReplaced)
+			{
+				AddSysCall(mnemonicsList, GetCrystalSysCall(loc.keyItem));
+			}
+
+			// Serialize and save the updated JSON
+			jEvents.Mnemonics = mnemonicsList.ToArray();
+			string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
+			File.WriteAllText(fileName, updatedJson);
+		}
+
+		private void ReplaceSysCall(List<EventJSON.Mnemonic> mnemonicsList, string original, string replacement)
+		{
+			foreach (var mnemonic in mnemonicsList)
+			{
+				if (mnemonic.mnemonic == "SysCall" && mnemonic.operands.sValues[0] == original)
+				{
+					mnemonic.operands.sValues[0] = replacement;
+				}
 			}
 		}
+
+		private void ReplaceCrystalSysCalls(List<EventJSON.Mnemonic> mnemonicsList)
+		{
+			foreach (var mnemonic in mnemonicsList)
+			{
+				if (mnemonic.mnemonic == "SysCall" && IsCrystalSysCall(mnemonic.operands.sValues[0]))
+				{
+					mnemonic.operands.sValues[0] = "キー入力待ち";
+				}
+			}
+		}
+
+		private bool IsCrystal(int keyItem)
+		{
+			return keyItem == (int)flags.earthCrystal || keyItem == (int)flags.fireCrystal ||
+						 keyItem == (int)flags.waterCrystal || keyItem == (int)flags.airCrystal;
+		}
+
+		private string GetCrystalSysCall(int keyItem)
+		{
+			return keyItem switch
+			{
+				(int)flags.earthCrystal => "黄色クリスタル点灯",
+				(int)flags.fireCrystal => "赤色クリスタル点灯",
+				(int)flags.waterCrystal => "青色クリスタル点灯",
+				(int)flags.airCrystal => "緑色クリスタル点灯",
+				_ => null,
+			};
+		}
+
+		private void AddSysCall(List<EventJSON.Mnemonic> mnemonicsList, string sysCall)
+		{
+			bool foundMsgFunfare = false;
+
+			for (int i = 0; i < mnemonicsList.Count; i++)
+			{
+				if (mnemonicsList[i].mnemonic == "MsgFunfare")
+				{
+					foundMsgFunfare = true;
+				}
+
+				if (foundMsgFunfare && mnemonicsList[i].mnemonic == "Exit")
+				{
+					var newSysCall = new EventJSON.Mnemonic
+					{
+						mnemonic = "SysCall",
+						operands = new EventJSON.Operands
+						{
+							iValues = new int?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+							rValues = new float?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
+							sValues = new string[] { sysCall, "", "", "", "", "", "", "" }
+						},
+						type = 1,
+						comment = ""
+					};
+					mnemonicsList.Insert(i, newSysCall);
+					break;
+				}
+			}
+		}
+
+		private int GetKeyItemValue(int keyItem)
+		{
+			return keyItem switch
+			{
+				(int)flags.floater => 55,
+				(int)flags.chime => 56,
+				(int)flags.cube => 58,
+				(int)flags.oxyale => 60,
+				(int)flags.crown => 46,
+				(int)flags.crystalEye => 47,
+				(int)flags.joltTonic => 48,
+				(int)flags.mysticKey => 49,
+				(int)flags.nitroPowder => 50,
+				(int)flags.starRuby => 53,
+				(int)flags.rod => 54,
+				(int)flags.slab => 52,
+				(int)flags.adamantite => 51,
+				(int)flags.lute => 45,
+				(int)flags.ratTail => 57,
+				(int)flags.excalibur => 92,
+				(int)flags.canoe => 61, // Handle the canoe
+				_ => 2,
+			};
+		}
+
+		private bool IsCrystalSysCall(string sValue)
+		{
+			return sValue == "黄色クリスタル点灯" || sValue == "赤色クリスタル点灯" ||
+						 sValue == "青色クリスタル点灯" || sValue == "緑色クリスタル点灯";
+		}
+
+
 	}
 }
-
-// 		private void JsonRewrite(string fileName, locationData loc)
-// 		{
-// 			string json = File.ReadAllText(fileName);
-// 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
-
-// 			// Convert mnemonics array to a list
-// 			var mnemonicsList = jEvents.Mnemonics.ToList();
-
-// 			// Create a list to collect mnemonics to remove
-// 			var mnemonicsToRemove = new List<EventJSON.Mnemonic>();
-
-// 			// Create a list to collect new mnemonics to add
-// 			var mnemonicsToAdd = new List<(int Index, EventJSON.Mnemonic Mnemonic)>();
-
-// 			// Loop through mnemonics to remove crystal SysCall mnemonics and update as needed
-// 			for (int i = 0; i < mnemonicsList.Count; i++)
-// 			{
-// 				var singleScript = mnemonicsList[i];
-
-// 				// Remove existing SysCall for the relevant crystals if at a boss location
-// 				if (IsBossLocation(loc.ff1Event) && singleScript.mnemonic == "SysCall" && IsCrystalSysCall((string)singleScript.operands.sValues[0]))
-// 				{
-// 					mnemonicsToRemove.Add(singleScript);
-// 				}
-
-// 				// Update MsgFunfare, GetItem, and SetFlag mnemonics
-// 				if (singleScript.mnemonic == "MsgFunfare")
-// 				{
-// 					singleScript.operands.sValues[0] = "MSG_KEY_" + (loc.keyItem > 0 ? loc.keyItem.ToString() : "A1");
-// 				}
-
-// 				if (singleScript.mnemonic == "GetItem" && singleScript.operands.iValues[1] >= 0)
-// 				{
-// 					int keyItem = GetKeyItemValue(loc.keyItem);
-// 					singleScript.operands.iValues[0] = keyItem;
-// 					singleScript.operands.iValues[1] = keyItem == 2 ? 0 : 1;
-
-// 					// Add new SysCall if the key item is a crystal
-// 					string crystalName = GetCrystalName(loc.keyItem);
-// 					if (!string.IsNullOrEmpty(crystalName))
-// 					{
-// 						var newSysCall = new EventJSON.Mnemonic
-// 						{
-// 							mnemonic = "SysCall",
-// 							operands = new EventJSON.Operands
-// 							{
-// 								iValues = new int?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-// 								rValues = new float?[] { 0, 0, 0, 0, 0, 0, 0, 0 },
-// 								sValues = new string[] { crystalName, "", "", "", "", "", "", "" }
-// 							},
-// 							type = 1,
-// 							comment = "",
-// 							label = singleScript.label ?? ""
-// 						};
-
-// 						mnemonicsToAdd.Add((i + 1, newSysCall));
-// 					}
-// 				}
-
-// 				if (singleScript.mnemonic == "SetFlag" && singleScript.operands.iValues[0] < 100 && singleScript.operands.sValues[0] == "ScenarioFlag1")
-// 				{
-// 					singleScript.operands.iValues[0] = loc.keyItem > 0 ? loc.keyItem : 0;
-// 				}
-// 			}
-
-// 			// Remove the collected mnemonics
-// 			foreach (var mnemonic in mnemonicsToRemove)
-// 			{
-// 				mnemonicsList.Remove(mnemonic);
-// 			}
-
-// 			// Add the new SysCall mnemonics at the specified indexes
-// 			foreach (var newMnemonic in mnemonicsToAdd.OrderByDescending(m => m.Index))
-// 			{
-// 				mnemonicsList.Insert(newMnemonic.Index, newMnemonic.Mnemonic);
-// 			}
-
-// 			// Convert the list back to an array
-// 			jEvents.Mnemonics = mnemonicsList.ToArray();
-
-// 			string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
-// 			File.WriteAllText(fileName, updatedJson);
-// 		}
-
-// 		private bool IsCrystalSysCall(string sValue)
-// 		{
-// 			return sValue == "黄色クリスタル点灯" || sValue == "赤色クリスタル点灯" || sValue == "青色クリスタル点灯" || sValue == "緑色クリスタル点灯";
-// 		}
-
-// 		private string GetCrystalName(int keyItem)
-// 		{
-// 			switch (keyItem)
-// 			{
-// 				case (int)flags.earthCrystal: return "黄色クリスタル点灯";
-// 				case (int)flags.fireCrystal: return "赤色クリスタル点灯";
-// 				case (int)flags.waterCrystal: return "青色クリスタル点灯";
-// 				case (int)flags.airCrystal: return "緑色クリスタル点灯";
-// 				default: return null;
-// 			}
-// 		}
-
-// 		private int GetKeyItemValue(int keyItem)
-// 		{
-// 			switch (keyItem)
-// 			{
-// 				case (int)flags.floater: return 55;
-// 				case (int)flags.chime: return 56;
-// 				case (int)flags.cube: return 58;
-// 				case (int)flags.oxyale: return 60;
-// 				case (int)flags.crown: return 46;
-// 				case (int)flags.crystalEye: return 47;
-// 				case (int)flags.joltTonic: return 48;
-// 				case (int)flags.mysticKey: return 49;
-// 				case (int)flags.nitroPowder: return 50;
-// 				case (int)flags.starRuby: return 53;
-// 				case (int)flags.rod: return 54;
-// 				case (int)flags.slab: return 52;
-// 				case (int)flags.adamantite: return 51;
-// 				case (int)flags.lute: return 45;
-// 				case (int)flags.ratTail: return 57;
-// 				case (int)flags.excalibur: return 92;
-// 				default: return 2;
-// 			}
-// 		}
-
-// 		private bool IsBossLocation(int ff1Event)
-// 		{
-// 			return ff1Event == (int)locations.tiamat ||
-// 						 ff1Event == (int)locations.kraken ||
-// 						 ff1Event == (int)locations.lich ||
-// 						 ff1Event == (int)locations.marilith;
-// 		}
-// 	}
-// }

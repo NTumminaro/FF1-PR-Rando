@@ -1,15 +1,14 @@
-﻿
-namespace FF1_PRR
+﻿namespace FF1_PRR
 {
     partial class FF1PRR
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -24,8 +23,7 @@ namespace FF1_PRR
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
@@ -33,12 +31,9 @@ namespace FF1_PRR
             btnRandomize = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             FF1PRFolder = new System.Windows.Forms.TextBox();
-            CuteHats = new System.Windows.Forms.CheckBox();
-            flagBossShuffle = new System.Windows.Forms.CheckBox();
             flagJackInTheBox = new System.Windows.Forms.CheckBox();
             flagKeyItems = new System.Windows.Forms.CheckBox();
             label2 = new System.Windows.Forms.Label();
-            chaosHpLabel = new System.Windows.Forms.Label();
             RandoFlags = new System.Windows.Forms.TextBox();
             NewChecksum = new System.Windows.Forms.Label();
             RandoSeed = new System.Windows.Forms.TextBox();
@@ -51,8 +46,6 @@ namespace FF1_PRR
             modeShops = new System.Windows.Forms.ComboBox();
             flagShopsTrad = new System.Windows.Forms.CheckBox();
             label6 = new System.Windows.Forms.Label();
-            flagMagicShuffleShops = new System.Windows.Forms.CheckBox();
-            flagMagicKeepPermissions = new System.Windows.Forms.CheckBox();
             label7 = new System.Windows.Forms.Label();
             modeXPBoost = new System.Windows.Forms.ComboBox();
             toolTip1 = new System.Windows.Forms.ToolTip(components);
@@ -65,23 +58,25 @@ namespace FF1_PRR
             flagRebalancePrices = new System.Windows.Forms.CheckBox();
             flagRestoreCritRating = new System.Windows.Forms.CheckBox();
             flagWandsAddInt = new System.Windows.Forms.CheckBox();
-            flagFiendsDropRibbons = new System.Windows.Forms.CheckBox();
-            flagRebalanceBosses = new System.Windows.Forms.CheckBox();
             btnRestoreVanilla = new System.Windows.Forms.Button();
             flagReduceEncounterRate = new System.Windows.Forms.CheckBox();
             flagReduceChaosHP = new System.Windows.Forms.CheckBox();
-            label9 = new System.Windows.Forms.Label();
-            modeMagic = new System.Windows.Forms.ComboBox();
-            flagNoEscapeNES = new System.Windows.Forms.CheckBox();
-            flagNoEscapeRandomize = new System.Windows.Forms.CheckBox();
-            label10 = new System.Windows.Forms.Label();
-            modeMonsterStatAdjustment = new System.Windows.Forms.ComboBox();
             label11 = new System.Windows.Forms.Label();
             modeHeroStats = new System.Windows.Forms.ComboBox();
             flagHeroStatsStandardize = new System.Windows.Forms.CheckBox();
             statExplanation = new System.Windows.Forms.Button();
             flagBoostPromoted = new System.Windows.Forms.CheckBox();
-            chaosHpTrackBar = new System.Windows.Forms.TrackBar();
+            modeMonsterStatAdjustment = new System.Windows.Forms.ComboBox();
+            label15 = new System.Windows.Forms.Label();
+            flagNoEscapeRandomize = new System.Windows.Forms.CheckBox();
+            flagNoEscapeNES = new System.Windows.Forms.CheckBox();
+            flagRebalanceBosses = new System.Windows.Forms.CheckBox();
+            flagFiendsDropRibbons = new System.Windows.Forms.CheckBox();
+            flagBossShuffle = new System.Windows.Forms.CheckBox();
+            label17 = new System.Windows.Forms.Label();
+            flagMagicShuffleShops = new System.Windows.Forms.CheckBox();
+            modeMagic = new System.Windows.Forms.ComboBox();
+            flagMagicKeepPermissions = new System.Windows.Forms.CheckBox();
             label12 = new System.Windows.Forms.Label();
             label13 = new System.Windows.Forms.Label();
             currentSelectionsListBox = new System.Windows.Forms.ListBox();
@@ -89,14 +84,38 @@ namespace FF1_PRR
             groupBox1 = new System.Windows.Forms.GroupBox();
             groupBox2 = new System.Windows.Forms.GroupBox();
             groupBox3 = new System.Windows.Forms.GroupBox();
-            groupBox4 = new System.Windows.Forms.GroupBox();
             groupBox5 = new System.Windows.Forms.GroupBox();
-            ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).BeginInit();
+            tabControl = new System.Windows.Forms.TabControl();
+            tabPageSettings = new System.Windows.Forms.TabPage();
+            flagShuffleCanoe = new System.Windows.Forms.CheckBox();
+            flagDockAnywhere = new System.Windows.Forms.CheckBox();
+            groupBox6 = new System.Windows.Forms.GroupBox();
+            groupBox4 = new System.Windows.Forms.GroupBox();
+            chaosHpLabel = new System.Windows.Forms.Label();
+            chaosHpTrackBar = new System.Windows.Forms.TrackBar();
+            flagSecretChaos = new System.Windows.Forms.CheckBox();
+            tabPageCosmetics = new System.Windows.Forms.TabPage();
+            groupBox7 = new System.Windows.Forms.GroupBox();
+            label14 = new System.Windows.Forms.Label();
+            modeBoatSprite = new System.Windows.Forms.ComboBox();
+            label10 = new System.Windows.Forms.Label();
+            modeAirshipSprite = new System.Windows.Forms.ComboBox();
+            groupBox8 = new System.Windows.Forms.GroupBox();
+            label9 = new System.Windows.Forms.Label();
+            modeShuffleNPCs = new System.Windows.Forms.ComboBox();
+            btnLoadFlags = new System.Windows.Forms.Button();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
-            groupBox4.SuspendLayout();
             groupBox5.SuspendLayout();
+            tabControl.SuspendLayout();
+            tabPageSettings.SuspendLayout();
+            groupBox6.SuspendLayout();
+            groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).BeginInit();
+            tabPageCosmetics.SuspendLayout();
+            groupBox7.SuspendLayout();
+            groupBox8.SuspendLayout();
             SuspendLayout();
             // 
             // btnRandomize
@@ -114,7 +133,7 @@ namespace FF1_PRR
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(10, 9);
+            label1.Location = new System.Drawing.Point(14, 14);
             label1.Margin = new System.Windows.Forms.Padding(2);
             label1.Name = "label1";
             label1.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -131,41 +150,10 @@ namespace FF1_PRR
             FF1PRFolder.TabIndex = 2;
             FF1PRFolder.Text = "C:\\Program Files (x86)\\Steam\\steamapps\\common\\FINAL FANTASY PR";
             // 
-            // CuteHats
-            // 
-            CuteHats.AutoSize = true;
-            CuteHats.Location = new System.Drawing.Point(424, 96);
-            CuteHats.Margin = new System.Windows.Forms.Padding(2);
-            CuteHats.Name = "CuteHats";
-            CuteHats.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            CuteHats.Size = new System.Drawing.Size(84, 23);
-            CuteHats.TabIndex = 3;
-            CuteHats.Text = "Cute Hats";
-            toolTip1.SetToolTip(CuteHats, "Your hat is cute.");
-            CuteHats.UseVisualStyleBackColor = true;
-            CuteHats.Visible = false;
-            CuteHats.Click += DetermineFlags;
-            // 
-            // flagBossShuffle
-            // 
-            flagBossShuffle.AutoSize = true;
-            flagBossShuffle.Enabled = false;
-            flagBossShuffle.Location = new System.Drawing.Point(150, 37);
-            flagBossShuffle.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            flagBossShuffle.Name = "flagBossShuffle";
-            flagBossShuffle.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagBossShuffle.Size = new System.Drawing.Size(128, 23);
-            flagBossShuffle.TabIndex = 4;
-            flagBossShuffle.Text = "Shuffle Boss Spots";
-            toolTip1.SetToolTip(flagBossShuffle, "Change which boss appears at which boss location.");
-            flagBossShuffle.UseVisualStyleBackColor = true;
-            flagBossShuffle.Visible = false;
-            flagBossShuffle.CheckedChanged += DetermineFlags;
-            // 
             // flagJackInTheBox
             // 
             flagJackInTheBox.AutoSize = true;
-            flagJackInTheBox.Location = new System.Drawing.Point(156, 96);
+            flagJackInTheBox.Location = new System.Drawing.Point(7, 25);
             flagJackInTheBox.Margin = new System.Windows.Forms.Padding(2);
             flagJackInTheBox.Name = "flagJackInTheBox";
             flagJackInTheBox.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -181,7 +169,7 @@ namespace FF1_PRR
             flagKeyItems.AutoSize = true;
             flagKeyItems.Checked = true;
             flagKeyItems.CheckState = System.Windows.Forms.CheckState.Checked;
-            flagKeyItems.Location = new System.Drawing.Point(10, 96);
+            flagKeyItems.Location = new System.Drawing.Point(7, 5);
             flagKeyItems.Margin = new System.Windows.Forms.Padding(2);
             flagKeyItems.Name = "flagKeyItems";
             flagKeyItems.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -203,22 +191,12 @@ namespace FF1_PRR
             label2.TabIndex = 6;
             label2.Text = "Gameplay Flags";
             // 
-            // chaosHpLabel
-            // 
-            chaosHpLabel.AutoSize = true;
-            chaosHpLabel.BackColor = System.Drawing.Color.Transparent;
-            chaosHpLabel.Location = new System.Drawing.Point(232, 49);
-            chaosHpLabel.Name = "chaosHpLabel";
-            chaosHpLabel.Size = new System.Drawing.Size(89, 15);
-            chaosHpLabel.TabIndex = 36;
-            chaosHpLabel.Text = "Chaos HP: 9999";
-            // 
             // RandoFlags
             // 
             RandoFlags.Location = new System.Drawing.Point(112, 39);
             RandoFlags.Margin = new System.Windows.Forms.Padding(2);
             RandoFlags.Name = "RandoFlags";
-            RandoFlags.Size = new System.Drawing.Size(303, 23);
+            RandoFlags.Size = new System.Drawing.Size(230, 23);
             RandoFlags.TabIndex = 7;
             // 
             // NewChecksum
@@ -323,7 +301,7 @@ namespace FF1_PRR
             // flagShopsTrad
             // 
             flagShopsTrad.AutoSize = true;
-            flagShopsTrad.Location = new System.Drawing.Point(247, 18);
+            flagShopsTrad.Location = new System.Drawing.Point(247, 22);
             flagShopsTrad.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             flagShopsTrad.Name = "flagShopsTrad";
             flagShopsTrad.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -342,34 +320,6 @@ namespace FF1_PRR
             label6.Name = "label6";
             label6.Size = new System.Drawing.Size(0, 15);
             label6.TabIndex = 18;
-            // 
-            // flagMagicShuffleShops
-            // 
-            flagMagicShuffleShops.AutoSize = true;
-            flagMagicShuffleShops.Location = new System.Drawing.Point(10, 45);
-            flagMagicShuffleShops.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            flagMagicShuffleShops.Name = "flagMagicShuffleShops";
-            flagMagicShuffleShops.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagMagicShuffleShops.Size = new System.Drawing.Size(104, 23);
-            flagMagicShuffleShops.TabIndex = 19;
-            flagMagicShuffleShops.Text = "Shuffle Shops";
-            toolTip1.SetToolTip(flagMagicShuffleShops, "Change which spell level is available at each shop.");
-            flagMagicShuffleShops.UseVisualStyleBackColor = true;
-            flagMagicShuffleShops.CheckedChanged += DetermineFlags;
-            // 
-            // flagMagicKeepPermissions
-            // 
-            flagMagicKeepPermissions.AutoSize = true;
-            flagMagicKeepPermissions.Location = new System.Drawing.Point(131, 44);
-            flagMagicKeepPermissions.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            flagMagicKeepPermissions.Name = "flagMagicKeepPermissions";
-            flagMagicKeepPermissions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagMagicKeepPermissions.Size = new System.Drawing.Size(124, 23);
-            flagMagicKeepPermissions.TabIndex = 20;
-            flagMagicKeepPermissions.Text = "&Keep Permissions";
-            toolTip1.SetToolTip(flagMagicKeepPermissions, "Preserve who may learn each spell, rather than adjusting to the spell's new slot. (eg, level 1 Flare can still only be learned by Black Wizard)");
-            flagMagicKeepPermissions.UseVisualStyleBackColor = true;
-            flagMagicKeepPermissions.CheckedChanged += DetermineFlags;
             // 
             // label7
             // 
@@ -459,7 +409,7 @@ namespace FF1_PRR
             // 
             flagTreasureTrad.AutoSize = true;
             flagTreasureTrad.Enabled = false;
-            flagTreasureTrad.Location = new System.Drawing.Point(247, 47);
+            flagTreasureTrad.Location = new System.Drawing.Point(247, 50);
             flagTreasureTrad.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             flagTreasureTrad.Name = "flagTreasureTrad";
             flagTreasureTrad.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -512,34 +462,6 @@ namespace FF1_PRR
             flagWandsAddInt.UseVisualStyleBackColor = true;
             flagWandsAddInt.CheckedChanged += DetermineFlags;
             // 
-            // flagFiendsDropRibbons
-            // 
-            flagFiendsDropRibbons.AutoSize = true;
-            flagFiendsDropRibbons.Location = new System.Drawing.Point(4, 64);
-            flagFiendsDropRibbons.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            flagFiendsDropRibbons.Name = "flagFiendsDropRibbons";
-            flagFiendsDropRibbons.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagFiendsDropRibbons.Size = new System.Drawing.Size(140, 23);
-            flagFiendsDropRibbons.TabIndex = 5;
-            flagFiendsDropRibbons.Text = "Fiends drop Ribbons";
-            toolTip1.SetToolTip(flagFiendsDropRibbons, "Receive Ribbons for defeating each elemental dungeon boss, and remove them from shops and chests.");
-            flagFiendsDropRibbons.UseVisualStyleBackColor = true;
-            flagFiendsDropRibbons.CheckedChanged += DetermineFlags;
-            // 
-            // flagRebalanceBosses
-            // 
-            flagRebalanceBosses.AutoSize = true;
-            flagRebalanceBosses.Location = new System.Drawing.Point(5, 41);
-            flagRebalanceBosses.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            flagRebalanceBosses.Name = "flagRebalanceBosses";
-            flagRebalanceBosses.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagRebalanceBosses.Size = new System.Drawing.Size(106, 23);
-            flagRebalanceBosses.TabIndex = 6;
-            flagRebalanceBosses.Text = "Harder bosses";
-            toolTip1.SetToolTip(flagRebalanceBosses, "Increase HP of several bosses, notably Death Eye and the Fiend refights.");
-            flagRebalanceBosses.UseVisualStyleBackColor = true;
-            flagRebalanceBosses.CheckedChanged += DetermineFlags;
-            // 
             // btnRestoreVanilla
             // 
             btnRestoreVanilla.Location = new System.Drawing.Point(455, 490);
@@ -574,119 +496,42 @@ namespace FF1_PRR
             flagReduceChaosHP.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             flagReduceChaosHP.Name = "flagReduceChaosHP";
             flagReduceChaosHP.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagReduceChaosHP.Size = new System.Drawing.Size(126, 23);
+            flagReduceChaosHP.Size = new System.Drawing.Size(125, 23);
             flagReduceChaosHP.TabIndex = 7;
             flagReduceChaosHP.Text = "Modify Chaos HP";
             toolTip1.SetToolTip(flagReduceChaosHP, "Decrease HP of Chaos to 9600.");
             flagReduceChaosHP.UseVisualStyleBackColor = true;
             flagReduceChaosHP.CheckedChanged += DetermineFlags;
             // 
-            // label9
-            // 
-            label9.AutoSize = true;
-            label9.Location = new System.Drawing.Point(7, 22);
-            label9.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            label9.Name = "label9";
-            label9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            label9.Size = new System.Drawing.Size(49, 19);
-            label9.TabIndex = 21;
-            label9.Text = "&Magic:";
-            toolTip1.SetToolTip(label9, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
-            // 
-            // modeMagic
-            // 
-            modeMagic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            modeMagic.FormattingEnabled = true;
-            modeMagic.Items.AddRange(new object[] { "None", "Standard", "Pro", "Wild", "Chaos" });
-            modeMagic.Location = new System.Drawing.Point(106, 21);
-            modeMagic.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            modeMagic.Name = "modeMagic";
-            modeMagic.Size = new System.Drawing.Size(133, 23);
-            modeMagic.TabIndex = 22;
-            toolTip1.SetToolTip(modeMagic, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
-            modeMagic.SelectedIndexChanged += DetermineFlags;
-            // 
-            // flagNoEscapeNES
-            // 
-            flagNoEscapeNES.AutoSize = true;
-            flagNoEscapeNES.Location = new System.Drawing.Point(4, 87);
-            flagNoEscapeNES.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            flagNoEscapeNES.Name = "flagNoEscapeNES";
-            flagNoEscapeNES.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagNoEscapeNES.Size = new System.Drawing.Size(159, 23);
-            flagNoEscapeNES.TabIndex = 8;
-            flagNoEscapeNES.Text = "\"No Escape\" Encounters";
-            toolTip1.SetToolTip(flagNoEscapeNES, "Change which boss appears at which boss location.");
-            flagNoEscapeNES.UseVisualStyleBackColor = true;
-            flagNoEscapeNES.CheckedChanged += DetermineFlags;
-            // 
-            // flagNoEscapeRandomize
-            // 
-            flagNoEscapeRandomize.AutoSize = true;
-            flagNoEscapeRandomize.Location = new System.Drawing.Point(164, 64);
-            flagNoEscapeRandomize.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
-            flagNoEscapeRandomize.Name = "flagNoEscapeRandomize";
-            flagNoEscapeRandomize.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagNoEscapeRandomize.Size = new System.Drawing.Size(221, 23);
-            flagNoEscapeRandomize.TabIndex = 9;
-            flagNoEscapeRandomize.Text = "Randomize \"No Escape\" Encounters";
-            toolTip1.SetToolTip(flagNoEscapeRandomize, "Change which boss appears at which boss location.");
-            flagNoEscapeRandomize.UseVisualStyleBackColor = true;
-            flagNoEscapeRandomize.CheckedChanged += DetermineFlags;
-            // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new System.Drawing.Point(164, 94);
-            label10.Name = "label10";
-            label10.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            label10.Size = new System.Drawing.Size(98, 19);
-            label10.TabIndex = 22;
-            label10.Text = "Stat Adjustment";
-            toolTip1.SetToolTip(label10, "How much to increase earned XP and Gil.");
-            // 
-            // modeMonsterStatAdjustment
-            // 
-            modeMonsterStatAdjustment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            modeMonsterStatAdjustment.FormattingEnabled = true;
-            modeMonsterStatAdjustment.Items.AddRange(new object[] { "100%", "66%-150%", "50%-200%", "33%-300%", "25%-400%", "20%-500%", "100%-125%", "100%-150%", "100%-200%", "100%-300%", "100%-400%", "100%-500%" });
-            modeMonsterStatAdjustment.Location = new System.Drawing.Point(267, 91);
-            modeMonsterStatAdjustment.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
-            modeMonsterStatAdjustment.Name = "modeMonsterStatAdjustment";
-            modeMonsterStatAdjustment.Size = new System.Drawing.Size(133, 23);
-            modeMonsterStatAdjustment.TabIndex = 23;
-            toolTip1.SetToolTip(modeMonsterStatAdjustment, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
-            modeMonsterStatAdjustment.SelectedIndexChanged += DetermineFlags;
-            // 
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new System.Drawing.Point(5, 71);
+            label11.Location = new System.Drawing.Point(2, 18);
             label11.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             label11.Name = "label11";
             label11.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             label11.Size = new System.Drawing.Size(70, 19);
             label11.TabIndex = 23;
             label11.Text = "Hero Stats:";
-            toolTip1.SetToolTip(label11, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
+            toolTip1.SetToolTip(label11, "Stat Scaling for Player Stats.");
             // 
             // modeHeroStats
             // 
             modeHeroStats.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             modeHeroStats.FormattingEnabled = true;
             modeHeroStats.Items.AddRange(new object[] { "None", "Shuffle", "Standard", "Silly", "Wild", "Chaos" });
-            modeHeroStats.Location = new System.Drawing.Point(106, 70);
+            modeHeroStats.Location = new System.Drawing.Point(75, 16);
             modeHeroStats.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             modeHeroStats.Name = "modeHeroStats";
             modeHeroStats.Size = new System.Drawing.Size(133, 23);
             modeHeroStats.TabIndex = 24;
-            toolTip1.SetToolTip(modeHeroStats, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
+            toolTip1.SetToolTip(modeHeroStats, "Stat Scaling for Player Stats.");
             modeHeroStats.SelectedIndexChanged += DetermineFlags;
             // 
             // flagHeroStatsStandardize
             // 
             flagHeroStatsStandardize.AutoSize = true;
-            flagHeroStatsStandardize.Location = new System.Drawing.Point(106, 98);
+            flagHeroStatsStandardize.Location = new System.Drawing.Point(238, 16);
             flagHeroStatsStandardize.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             flagHeroStatsStandardize.Name = "flagHeroStatsStandardize";
             flagHeroStatsStandardize.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -699,11 +544,11 @@ namespace FF1_PRR
             // 
             // statExplanation
             // 
-            statExplanation.Location = new System.Drawing.Point(245, 70);
+            statExplanation.Location = new System.Drawing.Point(211, 16);
             statExplanation.Margin = new System.Windows.Forms.Padding(2);
             statExplanation.Name = "statExplanation";
             statExplanation.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            statExplanation.Size = new System.Drawing.Size(24, 25);
+            statExplanation.Size = new System.Drawing.Size(24, 23);
             statExplanation.TabIndex = 28;
             statExplanation.Text = "?";
             toolTip1.SetToolTip(statExplanation, "Undo previous randomization and restore files to a vanilla configuration.");
@@ -713,7 +558,7 @@ namespace FF1_PRR
             // flagBoostPromoted
             // 
             flagBoostPromoted.AutoSize = true;
-            flagBoostPromoted.Location = new System.Drawing.Point(218, 98);
+            flagBoostPromoted.Location = new System.Drawing.Point(324, 16);
             flagBoostPromoted.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             flagBoostPromoted.Name = "flagBoostPromoted";
             flagBoostPromoted.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -724,15 +569,152 @@ namespace FF1_PRR
             flagBoostPromoted.UseVisualStyleBackColor = true;
             flagBoostPromoted.CheckedChanged += DetermineFlags;
             // 
-            // chaosHpTrackBar
+            // modeMonsterStatAdjustment
             // 
-            chaosHpTrackBar.Location = new System.Drawing.Point(167, 15);
-            chaosHpTrackBar.Maximum = 3;
-            chaosHpTrackBar.Name = "chaosHpTrackBar";
-            chaosHpTrackBar.Size = new System.Drawing.Size(235, 45);
-            chaosHpTrackBar.TabIndex = 35;
-            chaosHpTrackBar.Value = 1;
-            chaosHpTrackBar.Scroll += ChaosHpTrackBar_Scroll;
+            modeMonsterStatAdjustment.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeMonsterStatAdjustment.FormattingEnabled = true;
+            modeMonsterStatAdjustment.Items.AddRange(new object[] { "100%", "66%-150%", "50%-200%", "33%-300%", "25%-400%", "20%-500%", "100%-125%", "100%-150%", "100%-200%", "100%-300%", "100%-400%", "100%-500%" });
+            modeMonsterStatAdjustment.Location = new System.Drawing.Point(267, 109);
+            modeMonsterStatAdjustment.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            modeMonsterStatAdjustment.Name = "modeMonsterStatAdjustment";
+            modeMonsterStatAdjustment.Size = new System.Drawing.Size(133, 23);
+            modeMonsterStatAdjustment.TabIndex = 23;
+            toolTip1.SetToolTip(modeMonsterStatAdjustment, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
+            modeMonsterStatAdjustment.SelectedIndexChanged += DetermineFlags;
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new System.Drawing.Point(164, 111);
+            label15.Name = "label15";
+            label15.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            label15.Size = new System.Drawing.Size(98, 19);
+            label15.TabIndex = 22;
+            label15.Text = "Stat Adjustment";
+            toolTip1.SetToolTip(label15, "How much to increase earned XP and Gil.");
+            // 
+            // flagNoEscapeRandomize
+            // 
+            flagNoEscapeRandomize.AutoSize = true;
+            flagNoEscapeRandomize.Location = new System.Drawing.Point(168, 82);
+            flagNoEscapeRandomize.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagNoEscapeRandomize.Name = "flagNoEscapeRandomize";
+            flagNoEscapeRandomize.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagNoEscapeRandomize.Size = new System.Drawing.Size(221, 23);
+            flagNoEscapeRandomize.TabIndex = 9;
+            flagNoEscapeRandomize.Text = "Randomize \"No Escape\" Encounters";
+            toolTip1.SetToolTip(flagNoEscapeRandomize, "Change which boss appears at which boss location.");
+            flagNoEscapeRandomize.UseVisualStyleBackColor = true;
+            flagNoEscapeRandomize.CheckedChanged += DetermineFlags;
+            // 
+            // flagNoEscapeNES
+            // 
+            flagNoEscapeNES.AutoSize = true;
+            flagNoEscapeNES.Location = new System.Drawing.Point(3, 85);
+            flagNoEscapeNES.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagNoEscapeNES.Name = "flagNoEscapeNES";
+            flagNoEscapeNES.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagNoEscapeNES.Size = new System.Drawing.Size(159, 23);
+            flagNoEscapeNES.TabIndex = 8;
+            flagNoEscapeNES.Text = "\"No Escape\" Encounters";
+            toolTip1.SetToolTip(flagNoEscapeNES, "Change which boss appears at which boss location.");
+            flagNoEscapeNES.UseVisualStyleBackColor = true;
+            flagNoEscapeNES.CheckedChanged += DetermineFlags;
+            // 
+            // flagRebalanceBosses
+            // 
+            flagRebalanceBosses.AutoSize = true;
+            flagRebalanceBosses.Location = new System.Drawing.Point(4, 41);
+            flagRebalanceBosses.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            flagRebalanceBosses.Name = "flagRebalanceBosses";
+            flagRebalanceBosses.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagRebalanceBosses.Size = new System.Drawing.Size(106, 23);
+            flagRebalanceBosses.TabIndex = 6;
+            flagRebalanceBosses.Text = "Harder bosses";
+            toolTip1.SetToolTip(flagRebalanceBosses, "Increase HP of several bosses, notably Death Eye and the Fiend refights.");
+            flagRebalanceBosses.UseVisualStyleBackColor = true;
+            flagRebalanceBosses.CheckedChanged += DetermineFlags;
+            // 
+            // flagFiendsDropRibbons
+            // 
+            flagFiendsDropRibbons.AutoSize = true;
+            flagFiendsDropRibbons.Location = new System.Drawing.Point(3, 63);
+            flagFiendsDropRibbons.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagFiendsDropRibbons.Name = "flagFiendsDropRibbons";
+            flagFiendsDropRibbons.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagFiendsDropRibbons.Size = new System.Drawing.Size(140, 23);
+            flagFiendsDropRibbons.TabIndex = 5;
+            flagFiendsDropRibbons.Text = "Fiends drop Ribbons";
+            toolTip1.SetToolTip(flagFiendsDropRibbons, "Receive Ribbons for defeating each elemental dungeon boss, and remove them from shops and chests.");
+            flagFiendsDropRibbons.UseVisualStyleBackColor = true;
+            flagFiendsDropRibbons.CheckedChanged += DetermineFlags;
+            // 
+            // flagBossShuffle
+            // 
+            flagBossShuffle.AutoSize = true;
+            flagBossShuffle.Enabled = false;
+            flagBossShuffle.Location = new System.Drawing.Point(3, 107);
+            flagBossShuffle.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagBossShuffle.Name = "flagBossShuffle";
+            flagBossShuffle.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagBossShuffle.Size = new System.Drawing.Size(128, 23);
+            flagBossShuffle.TabIndex = 4;
+            flagBossShuffle.Text = "Shuffle Boss Spots";
+            toolTip1.SetToolTip(flagBossShuffle, "Change which boss appears at which boss location.");
+            flagBossShuffle.UseVisualStyleBackColor = true;
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new System.Drawing.Point(5, 21);
+            label17.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            label17.Name = "label17";
+            label17.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            label17.Size = new System.Drawing.Size(49, 19);
+            label17.TabIndex = 21;
+            label17.Text = "&Magic:";
+            toolTip1.SetToolTip(label17, "Randomize magic spells.");
+            // 
+            // flagMagicShuffleShops
+            // 
+            flagMagicShuffleShops.AutoSize = true;
+            flagMagicShuffleShops.Location = new System.Drawing.Point(64, 53);
+            flagMagicShuffleShops.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            flagMagicShuffleShops.Name = "flagMagicShuffleShops";
+            flagMagicShuffleShops.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagMagicShuffleShops.Size = new System.Drawing.Size(104, 23);
+            flagMagicShuffleShops.TabIndex = 19;
+            flagMagicShuffleShops.Text = "Shuffle Shops";
+            toolTip1.SetToolTip(flagMagicShuffleShops, "Change which spell level is available at each shop.");
+            flagMagicShuffleShops.UseVisualStyleBackColor = true;
+            flagMagicShuffleShops.CheckedChanged += DetermineFlags;
+            // 
+            // modeMagic
+            // 
+            modeMagic.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeMagic.FormattingEnabled = true;
+            modeMagic.Items.AddRange(new object[] { "None", "Standard", "Pro", "Wild", "Chaos" });
+            modeMagic.Location = new System.Drawing.Point(64, 22);
+            modeMagic.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            modeMagic.Name = "modeMagic";
+            modeMagic.Size = new System.Drawing.Size(133, 23);
+            modeMagic.TabIndex = 22;
+            toolTip1.SetToolTip(modeMagic, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
+            modeMagic.SelectedIndexChanged += DetermineFlags;
+            // 
+            // flagMagicKeepPermissions
+            // 
+            flagMagicKeepPermissions.AutoSize = true;
+            flagMagicKeepPermissions.Location = new System.Drawing.Point(64, 73);
+            flagMagicKeepPermissions.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            flagMagicKeepPermissions.Name = "flagMagicKeepPermissions";
+            flagMagicKeepPermissions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagMagicKeepPermissions.Size = new System.Drawing.Size(124, 23);
+            flagMagicKeepPermissions.TabIndex = 20;
+            flagMagicKeepPermissions.Text = "&Keep Permissions";
+            toolTip1.SetToolTip(flagMagicKeepPermissions, "Preserve who may learn each spell, rather than adjusting to the spell's new slot. (eg, level 1 Flare can still only be learned by Black Wizard)");
+            flagMagicKeepPermissions.UseVisualStyleBackColor = true;
+            flagMagicKeepPermissions.CheckedChanged += DetermineFlags;
             // 
             // label12
             // 
@@ -760,11 +742,12 @@ namespace FF1_PRR
             // 
             currentSelectionsListBox.FormattingEnabled = true;
             currentSelectionsListBox.ItemHeight = 15;
-            currentSelectionsListBox.Location = new System.Drawing.Point(9, 112);
+            currentSelectionsListBox.Location = new System.Drawing.Point(9, 109);
             currentSelectionsListBox.Margin = new System.Windows.Forms.Padding(2);
             currentSelectionsListBox.Name = "currentSelectionsListBox";
             currentSelectionsListBox.Size = new System.Drawing.Size(219, 94);
             currentSelectionsListBox.TabIndex = 32;
+            currentSelectionsListBox.SelectedIndexChanged += currentSelectionsListBox_SelectedIndexChanged;
             // 
             // applyButton
             // 
@@ -785,11 +768,11 @@ namespace FF1_PRR
             groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(modeShops);
             groupBox1.Controls.Add(flagShopsTrad);
-            groupBox1.Location = new System.Drawing.Point(6, 124);
+            groupBox1.Location = new System.Drawing.Point(5, 52);
             groupBox1.Margin = new System.Windows.Forms.Padding(2);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new System.Windows.Forms.Padding(2);
-            groupBox1.Size = new System.Drawing.Size(407, 88);
+            groupBox1.Size = new System.Drawing.Size(407, 81);
             groupBox1.TabIndex = 23;
             groupBox1.TabStop = false;
             groupBox1.Text = "Items && Equipment";
@@ -802,11 +785,11 @@ namespace FF1_PRR
             groupBox2.Controls.Add(modeXPBoost);
             groupBox2.Controls.Add(flagRestoreCritRating);
             groupBox2.Controls.Add(label7);
-            groupBox2.Location = new System.Drawing.Point(424, 94);
+            groupBox2.Location = new System.Drawing.Point(418, 5);
             groupBox2.Margin = new System.Windows.Forms.Padding(2);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new System.Windows.Forms.Padding(2);
-            groupBox2.Size = new System.Drawing.Size(240, 150);
+            groupBox2.Size = new System.Drawing.Size(232, 150);
             groupBox2.TabIndex = 24;
             groupBox2.TabStop = false;
             groupBox2.Text = "Balance";
@@ -818,39 +801,14 @@ namespace FF1_PRR
             groupBox3.Controls.Add(flagHeroStatsStandardize);
             groupBox3.Controls.Add(modeHeroStats);
             groupBox3.Controls.Add(label11);
-            groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(flagMagicShuffleShops);
-            groupBox3.Controls.Add(modeMagic);
-            groupBox3.Controls.Add(flagMagicKeepPermissions);
-            groupBox3.Location = new System.Drawing.Point(6, 218);
+            groupBox3.Location = new System.Drawing.Point(5, 281);
             groupBox3.Margin = new System.Windows.Forms.Padding(2);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new System.Windows.Forms.Padding(2);
-            groupBox3.Size = new System.Drawing.Size(407, 127);
+            groupBox3.Size = new System.Drawing.Size(645, 47);
             groupBox3.TabIndex = 25;
             groupBox3.TabStop = false;
-            groupBox3.Text = "Abilities";
-            // 
-            // groupBox4
-            // 
-            groupBox4.Controls.Add(chaosHpLabel);
-            groupBox4.Controls.Add(modeMonsterStatAdjustment);
-            groupBox4.Controls.Add(label10);
-            groupBox4.Controls.Add(flagNoEscapeRandomize);
-            groupBox4.Controls.Add(flagNoEscapeNES);
-            groupBox4.Controls.Add(flagReduceChaosHP);
-            groupBox4.Controls.Add(chaosHpTrackBar);
-            groupBox4.Controls.Add(flagRebalanceBosses);
-            groupBox4.Controls.Add(flagFiendsDropRibbons);
-            groupBox4.Controls.Add(flagBossShuffle);
-            groupBox4.Location = new System.Drawing.Point(6, 358);
-            groupBox4.Margin = new System.Windows.Forms.Padding(2);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            groupBox4.Size = new System.Drawing.Size(407, 124);
-            groupBox4.TabIndex = 26;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Monsters && Bosses";
+            groupBox3.Text = "Stats";
             // 
             // groupBox5
             // 
@@ -861,26 +819,261 @@ namespace FF1_PRR
             groupBox5.Controls.Add(includeJobUpgradeCheckBox);
             groupBox5.Controls.Add(label12);
             groupBox5.Controls.Add(label13);
-            groupBox5.Location = new System.Drawing.Point(424, 248);
+            groupBox5.Location = new System.Drawing.Point(6, 69);
             groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             groupBox5.Name = "groupBox5";
             groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            groupBox5.Size = new System.Drawing.Size(240, 234);
+            groupBox5.Size = new System.Drawing.Size(254, 220);
             groupBox5.TabIndex = 31;
             groupBox5.TabStop = false;
-            groupBox5.Text = "Overworld Sprites";
+            groupBox5.Text = "Player Sprites";
+            // 
+            // tabControl
+            // 
+            tabControl.Controls.Add(tabPageSettings);
+            tabControl.Controls.Add(tabPageCosmetics);
+            tabControl.Location = new System.Drawing.Point(10, 96);
+            tabControl.Name = "tabControl";
+            tabControl.SelectedIndex = 0;
+            tabControl.Size = new System.Drawing.Size(663, 389);
+            tabControl.TabIndex = 32;
+            // 
+            // tabPageSettings
+            // 
+            tabPageSettings.Controls.Add(flagShuffleCanoe);
+            tabPageSettings.Controls.Add(flagDockAnywhere);
+            tabPageSettings.Controls.Add(groupBox6);
+            tabPageSettings.Controls.Add(groupBox4);
+            tabPageSettings.Controls.Add(groupBox1);
+            tabPageSettings.Controls.Add(groupBox2);
+            tabPageSettings.Controls.Add(groupBox3);
+            tabPageSettings.Controls.Add(flagKeyItems);
+            tabPageSettings.Controls.Add(flagJackInTheBox);
+            tabPageSettings.Controls.Add(flagSecretChaos);
+            tabPageSettings.Location = new System.Drawing.Point(4, 24);
+            tabPageSettings.Name = "tabPageSettings";
+            tabPageSettings.Padding = new System.Windows.Forms.Padding(3);
+            tabPageSettings.Size = new System.Drawing.Size(655, 361);
+            tabPageSettings.TabIndex = 0;
+            tabPageSettings.Text = "Settings";
+            tabPageSettings.UseVisualStyleBackColor = true;
+            // 
+            // flagShuffleCanoe
+            // 
+            flagShuffleCanoe.AutoSize = true;
+            flagShuffleCanoe.Location = new System.Drawing.Point(298, 7);
+            flagShuffleCanoe.Name = "flagShuffleCanoe";
+            flagShuffleCanoe.Size = new System.Drawing.Size(100, 19);
+            flagShuffleCanoe.TabIndex = 101;
+            flagShuffleCanoe.Text = "Shuffle Canoe";
+            flagShuffleCanoe.UseVisualStyleBackColor = true;
+            flagShuffleCanoe.CheckedChanged += DetermineFlags;
+            // 
+            // flagDockAnywhere
+            // 
+            flagDockAnywhere.AutoSize = true;
+            flagDockAnywhere.Location = new System.Drawing.Point(157, 7);
+            flagDockAnywhere.Name = "flagDockAnywhere";
+            flagDockAnywhere.Size = new System.Drawing.Size(135, 19);
+            flagDockAnywhere.TabIndex = 100;
+            flagDockAnywhere.Text = "Dock Ship Anywhere";
+            flagDockAnywhere.UseVisualStyleBackColor = true;
+            flagDockAnywhere.CheckedChanged += DetermineFlags;
+            // 
+            // groupBox6
+            // 
+            groupBox6.Controls.Add(label17);
+            groupBox6.Controls.Add(flagMagicShuffleShops);
+            groupBox6.Controls.Add(modeMagic);
+            groupBox6.Controls.Add(flagMagicKeepPermissions);
+            groupBox6.Location = new System.Drawing.Point(418, 156);
+            groupBox6.Margin = new System.Windows.Forms.Padding(2);
+            groupBox6.Name = "groupBox6";
+            groupBox6.Padding = new System.Windows.Forms.Padding(2);
+            groupBox6.Size = new System.Drawing.Size(232, 121);
+            groupBox6.TabIndex = 26;
+            groupBox6.TabStop = false;
+            groupBox6.Text = "Magic";
+            // 
+            // groupBox4
+            // 
+            groupBox4.Controls.Add(chaosHpLabel);
+            groupBox4.Controls.Add(modeMonsterStatAdjustment);
+            groupBox4.Controls.Add(label15);
+            groupBox4.Controls.Add(flagNoEscapeRandomize);
+            groupBox4.Controls.Add(flagNoEscapeNES);
+            groupBox4.Controls.Add(flagReduceChaosHP);
+            groupBox4.Controls.Add(chaosHpTrackBar);
+            groupBox4.Controls.Add(flagRebalanceBosses);
+            groupBox4.Controls.Add(flagFiendsDropRibbons);
+            groupBox4.Controls.Add(flagBossShuffle);
+            groupBox4.Location = new System.Drawing.Point(5, 137);
+            groupBox4.Margin = new System.Windows.Forms.Padding(2);
+            groupBox4.Name = "groupBox4";
+            groupBox4.Padding = new System.Windows.Forms.Padding(2);
+            groupBox4.Size = new System.Drawing.Size(407, 140);
+            groupBox4.TabIndex = 26;
+            groupBox4.TabStop = false;
+            groupBox4.Text = "Monsters && Bosses";
+            // 
+            // chaosHpLabel
+            // 
+            chaosHpLabel.AutoSize = true;
+            chaosHpLabel.BackColor = System.Drawing.Color.Transparent;
+            chaosHpLabel.Location = new System.Drawing.Point(313, 49);
+            chaosHpLabel.Name = "chaosHpLabel";
+            chaosHpLabel.Size = new System.Drawing.Size(89, 15);
+            chaosHpLabel.TabIndex = 36;
+            chaosHpLabel.Text = "Chaos HP: 9999";
+            // 
+            // chaosHpTrackBar
+            // 
+            chaosHpTrackBar.Location = new System.Drawing.Point(167, 15);
+            chaosHpTrackBar.Maximum = 3;
+            chaosHpTrackBar.Name = "chaosHpTrackBar";
+            chaosHpTrackBar.Size = new System.Drawing.Size(235, 45);
+            chaosHpTrackBar.TabIndex = 35;
+            chaosHpTrackBar.Value = 1;
+            chaosHpTrackBar.Scroll += ChaosHpTrackBar_Scroll;
+            // 
+            // flagSecretChaos
+            // 
+            flagSecretChaos.AutoSize = true;
+            flagSecretChaos.Location = new System.Drawing.Point(157, 28);
+            flagSecretChaos.Name = "flagSecretChaos";
+            flagSecretChaos.Size = new System.Drawing.Size(128, 19);
+            flagSecretChaos.TabIndex = 50;
+            flagSecretChaos.Text = "Secret Chaos Mode";
+            flagSecretChaos.UseVisualStyleBackColor = true;
+            flagSecretChaos.CheckedChanged += DetermineFlags;
+            // 
+            // tabPageCosmetics
+            // 
+            tabPageCosmetics.Controls.Add(groupBox7);
+            tabPageCosmetics.Controls.Add(groupBox8);
+            tabPageCosmetics.Controls.Add(groupBox5);
+            tabPageCosmetics.Location = new System.Drawing.Point(4, 24);
+            tabPageCosmetics.Name = "tabPageCosmetics";
+            tabPageCosmetics.Padding = new System.Windows.Forms.Padding(3);
+            tabPageCosmetics.Size = new System.Drawing.Size(655, 361);
+            tabPageCosmetics.TabIndex = 1;
+            tabPageCosmetics.Text = "Cosmetics";
+            tabPageCosmetics.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(label14);
+            groupBox7.Controls.Add(modeBoatSprite);
+            groupBox7.Controls.Add(label10);
+            groupBox7.Controls.Add(modeAirshipSprite);
+            groupBox7.Location = new System.Drawing.Point(279, 5);
+            groupBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox7.Size = new System.Drawing.Size(254, 86);
+            groupBox7.TabIndex = 53;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Vehicle Sprites";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(8, 48);
+            label14.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            label14.Name = "label14";
+            label14.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            label14.Size = new System.Drawing.Size(40, 19);
+            label14.TabIndex = 52;
+            label14.Text = "Boat:";
+            // 
+            // modeBoatSprite
+            // 
+            modeBoatSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeBoatSprite.FormattingEnabled = true;
+            modeBoatSprite.Items.AddRange(new object[] { "None", "1:1", "Oops All Garland", "All Random" });
+            modeBoatSprite.Location = new System.Drawing.Point(62, 48);
+            modeBoatSprite.Name = "modeBoatSprite";
+            modeBoatSprite.Size = new System.Drawing.Size(172, 23);
+            modeBoatSprite.TabIndex = 53;
+            modeBoatSprite.SelectedIndexChanged += DetermineFlags;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(4, 21);
+            label10.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            label10.Name = "label10";
+            label10.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            label10.Size = new System.Drawing.Size(53, 19);
+            label10.TabIndex = 38;
+            label10.Text = "Airship:";
+            // 
+            // modeAirshipSprite
+            // 
+            modeAirshipSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeAirshipSprite.FormattingEnabled = true;
+            modeAirshipSprite.Items.AddRange(new object[] { "None", "1:1", "Oops All Garland", "All Random" });
+            modeAirshipSprite.Location = new System.Drawing.Point(62, 19);
+            modeAirshipSprite.Name = "modeAirshipSprite";
+            modeAirshipSprite.Size = new System.Drawing.Size(172, 23);
+            modeAirshipSprite.TabIndex = 51;
+            modeAirshipSprite.SelectedIndexChanged += DetermineFlags;
+            // 
+            // groupBox8
+            // 
+            groupBox8.Controls.Add(label9);
+            groupBox8.Controls.Add(modeShuffleNPCs);
+            groupBox8.Location = new System.Drawing.Point(6, 5);
+            groupBox8.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox8.Size = new System.Drawing.Size(254, 60);
+            groupBox8.TabIndex = 52;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "NPC Sprites";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(4, 22);
+            label9.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            label9.Name = "label9";
+            label9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            label9.Size = new System.Drawing.Size(120, 19);
+            label9.TabIndex = 38;
+            label9.Text = "Sprite Shuffle Mode:";
+            // 
+            // modeShuffleNPCs
+            // 
+            modeShuffleNPCs.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeShuffleNPCs.FormattingEnabled = true;
+            modeShuffleNPCs.Items.AddRange(new object[] { "None", "1:1", "Oops All Garland", "All Random" });
+            modeShuffleNPCs.Location = new System.Drawing.Point(130, 19);
+            modeShuffleNPCs.Name = "modeShuffleNPCs";
+            modeShuffleNPCs.Size = new System.Drawing.Size(104, 23);
+            modeShuffleNPCs.TabIndex = 51;
+            modeShuffleNPCs.SelectedIndexChanged += DetermineFlags;
+            // 
+            // btnLoadFlags
+            // 
+            btnLoadFlags.Location = new System.Drawing.Point(351, 38);
+            btnLoadFlags.Margin = new System.Windows.Forms.Padding(2);
+            btnLoadFlags.Name = "btnLoadFlags";
+            btnLoadFlags.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            btnLoadFlags.Size = new System.Drawing.Size(64, 25);
+            btnLoadFlags.TabIndex = 33;
+            btnLoadFlags.Text = "Load";
+            btnLoadFlags.UseVisualStyleBackColor = true;
+            btnLoadFlags.Click += btnLoadFlags_Click;
             // 
             // FF1PRR
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             ClientSize = new System.Drawing.Size(682, 520);
+            Controls.Add(btnLoadFlags);
+            Controls.Add(tabControl);
             Controls.Add(btnRestoreVanilla);
-            Controls.Add(groupBox5);
-            Controls.Add(groupBox4);
-            Controls.Add(groupBox3);
-            Controls.Add(groupBox2);
-            Controls.Add(groupBox1);
             Controls.Add(label6);
             Controls.Add(BrowseForFolder);
             Controls.Add(VisualFlags);
@@ -891,28 +1084,35 @@ namespace FF1_PRR
             Controls.Add(NewChecksum);
             Controls.Add(RandoFlags);
             Controls.Add(label2);
-            Controls.Add(flagKeyItems);
-            Controls.Add(CuteHats);
             Controls.Add(FF1PRFolder);
             Controls.Add(label1);
             Controls.Add(btnRandomize);
-            Controls.Add(flagJackInTheBox);
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "FF1PRR";
             Text = "Final Fantasy 1 Pixel Remaster Randomizer";
             FormClosing += frmFF1PRR_FormClosing;
             Load += FF1PRR_Load;
-            ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).EndInit();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
+            tabControl.ResumeLayout(false);
+            tabPageSettings.ResumeLayout(false);
+            tabPageSettings.PerformLayout();
+            groupBox6.ResumeLayout(false);
+            groupBox6.PerformLayout();
+            groupBox4.ResumeLayout(false);
+            groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).EndInit();
+            tabPageCosmetics.ResumeLayout(false);
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
+            groupBox8.ResumeLayout(false);
+            groupBox8.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -922,8 +1122,6 @@ namespace FF1_PRR
         private System.Windows.Forms.Button btnRandomize;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox FF1PRFolder;
-        private System.Windows.Forms.CheckBox CuteHats;
-        private System.Windows.Forms.CheckBox flagBossShuffle;
         private System.Windows.Forms.CheckBox flagKeyItems;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox RandoFlags;
@@ -938,8 +1136,6 @@ namespace FF1_PRR
         private System.Windows.Forms.ComboBox modeShops;
         private System.Windows.Forms.CheckBox flagShopsTrad;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox flagMagicShuffleShops;
-        private System.Windows.Forms.CheckBox flagMagicKeepPermissions;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.ComboBox modeXPBoost;
         private System.Windows.Forms.ToolTip toolTip1;
@@ -952,18 +1148,9 @@ namespace FF1_PRR
         private System.Windows.Forms.CheckBox flagWandsAddInt;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.CheckBox flagRebalanceBosses;
-        private System.Windows.Forms.CheckBox flagFiendsDropRibbons;
         private System.Windows.Forms.Button btnRestoreVanilla;
         private System.Windows.Forms.CheckBox flagReduceEncounterRate;
         private System.Windows.Forms.CheckBox flagReduceChaosHP;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox modeMagic;
-        private System.Windows.Forms.CheckBox flagNoEscapeRandomize;
-        private System.Windows.Forms.CheckBox flagNoEscapeNES;
-        private System.Windows.Forms.ComboBox modeMonsterStatAdjustment;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.CheckBox flagHeroStatsStandardize;
         private System.Windows.Forms.ComboBox modeHeroStats;
         private System.Windows.Forms.Label label11;
@@ -978,9 +1165,35 @@ namespace FF1_PRR
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.CheckBox includeJobUpgradeCheckBox;
         private System.Windows.Forms.CheckBox flagJackInTheBox;
-        private System.Windows.Forms.TrackBar chaosHpTrackBar;
+        private System.Windows.Forms.TabControl tabControl;
+        private System.Windows.Forms.TabPage tabPageSettings;
+        private System.Windows.Forms.TabPage tabPageCosmetics;
+        private System.Windows.Forms.CheckBox flagSecretChaos;
+        private System.Windows.Forms.ComboBox modeShuffleNPCs;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.CheckBox flagMagicShuffleShops;
+        private System.Windows.Forms.ComboBox modeMagic;
+        private System.Windows.Forms.CheckBox flagMagicKeepPermissions;
+        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label chaosHpLabel;
+        private System.Windows.Forms.ComboBox modeMonsterStatAdjustment;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.CheckBox flagNoEscapeRandomize;
+        private System.Windows.Forms.CheckBox flagNoEscapeNES;
+        private System.Windows.Forms.TrackBar chaosHpTrackBar;
+        private System.Windows.Forms.CheckBox flagRebalanceBosses;
+        private System.Windows.Forms.CheckBox flagFiendsDropRibbons;
+        private System.Windows.Forms.CheckBox flagBossShuffle;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.CheckBox flagDockAnywhere;
+        private System.Windows.Forms.CheckBox flagShuffleCanoe;
+        private System.Windows.Forms.Button btnLoadFlags;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox modeAirshipSprite;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox modeBoatSprite;
     }
-
 }
-

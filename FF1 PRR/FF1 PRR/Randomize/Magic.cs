@@ -95,7 +95,7 @@ namespace FF1_PRR.Inventory
 		private string productpath;
 
 		public Magic(Random r1, int randoLevel, string fileName, string product, bool shuffleShops, bool keepPermissions)
-        {
+		{
 			file = fileName;
 			productpath = product;
 			using (StreamReader reader = new StreamReader(fileName))
@@ -107,12 +107,12 @@ namespace FF1_PRR.Inventory
 		}
 
 		public List<ability> getRecords()
-        {
+		{
 			return records;
-        }
+		}
 
 		public void writeToFile()
-        {
+		{
 			using (StreamWriter writer = new StreamWriter(file))
 			using (CsvWriter csv = new CsvWriter(writer, System.Globalization.CultureInfo.InvariantCulture))
 			{
@@ -162,7 +162,7 @@ namespace FF1_PRR.Inventory
 			public int data_c { get; set; }
 		}
 
-		public void shuffleMagic(Random r1, int randoLevel, bool shuffleShops,  bool keepPermissions)
+		public void shuffleMagic(Random r1, int randoLevel, bool shuffleShops, bool keepPermissions)
 		{
 			// Shuffle levels and price between the white spells and then the black spells.
 			List<int> wMagic = new List<int> {
@@ -174,7 +174,7 @@ namespace FF1_PRR.Inventory
 				44, 45, 46, 47,
 				52, 53, 54, 55,
 				60, 61, 62, 63
-			};
+		};
 			List<int> bMagic = new List<int> {
 				8, 9, 10, 11,
 				16, 17, 18, 19,
@@ -184,7 +184,7 @@ namespace FF1_PRR.Inventory
 				48, 49, 50, 51,
 				56, 57, 58, 59,
 				64, 65, 66, 67
-			};
+		};
 
 			if (randoLevel == 1 || randoLevel == 2) // Standard and Pro
 			{
@@ -201,7 +201,7 @@ namespace FF1_PRR.Inventory
 						levels.Add(spell.ability_lv);
 						prices.Add(spell.buy);
 					}
-                }
+				}
 				foreach (ability spell in records)
 				{
 					if (spell.ability_group_id == 1 && spell.type_id == 2 && spell.id != DUPE_CURE_4)
@@ -213,15 +213,16 @@ namespace FF1_PRR.Inventory
 					}
 				}
 				if (randoLevel == 2)
-                {
+				{
 					// swap items by family
 					sortByFamily(spellbook);
-                }
+				}
 				// sort by school, then sort ID
-				spellbook.Sort((x, y) => {
+				spellbook.Sort((x, y) =>
+				{
 					int bySchool = x.type_id.CompareTo(y.type_id);
 					if (bySchool == 0)
-                    {
+					{
 						return x.sort_id.CompareTo(y.sort_id);
 					}
 					return bySchool;
@@ -235,13 +236,57 @@ namespace FF1_PRR.Inventory
 					prices.RemoveAt(0);
 				}
 			}
-			
+
 			if (randoLevel == 3 || randoLevel == 4) // Wild and Chaos
 			{
-				// just make 640 swaps per type to randomize
-				for (int lnI = 0; lnI < 1280; lnI++)
+				// Enhanced shuffling logic
+				void shuffleList(List<int> list)
 				{
-					List<int> magic = lnI < 640 ? wMagic : bMagic; 
+					for (int i = list.Count - 1; i > 0; i--)
+					{
+						int j = r1.Next(i + 1);
+						int temp = list[i];
+						list[i] = list[j];
+						list[j] = temp;
+					}
+				}
+
+				// Shuffle by chunks to break patterns
+				void shuffleByChunks(List<int> magicList, int chunkSize)
+				{
+					int numChunks = magicList.Count / chunkSize;
+					List<int> chunks = Enumerable.Range(0, numChunks).ToList();
+					shuffleList(chunks);
+
+					for (int i = 0; i < numChunks; i++)
+					{
+						int chunkStart = chunks[i] * chunkSize;
+						int chunkEnd = chunkStart + chunkSize;
+
+						List<int> chunk = magicList.GetRange(chunkStart, chunkSize);
+						shuffleList(chunk);
+
+						for (int j = chunkStart; j < chunkEnd; j++)
+						{
+							magicList[j] = chunk[j - chunkStart];
+						}
+					}
+				}
+
+				shuffleByChunks(wMagic, 4);
+				shuffleByChunks(bMagic, 4);
+
+				// Additional shuffling rounds for better distribution
+				for (int i = 0; i < 5; i++)
+				{
+					shuffleList(wMagic);
+					shuffleList(bMagic);
+				}
+
+				// Apply the shuffled magic to the records
+				for (int lnI = 0; lnI < 640; lnI++)
+				{
+					List<int> magic = lnI < 320 ? wMagic : bMagic;
 
 					int ln1 = magic[r1.Next() % magic.Count];
 					int ln2 = magic[r1.Next() % magic.Count];
@@ -257,23 +302,23 @@ namespace FF1_PRR.Inventory
 			if (!keepPermissions)
 			{
 				List<int> permissions = new List<int> {
-					42, 42, 27, 43,
-					42, 42, 42, 42,
-					42, 42, 27, 27,
-					45, 45, 27, 46,
-					45, 27, 46, 27,
-					27, 46, 50, 46,
-					24, 46, 24, 27,
-					24, 24, 24, 24,
+						42, 42, 27, 43,
+						42, 42, 42, 42,
+						42, 42, 27, 27,
+						45, 45, 27, 46,
+						45, 27, 46, 27,
+						27, 46, 50, 46,
+						24, 46, 24, 27,
+						24, 24, 24, 24,
 
-					44, 44, 44, 44,
-					44, 44, 44, 44,
-					44, 44, 44, 44,
-					44, 44, 44, 44,
-					47, 48, 49, 47,
-					49, 29, 29, 29,
-					49, 22, 22, 29,
-					22, 22, 22, 22
+						44, 44, 44, 44,
+						44, 44, 44, 44,
+						44, 44, 44, 44,
+						44, 44, 44, 44,
+						47, 48, 49, 47,
+						49, 29, 29, 29,
+						49, 22, 22, 29,
+						22, 22, 22, 22
 				};
 
 				int lnJ = 0;
@@ -307,7 +352,7 @@ namespace FF1_PRR.Inventory
 
 			//then, add the new spell inventory
 			shopDB = determineSpells(r1, randoLevel, shuffleShops, shopDB);
-			shopDB.Sort((x,y) => x.id.CompareTo(y.id));
+			shopDB.Sort((x, y) => x.id.CompareTo(y.id));
 
 			//and write out the product.csv
 			Product.writeShopDB(productpath, shopDB);
@@ -315,8 +360,9 @@ namespace FF1_PRR.Inventory
 			writeToFile();
 		}
 
+
 		private void sortByFamily(List<ability> spellbook)
-        {
+		{
 			List<List<int>> spellFamilies = new List<List<int>>()
 			{
 				new List<int>(){(int)blackMagic.bFire,    (int)blackMagic.bFira,    (int)blackMagic.bFiraga,  (int)blackMagic.bFlare},
@@ -343,23 +389,23 @@ namespace FF1_PRR.Inventory
 				new List<int>(){(int)whiteMagic.wNulDeath,(int)whiteMagic.wNulAll}
 			};
 			foreach (List<int> family in spellFamilies)
-            {
+			{
 				List<int> sort_ids = new List<int>();
 				List<ability> spells = new List<ability>();
 				foreach (int index in family)
-                {
+				{
 					ability spell = spellbook.Find(x => x.id == index - 208);
 					spells.Add(spell);
 					sort_ids.Add(spell.sort_id);
-                }
+				}
 				sort_ids.Sort();
 				foreach (ability spell in spells)
-                {
+				{
 					spell.sort_id = sort_ids[0];
 					sort_ids.RemoveAt(0);
-                }
-            }
-        }
+				}
+			}
+		}
 
 		private List<ShopItem> determineSpells(Random r1, int randoLevel, bool shuffleShops, List<ShopItem> shopDB)
 		{
@@ -367,7 +413,7 @@ namespace FF1_PRR.Inventory
 			int[,] magicMemory = new int[2, 8];
 			// Since we're now using Partial Assets, we need to fill back in the IDs we removed wherever we can.  Otherwise, the vanilla shops will also be used, which is incorrect.
 			int productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
-		    List<int> shopLookup = new List<int>{
+			List<int> shopLookup = new List<int>{
 										0,0,0,0,
 										1,1,1,1,
 										2,2,2,2,
@@ -377,8 +423,8 @@ namespace FF1_PRR.Inventory
 										6,6,8,8,
 										7,7,9,9
 									};
-		    List<int> wmShops = Product.whiteMagicStores;
-		    List<int> bmShops = Product.blackMagicStores;
+			List<int> wmShops = Product.whiteMagicStores;
+			List<int> bmShops = Product.blackMagicStores;
 			if (shuffleShops)
 			{
 				//this is a lot of steps for something that would be one line in a real language
@@ -392,11 +438,11 @@ namespace FF1_PRR.Inventory
 				bmShops.Insert(0, bmHead);
 			}
 			if (randoLevel == 4)
-            {
+			{
 				shopLookup.Shuffle(r1);
 				wmShops.Shuffle(r1);
 				bmShops.Shuffle(r1);
-            }
+			}
 
 			foreach (ability spell in records)
 			{

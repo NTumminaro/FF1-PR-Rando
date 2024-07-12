@@ -11,6 +11,7 @@ namespace FF1_PRR.Randomize
 {
 	public class Treasure
 	{
+		private readonly string chaosLogFilePath;
 		private class ChestInfo
 		{
 			public int flag_id { get; set; }
@@ -43,20 +44,29 @@ namespace FF1_PRR.Randomize
 				public string entity_default { get; set; }
 				public List<Entity> entity { get; set; }
 				public List<Script> script { get; set; }
-			}
+				public List<RouteInstruction> route_instruction { get; set; }
+				public string damage { get; set; }  // Add the damage property
 
-			public class Entity
-			{
-				public string name { get; set; }
-				public string asset { get; set; }
-			}
+				public class Entity
+				{
+					public string name { get; set; }
+					public string asset { get; set; }
+				}
 
-			public class Script
-			{
-				public string name { get; set; }
-				public string asset { get; set; }
+				public class Script
+				{
+					public string name { get; set; }
+					public string asset { get; set; }
+				}
+
+				public class RouteInstruction
+				{
+					public string name { get; set; }
+					public string asset { get; set; }
+				}
 			}
 		}
+
 
 		private class ImportData
 		{
@@ -74,6 +84,8 @@ namespace FF1_PRR.Randomize
 
 		public Treasure(Random r1, int randoLevel, string datapath, bool traditional, bool fiendsRibbons, bool jackInTheBox)
 		{
+			chaosLogFilePath = Path.Combine(datapath, "chaos_location.txt");
+
 			using (var reader = new StreamReader(Path.Combine("data", "chestInfo.csv")))
 			using (var csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
 			{
@@ -113,10 +125,10 @@ namespace FF1_PRR.Randomize
 			// Assign script_id and set foldername for JackInTheBox
 			if (jackInTheBox)
 			{
-				var zeroScriptChests = treasureList.Where(chest => chest.script_id == "0").ToList();
-				if (zeroScriptChests.Any())
+				// var zeroScriptChests = treasureList.Where(chest => chest.script_id).ToList();
+				if (treasureList.Count > 0)
 				{
-					var randomChest = zeroScriptChests[r1.Next(zeroScriptChests.Count)];
+					var randomChest = treasureList[r1.Next(treasureList.Count)];
 					randomChest.script_id = "542";
 				}
 			}
@@ -156,6 +168,8 @@ namespace FF1_PRR.Randomize
 											string mapRootPath = Path.Combine(datapath, "Magicite", "FF1PRR", chestsByFile.First().map);
 											AddScriptsToSubmap(mapdirectory, mapRootPath);
 											AddScriptsToPackageJson(datapath, chestsByFile.First().map, chestsByFile.First().submap);
+											LogChaosLocation($"JackInTheBox placed in chest in {chestsByFile.First().map}, submap {chestsByFile.First().submap}, content Id {chest.content_id}");
+
 										}
 										goto NextChest;
 									}
@@ -185,6 +199,14 @@ namespace FF1_PRR.Randomize
 			// Update Export.json with the new scripts
 			UpdateExportJson(mapRootPath, submapPath, "sc_t_0099");
 			UpdateExportJson(mapRootPath, submapPath, "sc_t_0099_after");
+		}
+
+		private void LogChaosLocation(string message)
+		{
+			using (StreamWriter sw = new StreamWriter(chaosLogFilePath, true))
+			{
+				sw.WriteLine($"{DateTime.Now}: {message}");
+			}
 		}
 
 		private void UpdateExportJson(string mapRootPath, string submapPath, string scriptName)
@@ -247,12 +269,12 @@ namespace FF1_PRR.Randomize
 
 				if (!mapEntry.script.Any(s => s.name == script1Name))
 				{
-					mapEntry.script.Add(new PackageJson.Script { name = script1Name, asset = script1Asset });
+					mapEntry.script.Add(new PackageJson.Map.Script { name = script1Name, asset = script1Asset });
 				}
 
 				if (!mapEntry.script.Any(s => s.name == script2Name))
 				{
-					mapEntry.script.Add(new PackageJson.Script { name = script2Name, asset = script2Asset });
+					mapEntry.script.Add(new PackageJson.Map.Script { name = script2Name, asset = script2Asset });
 				}
 			}
 
