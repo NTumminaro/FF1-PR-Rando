@@ -412,14 +412,14 @@ namespace FF1_PRR.Randomize
 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
 			var mnemonicsList = jEvents.Mnemonics.ToList();
 
-			// Remove the SysCall for the canoe and crystals if they are being placed elsewhere
+			// Replace the SysCall for the canoe and crystals if they are being placed elsewhere
 			if (loc.keyItem != (int)flags.canoe)
 			{
-				mnemonicsList.RemoveAll(m => m.mnemonic == "SysCall" && m.operands.sValues[0] == "カヌーの入手");
+				ReplaceSysCall(mnemonicsList, "カヌーの入手", "キー入力待ち");
 			}
 			if (!IsCrystal(loc.keyItem))
 			{
-				mnemonicsList.RemoveAll(m => m.mnemonic == "SysCall" && IsCrystalSysCall(m.operands.sValues[0]));
+				ReplaceCrystalSysCalls(mnemonicsList);
 			}
 
 			// Flags to track if we need to add the SysCall for the canoe or crystals
@@ -508,6 +508,28 @@ namespace FF1_PRR.Randomize
 			File.WriteAllText(fileName, updatedJson);
 		}
 
+		private void ReplaceSysCall(List<EventJSON.Mnemonic> mnemonicsList, string original, string replacement)
+		{
+			foreach (var mnemonic in mnemonicsList)
+			{
+				if (mnemonic.mnemonic == "SysCall" && mnemonic.operands.sValues[0] == original)
+				{
+					mnemonic.operands.sValues[0] = replacement;
+				}
+			}
+		}
+
+		private void ReplaceCrystalSysCalls(List<EventJSON.Mnemonic> mnemonicsList)
+		{
+			foreach (var mnemonic in mnemonicsList)
+			{
+				if (mnemonic.mnemonic == "SysCall" && IsCrystalSysCall(mnemonic.operands.sValues[0]))
+				{
+					mnemonic.operands.sValues[0] = "キー入力待ち";
+				}
+			}
+		}
+
 		private bool IsCrystal(int keyItem)
 		{
 			return keyItem == (int)flags.earthCrystal || keyItem == (int)flags.fireCrystal ||
@@ -587,6 +609,7 @@ namespace FF1_PRR.Randomize
 			return sValue == "黄色クリスタル点灯" || sValue == "赤色クリスタル点灯" ||
 						 sValue == "青色クリスタル点灯" || sValue == "緑色クリスタル点灯";
 		}
+
 
 	}
 }
