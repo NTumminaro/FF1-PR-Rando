@@ -95,6 +95,11 @@
             chaosHpTrackBar = new System.Windows.Forms.TrackBar();
             flagSecretChaos = new System.Windows.Forms.CheckBox();
             tabPageCosmetics = new System.Windows.Forms.TabPage();
+            groupBox7 = new System.Windows.Forms.GroupBox();
+            label14 = new System.Windows.Forms.Label();
+            modeBoatSprite = new System.Windows.Forms.ComboBox();
+            label10 = new System.Windows.Forms.Label();
+            modeAirshipSprite = new System.Windows.Forms.ComboBox();
             groupBox8 = new System.Windows.Forms.GroupBox();
             label9 = new System.Windows.Forms.Label();
             modeShuffleNPCs = new System.Windows.Forms.ComboBox();
@@ -109,6 +114,7 @@
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).BeginInit();
             tabPageCosmetics.SuspendLayout();
+            groupBox7.SuspendLayout();
             groupBox8.SuspendLayout();
             SuspendLayout();
             // 
@@ -943,6 +949,7 @@
             // 
             // tabPageCosmetics
             // 
+            tabPageCosmetics.Controls.Add(groupBox7);
             tabPageCosmetics.Controls.Add(groupBox8);
             tabPageCosmetics.Controls.Add(groupBox5);
             tabPageCosmetics.Location = new System.Drawing.Point(4, 24);
@@ -952,6 +959,65 @@
             tabPageCosmetics.TabIndex = 1;
             tabPageCosmetics.Text = "Cosmetics";
             tabPageCosmetics.UseVisualStyleBackColor = true;
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(label14);
+            groupBox7.Controls.Add(modeBoatSprite);
+            groupBox7.Controls.Add(label10);
+            groupBox7.Controls.Add(modeAirshipSprite);
+            groupBox7.Location = new System.Drawing.Point(279, 5);
+            groupBox7.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox7.Size = new System.Drawing.Size(254, 86);
+            groupBox7.TabIndex = 53;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Vehicle Sprites";
+            // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(8, 48);
+            label14.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            label14.Name = "label14";
+            label14.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            label14.Size = new System.Drawing.Size(40, 19);
+            label14.TabIndex = 52;
+            label14.Text = "Boat:";
+            // 
+            // modeBoatSprite
+            // 
+            modeBoatSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeBoatSprite.FormattingEnabled = true;
+            modeBoatSprite.Items.AddRange(new object[] { "None", "1:1", "Oops All Garland", "All Random" });
+            modeBoatSprite.Location = new System.Drawing.Point(62, 48);
+            modeBoatSprite.Name = "modeBoatSprite";
+            modeBoatSprite.Size = new System.Drawing.Size(172, 23);
+            modeBoatSprite.TabIndex = 53;
+            modeBoatSprite.SelectedIndexChanged += DetermineFlags;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(4, 21);
+            label10.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            label10.Name = "label10";
+            label10.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            label10.Size = new System.Drawing.Size(53, 19);
+            label10.TabIndex = 38;
+            label10.Text = "Airship:";
+            // 
+            // modeAirshipSprite
+            // 
+            modeAirshipSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modeAirshipSprite.FormattingEnabled = true;
+            modeAirshipSprite.Items.AddRange(new object[] { "None", "1:1", "Oops All Garland", "All Random" });
+            modeAirshipSprite.Location = new System.Drawing.Point(62, 19);
+            modeAirshipSprite.Name = "modeAirshipSprite";
+            modeAirshipSprite.Size = new System.Drawing.Size(172, 23);
+            modeAirshipSprite.TabIndex = 51;
+            modeAirshipSprite.SelectedIndexChanged += DetermineFlags;
             // 
             // groupBox8
             // 
@@ -1043,6 +1109,8 @@
             groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).EndInit();
             tabPageCosmetics.ResumeLayout(false);
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
             ResumeLayout(false);
@@ -1122,5 +1190,10 @@
         private System.Windows.Forms.CheckBox flagDockAnywhere;
         private System.Windows.Forms.CheckBox flagShuffleCanoe;
         private System.Windows.Forms.Button btnLoadFlags;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ComboBox modeAirshipSprite;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.ComboBox modeBoatSprite;
     }
 }

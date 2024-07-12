@@ -47,6 +47,25 @@ namespace FF1_PRR.Inventory
       }
     }
 
+
+    public static void ReplaceAirshipSprite(string baseFolder, string airshipSelection, string ff1prFolder)
+    {
+      string sourceFolderPath = Path.Combine(baseFolder, "data", "mods", "Airships", airshipSelection);
+      string destFolderPath = Path.Combine(ff1prFolder, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "mo_ff1_v001_c00");
+
+      // Copy airship-specific files to the destination folder
+      DirectoryCopySimple(sourceFolderPath, destFolderPath);
+    }
+
+    public static void ReplaceBoatSprite(string baseFolder, string boatSelection, string ff1prFolder)
+    {
+      string sourceFolderPath = Path.Combine(baseFolder, "data", "mods", "Boats", boatSelection);
+      string destFolderPath = Path.Combine(ff1prFolder, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "mo_ff1_v008_c00");
+
+      // Copy airship-specific files to the destination folder
+      DirectoryCopySimple(sourceFolderPath, destFolderPath);
+    }
+
     private static string GetCharacterFolder(string characterSelection)
     {
       return characterSelection switch
@@ -63,7 +82,7 @@ namespace FF1_PRR.Inventory
 
     private static string GetUpgradedCharacterFolder(string characterSelection)
     {
-    return characterSelection switch
+      return characterSelection switch
       {
         "Warrior" => "mo_ff1_p007_c00",
         "Thief" => "mo_ff1_p008_c00",
@@ -120,6 +139,31 @@ namespace FF1_PRR.Inventory
           string tempPath = Path.Combine(destDirName, ReplacePlaceholder(subdir.Name, characterFolder));
           DirectoryCopy(subdir.FullName, tempPath, characterFolder, copySubDirs);
         }
+      }
+    }
+
+    private static void DirectoryCopySimple(string sourceDirName, string destDirName)
+    {
+      DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+      if (!dir.Exists)
+      {
+        throw new DirectoryNotFoundException("Source directory does not exist or could not be found: " + sourceDirName);
+      }
+
+      DirectoryInfo[] dirs = dir.GetDirectories();
+      Directory.CreateDirectory(destDirName);
+
+      foreach (FileInfo file in dir.GetFiles())
+      {
+        string tempPath = Path.Combine(destDirName, file.Name);
+        file.CopyTo(tempPath, true);
+      }
+
+      foreach (DirectoryInfo subdir in dirs)
+      {
+        string tempPath = Path.Combine(destDirName, subdir.Name);
+        DirectoryCopySimple(subdir.FullName, tempPath);
       }
     }
 

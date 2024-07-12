@@ -39,19 +39,19 @@ namespace FF1_PRR
 
 			string flags = "";
 			flags += ConvertFlagsToString(new CheckBox[] {
-								flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops,
-								flagMagicKeepPermissions, flagReduceEncounterRate
-						});
+																flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops,
+																flagMagicKeepPermissions, flagReduceEncounterRate
+												});
 
 			flags += ConvertFlagsToString(new CheckBox[] {
-								flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices,
-								flagRestoreCritRating, flagWandsAddInt
-						});
+																flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices,
+																flagRestoreCritRating, flagWandsAddInt
+												});
 
 			flags += ConvertFlagsToString(new CheckBox[] {
-								flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize,
-								flagBoostPromoted, flagSecretChaos
-						});
+																flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize,
+																flagBoostPromoted, flagSecretChaos
+												});
 
 			flags += ConvertFlagsToString(new CheckBox[] { flagDockAnywhere, flagShuffleCanoe });
 
@@ -70,6 +70,9 @@ namespace FF1_PRR
 
 			flags = "";
 			flags += modeShuffleNPCs.SelectedIndex.ToString();
+			flags += modeAirshipSprite.SelectedIndex.ToString("X"); // Use hexadecimal to handle more than 10 options
+			flags += modeBoatSprite.SelectedIndex.ToString("X"); // Use hexadecimal to handle more than 10 options
+
 			VisualFlags.Text = flags;
 
 			// Handle the case where both Jack in the Box and Secret Chaos are selected
@@ -101,28 +104,28 @@ namespace FF1_PRR
 			else if (RandoFlags.Text.Length < 10)
 				return;
 
-			if (loading && VisualFlags.Text.Length < 1)
+			if (loading && VisualFlags.Text.Length < 3)
 				VisualFlags.Text = defaultVisualFlags;
-			else if (VisualFlags.Text.Length < 1)
+			else if (VisualFlags.Text.Length < 3)
 				return;
 
 			loading = true;
 
 			string flags = RandoFlags.Text;
 			ApplyFlagsToCheckboxes(flags.Substring(0, 1), new CheckBox[] {
-								flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops,
-								flagMagicKeepPermissions, flagReduceEncounterRate
-						});
+				flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops,
+				flagMagicKeepPermissions, flagReduceEncounterRate
+			});
 
 			ApplyFlagsToCheckboxes(flags.Substring(1, 1), new CheckBox[] {
-								flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices,
-								flagRestoreCritRating, flagWandsAddInt
-						});
+																flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices,
+																flagRestoreCritRating, flagWandsAddInt
+												});
 
 			ApplyFlagsToCheckboxes(flags.Substring(2, 1), new CheckBox[] {
-								flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize,
-								flagBoostPromoted, flagSecretChaos
-						});
+																flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize,
+																flagBoostPromoted, flagSecretChaos
+												});
 
 			ApplyFlagsToCheckboxes(flags.Substring(3, 1), new CheckBox[] { flagDockAnywhere, flagShuffleCanoe });
 
@@ -148,6 +151,15 @@ namespace FF1_PRR
 
 			flags = VisualFlags.Text;
 			modeShuffleNPCs.SelectedIndex = int.Parse(flags[0].ToString());
+
+			if (flags.Length > 1)
+			{
+				modeAirshipSprite.SelectedIndex = int.Parse(flags[1].ToString(), System.Globalization.NumberStyles.HexNumber);
+			}
+			if (flags.Length > 2)
+			{
+				modeBoatSprite.SelectedIndex = int.Parse(flags[2].ToString(), System.Globalization.NumberStyles.HexNumber);
+			}
 
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 
@@ -228,6 +240,17 @@ namespace FF1_PRR
 			spriteSelection.SelectedIndex = 0;
 			characterSelection.SelectedIndex = 0;
 
+			string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+			string airshipSpritesPath = Path.Combine(baseFolder, "data", "mods", "Airships");
+			var airshipSprites = Directory.GetDirectories(airshipSpritesPath).Select(Path.GetFileName).ToList();
+			airshipSprites.Insert(0, "None"); // Add a "None" option at the beginning
+			modeAirshipSprite.DataSource = airshipSprites;
+
+			string boatSpritesPath = Path.Combine(baseFolder, "data", "mods", "Boats");
+			var boatSprites = Directory.GetDirectories(boatSpritesPath).Select(Path.GetFileName).ToList();
+			boatSprites.Insert(0, "None"); // Add a "None" option at the beginning
+			modeBoatSprite.DataSource = boatSprites;
+
 			try
 			{
 				using (TextReader reader = File.OpenText("lastFF1PRR.txt"))
@@ -271,8 +294,8 @@ namespace FF1_PRR
 			if (!dir.Exists)
 			{
 				throw new DirectoryNotFoundException(
-								"Source directory does not exist or could not be found: "
-								+ sourceDirName);
+												"Source directory does not exist or could not be found: "
+												+ sourceDirName);
 			}
 
 			DirectoryInfo[] dirs = dir.GetDirectories();
@@ -369,15 +392,41 @@ namespace FF1_PRR
 					MessageBox.Show($"Error processing item '{item}': {ex.Message}");
 				}
 			}
+
+			string selectedAirshipSprite = modeAirshipSprite.SelectedItem.ToString();
+			if (selectedAirshipSprite != "None")
+			{
+				try
+				{
+					string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+					SpriteUpdater.ReplaceAirshipSprite(baseFolder, selectedAirshipSprite, FF1PRFolder.Text);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Error applying airship sprite '{selectedAirshipSprite}': {ex.Message}");
+				}
+			}
+
+			string selectedBoatSprite = modeBoatSprite.SelectedItem.ToString();
+			if (selectedBoatSprite != "None")
+			{
+				try
+				{
+					string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
+					SpriteUpdater.ReplaceBoatSprite(baseFolder, selectedBoatSprite, FF1PRFolder.Text);
+				}
+				catch (Exception ex)
+				{
+					MessageBox.Show($"Error applying airship sprite '{selectedBoatSprite}': {ex.Message}");
+				}
+			}
 		}
-
-
 
 		// This brings us back to vanilla Magicite files.  This is NOT used for uninstallation.
 		private void restoreVanilla()
 		{
 			string[] DATA_MASTER = {
-								"ability.csv", // used by Magic randomization
+																"ability.csv", // used by Magic randomization
 				"product.csv", // used by Shop randomization
 				"weapon.csv",  // used by balance flags
 				"monster.csv", // used by xp boost & monster flags
@@ -391,7 +440,7 @@ namespace FF1_PRR
 			};
 			string[] DATA_MESSAGE =
 			{
-								"system_en.txt", // used by Key Item randomization
+																"system_en.txt", // used by Key Item randomization
 								"story_mes_en.txt" // used by jack in the box
             };
 
@@ -422,19 +471,19 @@ namespace FF1_PRR
 			}
 
 			string[] characterFolders = {
-																												"mo_ff1_p001_c00",
-																												"mo_ff1_p002_c00",
-																												"mo_ff1_p003_c00",
-																												"mo_ff1_p004_c00",
-																												"mo_ff1_p005_c00",
-																												"mo_ff1_p006_c00",
-																												"mo_ff1_p007_c00",
-																												"mo_ff1_p008_c00",
-																												"mo_ff1_p009_c00",
-																												"mo_ff1_p010_c00",
-																												"mo_ff1_p011_c00",
-																												"mo_ff1_p012_c00",
-																				};
+			"mo_ff1_p001_c00",
+			"mo_ff1_p002_c00",
+			"mo_ff1_p003_c00",
+			"mo_ff1_p004_c00",
+			"mo_ff1_p005_c00",
+			"mo_ff1_p006_c00",
+			"mo_ff1_p007_c00",
+			"mo_ff1_p008_c00",
+			"mo_ff1_p009_c00",
+			"mo_ff1_p010_c00",
+			"mo_ff1_p011_c00",
+			"mo_ff1_p012_c00",
+			};
 
 			string spritesSourcePath = Path.Combine("data", "sprites");
 			string spritesDestBasePath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR");
@@ -750,58 +799,58 @@ namespace FF1_PRR
 		private void randomizeShops()
 		{
 			Shops randoShops = new Shops(r1, modeShops.SelectedIndex,
-							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
-							flagShopsTrad.Checked);
+											Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
+											flagShopsTrad.Checked);
 		}
 
 		private void randomizeMagic()
 		{
 			Magic magicData = new Magic(r1, modeMagic.SelectedIndex,
-							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "ability.csv"),
-							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
-							flagMagicShuffleShops.Checked, flagMagicKeepPermissions.Checked);
+											Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "ability.csv"),
+											Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
+											flagMagicShuffleShops.Checked, flagMagicKeepPermissions.Checked);
 		}
 
 		private void randomizeKeyItems()
 		{
 			KeyItems randoKeyItems = new KeyItems(r1,
-							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), flagDockAnywhere.Checked, flagShuffleCanoe.Checked); // , "Assets", "GameAssets", "Serial", "Res", "Map"
+											Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), flagDockAnywhere.Checked, flagShuffleCanoe.Checked); // , "Assets", "GameAssets", "Serial", "Res", "Map"
 		}
 		private void randomizeTreasure(bool useJackInTheBox)
 		{
 			Treasure randoChests = new Treasure(r1, modeTreasure.SelectedIndex,
-							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), // , "Assets", "GameAssets", "Serial", "Res", "Map"
-							flagTreasureTrad.Checked, flagFiendsDropRibbons.Checked, useJackInTheBox);
+											Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets"), // , "Assets", "GameAssets", "Serial", "Res", "Map"
+											flagTreasureTrad.Checked, flagFiendsDropRibbons.Checked, useJackInTheBox);
 		}
 
 		private void randomizeHeroStats()
 		{
 			Stats.RandomizeStats(modeHeroStats.SelectedIndex, flagHeroStatsStandardize.Checked, flagBoostPromoted.Checked, r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master"),
-							Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message"));
+											Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "message", "Assets", "GameAssets", "Serial", "Data", "Message"));
 		}
 
 		private void monsterBoost()
 		{
 			double xp = modeXPBoost.SelectedIndex == 0 ? 0.5 :
-							modeXPBoost.SelectedIndex == 1 ? 1.0 :
-							modeXPBoost.SelectedIndex == 2 ? 1.5 :
-							modeXPBoost.SelectedIndex == 3 ? 2.0 :
-							modeXPBoost.SelectedIndex == 4 ? 3.0 :
-							modeXPBoost.SelectedIndex == 5 ? 4.0 :
-							modeXPBoost.SelectedIndex == 6 ? 5.0 : 10;
+											modeXPBoost.SelectedIndex == 1 ? 1.0 :
+											modeXPBoost.SelectedIndex == 2 ? 1.5 :
+											modeXPBoost.SelectedIndex == 3 ? 2.0 :
+											modeXPBoost.SelectedIndex == 4 ? 3.0 :
+											modeXPBoost.SelectedIndex == 5 ? 4.0 :
+											modeXPBoost.SelectedIndex == 6 ? 5.0 : 10;
 
 			double minStatAdjustment = modeMonsterStatAdjustment.SelectedIndex == 1 ? 0.6666667 :
-							modeMonsterStatAdjustment.SelectedIndex == 2 ? 0.5 :
-							modeMonsterStatAdjustment.SelectedIndex == 3 ? 0.3333333 :
-							modeMonsterStatAdjustment.SelectedIndex == 4 ? 0.25 :
-							modeMonsterStatAdjustment.SelectedIndex == 5 ? 0.2 : 1;
+											modeMonsterStatAdjustment.SelectedIndex == 2 ? 0.5 :
+											modeMonsterStatAdjustment.SelectedIndex == 3 ? 0.3333333 :
+											modeMonsterStatAdjustment.SelectedIndex == 4 ? 0.25 :
+											modeMonsterStatAdjustment.SelectedIndex == 5 ? 0.2 : 1;
 
 			double maxStatAdjustment = modeMonsterStatAdjustment.SelectedIndex == 6 ? 1.25 :
-							modeMonsterStatAdjustment.SelectedIndex == 1 || modeMonsterStatAdjustment.SelectedIndex == 7 ? 1.5 :
-							modeMonsterStatAdjustment.SelectedIndex == 2 || modeMonsterStatAdjustment.SelectedIndex == 8 ? 2 :
-							modeMonsterStatAdjustment.SelectedIndex == 3 || modeMonsterStatAdjustment.SelectedIndex == 9 ? 3 :
-							modeMonsterStatAdjustment.SelectedIndex == 4 || modeMonsterStatAdjustment.SelectedIndex == 10 ? 4 :
-							modeMonsterStatAdjustment.SelectedIndex == 5 || modeMonsterStatAdjustment.SelectedIndex == 11 ? 5 : 1;
+											modeMonsterStatAdjustment.SelectedIndex == 1 || modeMonsterStatAdjustment.SelectedIndex == 7 ? 1.5 :
+											modeMonsterStatAdjustment.SelectedIndex == 2 || modeMonsterStatAdjustment.SelectedIndex == 8 ? 2 :
+											modeMonsterStatAdjustment.SelectedIndex == 3 || modeMonsterStatAdjustment.SelectedIndex == 9 ? 3 :
+											modeMonsterStatAdjustment.SelectedIndex == 4 || modeMonsterStatAdjustment.SelectedIndex == 10 ? 4 :
+											modeMonsterStatAdjustment.SelectedIndex == 5 || modeMonsterStatAdjustment.SelectedIndex == 11 ? 5 : 1;
 
 			string monsterFile = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "monster.csv");
 
@@ -943,14 +992,14 @@ namespace FF1_PRR
 		private void statExplanation_Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("None - Keep stats at vanilla\r\n" +
-							"Shuffle - Each character will get the same stats at level up, but when they earn them are shuffled around\r\n" +
-							"Standard - Each character will get a percentage chance of a strong level up consistent to their class\r\n" +
-							"Silly - Stat growth is randomized, but will be approx. similar to the stat gains in the base game\r\n" +
-							"Wild - Randomized stat growth.  Similar to base game stats, but can vary wildly\r\n" +
-							"Chaos - Randomized stat growth.  Characters can have any stat gain\r\n" +
-							"Standardized - For None, Shuffle, and Standard, make stat gains consistent for each play for the seed.  Great for races!\r\n" +
-							"Boost promoted classes - 25% chance of higher stats on shuffle and standard, 25%, +/-, higher stats on silly, wild, and chaos for promoted classes\r\n" +
-							"NOTE:  Accuracy and magic defense is only randomized in silly, wild, or chaos settings");
+											"Shuffle - Each character will get the same stats at level up, but when they earn them are shuffled around\r\n" +
+											"Standard - Each character will get a percentage chance of a strong level up consistent to their class\r\n" +
+											"Silly - Stat growth is randomized, but will be approx. similar to the stat gains in the base game\r\n" +
+											"Wild - Randomized stat growth.  Similar to base game stats, but can vary wildly\r\n" +
+											"Chaos - Randomized stat growth.  Characters can have any stat gain\r\n" +
+											"Standardized - For None, Shuffle, and Standard, make stat gains consistent for each play for the seed.  Great for races!\r\n" +
+											"Boost promoted classes - 25% chance of higher stats on shuffle and standard, 25%, +/-, higher stats on silly, wild, and chaos for promoted classes\r\n" +
+											"NOTE:  Accuracy and magic defense is only randomized in silly, wild, or chaos settings");
 		}
 
 		private void RandoSeed_TextChanged(object sender, EventArgs e)
@@ -964,6 +1013,11 @@ namespace FF1_PRR
 		}
 
 		private void currentSelectionsListBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+
+		}
+
+		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 
 		}
