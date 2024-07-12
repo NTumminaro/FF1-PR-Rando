@@ -10,7 +10,8 @@ Below is the original README.md from gameboy9's repository with some modificatio
 
 ## Usage:
 
-![ff1prr](https://user-images.githubusercontent.com/42707378/146085575-6bc19bd1-0d48-4ed8-a3f5-c3a802993011.png)
+![Screenshot (489)](https://github.com/user-attachments/assets/6ff2b0ec-f8c6-4fb2-98da-c01c22b137d2)
+
 
 Select the flags you like and press the `Randomize!` button. You do not need to restore the game to its base ("vanilla") configuration before randomizing, but if you want to turn off the randomizer and return your game to its original state, press the `Restore vanilla` button.
 
