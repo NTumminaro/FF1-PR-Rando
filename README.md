@@ -2,6 +2,7 @@
 This is a fork of gameboy9's [FF1PRR](https://github.com/gameboy9/FF1-PR-Rando) with the goal of adding more features and improving the randomizer.
 Without gameboy9's work, this project would not be possible.
 Below is the original README.md from gameboy9's repository with some modifications to reflect the changes made in this fork.
+I realize my verion number control is a bit of a leap, but I considered gameboy9's randomizer my 1.0, and there's no going back now.
 
 ## Installation:
 1. Install Final Fantasy Pixel Remaster from Steam.
