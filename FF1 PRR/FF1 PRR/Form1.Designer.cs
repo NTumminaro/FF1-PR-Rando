@@ -105,6 +105,8 @@
             label9 = new System.Windows.Forms.Label();
             modeShuffleNPCs = new System.Windows.Forms.ComboBox();
             btnLoadFlags = new System.Windows.Forms.Button();
+            groupBox9 = new System.Windows.Forms.GroupBox();
+            flagShuffleBackgrounds = new System.Windows.Forms.CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
@@ -117,6 +119,7 @@
             tabPageCosmetics.SuspendLayout();
             groupBox7.SuspendLayout();
             groupBox8.SuspendLayout();
+            groupBox9.SuspendLayout();
             SuspendLayout();
             // 
             // btnRandomize
@@ -950,6 +953,7 @@
             // 
             // tabPageCosmetics
             // 
+            tabPageCosmetics.Controls.Add(groupBox9);
             tabPageCosmetics.Controls.Add(groupBox7);
             tabPageCosmetics.Controls.Add(groupBox8);
             tabPageCosmetics.Controls.Add(groupBox5);
@@ -1067,6 +1071,32 @@
             btnLoadFlags.UseVisualStyleBackColor = true;
             btnLoadFlags.Click += btnLoadFlags_Click;
             // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(flagShuffleBackgrounds);
+            groupBox9.Location = new System.Drawing.Point(279, 95);
+            groupBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox9.Size = new System.Drawing.Size(254, 49);
+            groupBox9.TabIndex = 54;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Other";
+            groupBox9.Enter += groupBox9_Enter;
+            // 
+            // FlagShuffleBackgrounds
+            // 
+            flagShuffleBackgrounds.AutoSize = true;
+            flagShuffleBackgrounds.Location = new System.Drawing.Point(8, 20);
+            flagShuffleBackgrounds.Margin = new System.Windows.Forms.Padding(2);
+            flagShuffleBackgrounds.Name = "flagShuffleBackgrounds";
+            flagShuffleBackgrounds.Size = new System.Drawing.Size(168, 19);
+            flagShuffleBackgrounds.TabIndex = 35;
+            flagShuffleBackgrounds.Text = "Shuffle Battle Backgrounds";
+            toolTip1.SetToolTip(flagShuffleBackgrounds, "If checked, the battle backrounds will be randomized");
+            flagShuffleBackgrounds.UseVisualStyleBackColor = true;
+            flagShuffleBackgrounds.CheckedChanged += DetermineFlags;
+            // 
             // FF1PRR
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1115,6 +1145,8 @@
             groupBox7.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1197,5 +1229,7 @@
         private System.Windows.Forms.ComboBox modeAirshipSprite;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox modeBoatSprite;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.CheckBox flagShuffleBackgrounds;
     }
 }
