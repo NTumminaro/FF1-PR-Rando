@@ -73,7 +73,8 @@ open(lukahn) :- has(airship), has(earth).
 open(lukahn) :- has(canal), has(earth).
 open(ice) :- has(canoe).
 open(ice) :- has(airship).
-open(desert) :- has(levistone).
+open(desert) :- has(canoe), has(levistone).
+open(desert) :- has(canal), has(levistone).
 open(citadel_of_trials) :- has(airship).
 open(citadel_of_trials) :- has(canal).
 open(caravan) :- has(canal).
