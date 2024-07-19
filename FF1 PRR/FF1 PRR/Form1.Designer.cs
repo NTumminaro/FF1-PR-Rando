@@ -78,6 +78,7 @@
             flagMagicShuffleShops = new System.Windows.Forms.CheckBox();
             modeMagic = new System.Windows.Forms.ComboBox();
             flagMagicKeepPermissions = new System.Windows.Forms.CheckBox();
+            flagShuffleBackgrounds = new System.Windows.Forms.CheckBox();
             label12 = new System.Windows.Forms.Label();
             label13 = new System.Windows.Forms.Label();
             currentSelectionsListBox = new System.Windows.Forms.ListBox();
@@ -86,6 +87,7 @@
             groupBox2 = new System.Windows.Forms.GroupBox();
             groupBox3 = new System.Windows.Forms.GroupBox();
             groupBox5 = new System.Windows.Forms.GroupBox();
+            pictureBoxSprite = new NearestNeighborPictureBox();
             tabControl = new System.Windows.Forms.TabControl();
             tabPageSettings = new System.Windows.Forms.TabPage();
             flagShuffleCanoe = new System.Windows.Forms.CheckBox();
@@ -96,6 +98,7 @@
             chaosHpTrackBar = new System.Windows.Forms.TrackBar();
             flagSecretChaos = new System.Windows.Forms.CheckBox();
             tabPageCosmetics = new System.Windows.Forms.TabPage();
+            groupBox9 = new System.Windows.Forms.GroupBox();
             groupBox7 = new System.Windows.Forms.GroupBox();
             label14 = new System.Windows.Forms.Label();
             modeBoatSprite = new System.Windows.Forms.ComboBox();
@@ -105,21 +108,20 @@
             label9 = new System.Windows.Forms.Label();
             modeShuffleNPCs = new System.Windows.Forms.ComboBox();
             btnLoadFlags = new System.Windows.Forms.Button();
-            groupBox9 = new System.Windows.Forms.GroupBox();
-            flagShuffleBackgrounds = new System.Windows.Forms.CheckBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSprite).BeginInit();
             tabControl.SuspendLayout();
             tabPageSettings.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).BeginInit();
             tabPageCosmetics.SuspendLayout();
+            groupBox9.SuspendLayout();
             groupBox7.SuspendLayout();
             groupBox8.SuspendLayout();
-            groupBox9.SuspendLayout();
             SuspendLayout();
             // 
             // btnRandomize
@@ -371,6 +373,7 @@
             spriteSelection.Size = new System.Drawing.Size(176, 23);
             spriteSelection.TabIndex = 31;
             toolTip1.SetToolTip(spriteSelection, "Select the sprite to replace with.");
+            spriteSelection.SelectedIndexChanged += SpriteSelection_SelectedIndexChanged;
             // 
             // includeJobUpgradeCheckBox
             // 
@@ -720,6 +723,19 @@
             flagMagicKeepPermissions.UseVisualStyleBackColor = true;
             flagMagicKeepPermissions.CheckedChanged += DetermineFlags;
             // 
+            // flagShuffleBackgrounds
+            // 
+            flagShuffleBackgrounds.AutoSize = true;
+            flagShuffleBackgrounds.Location = new System.Drawing.Point(8, 20);
+            flagShuffleBackgrounds.Margin = new System.Windows.Forms.Padding(2);
+            flagShuffleBackgrounds.Name = "flagShuffleBackgrounds";
+            flagShuffleBackgrounds.Size = new System.Drawing.Size(168, 19);
+            flagShuffleBackgrounds.TabIndex = 35;
+            flagShuffleBackgrounds.Text = "Shuffle Battle Backgrounds";
+            toolTip1.SetToolTip(flagShuffleBackgrounds, "If checked, the battle backrounds will be randomized");
+            flagShuffleBackgrounds.UseVisualStyleBackColor = true;
+            flagShuffleBackgrounds.CheckedChanged += DetermineFlags;
+            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -816,6 +832,7 @@
             // 
             // groupBox5
             // 
+            groupBox5.Controls.Add(pictureBoxSprite);
             groupBox5.Controls.Add(characterSelection);
             groupBox5.Controls.Add(spriteSelection);
             groupBox5.Controls.Add(currentSelectionsListBox);
@@ -823,14 +840,25 @@
             groupBox5.Controls.Add(includeJobUpgradeCheckBox);
             groupBox5.Controls.Add(label12);
             groupBox5.Controls.Add(label13);
-            groupBox5.Location = new System.Drawing.Point(6, 69);
+            groupBox5.Location = new System.Drawing.Point(6, 136);
             groupBox5.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             groupBox5.Name = "groupBox5";
             groupBox5.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            groupBox5.Size = new System.Drawing.Size(254, 220);
+            groupBox5.Size = new System.Drawing.Size(643, 220);
             groupBox5.TabIndex = 31;
             groupBox5.TabStop = false;
             groupBox5.Text = "Player Sprites";
+            // 
+            // pictureBoxSprite
+            // 
+            pictureBoxSprite.BackColor = System.Drawing.Color.Gainsboro;
+            pictureBoxSprite.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            pictureBoxSprite.Location = new System.Drawing.Point(249, 22);
+            pictureBoxSprite.Name = "pictureBoxSprite";
+            pictureBoxSprite.Size = new System.Drawing.Size(373, 181);
+            pictureBoxSprite.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            pictureBoxSprite.TabIndex = 39;
+            pictureBoxSprite.TabStop = false;
             // 
             // tabControl
             // 
@@ -965,6 +993,19 @@
             tabPageCosmetics.Text = "Cosmetics";
             tabPageCosmetics.UseVisualStyleBackColor = true;
             // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(flagShuffleBackgrounds);
+            groupBox9.Location = new System.Drawing.Point(6, 69);
+            groupBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            groupBox9.Size = new System.Drawing.Size(254, 49);
+            groupBox9.TabIndex = 54;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Other";
+            groupBox9.Enter += groupBox9_Enter;
+            // 
             // groupBox7
             // 
             groupBox7.Controls.Add(label14);
@@ -1071,32 +1112,6 @@
             btnLoadFlags.UseVisualStyleBackColor = true;
             btnLoadFlags.Click += btnLoadFlags_Click;
             // 
-            // groupBox9
-            // 
-            groupBox9.Controls.Add(flagShuffleBackgrounds);
-            groupBox9.Location = new System.Drawing.Point(279, 95);
-            groupBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            groupBox9.Name = "groupBox9";
-            groupBox9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            groupBox9.Size = new System.Drawing.Size(254, 49);
-            groupBox9.TabIndex = 54;
-            groupBox9.TabStop = false;
-            groupBox9.Text = "Other";
-            groupBox9.Enter += groupBox9_Enter;
-            // 
-            // FlagShuffleBackgrounds
-            // 
-            flagShuffleBackgrounds.AutoSize = true;
-            flagShuffleBackgrounds.Location = new System.Drawing.Point(8, 20);
-            flagShuffleBackgrounds.Margin = new System.Windows.Forms.Padding(2);
-            flagShuffleBackgrounds.Name = "flagShuffleBackgrounds";
-            flagShuffleBackgrounds.Size = new System.Drawing.Size(168, 19);
-            flagShuffleBackgrounds.TabIndex = 35;
-            flagShuffleBackgrounds.Text = "Shuffle Battle Backgrounds";
-            toolTip1.SetToolTip(flagShuffleBackgrounds, "If checked, the battle backrounds will be randomized");
-            flagShuffleBackgrounds.UseVisualStyleBackColor = true;
-            flagShuffleBackgrounds.CheckedChanged += DetermineFlags;
-            // 
             // FF1PRR
             // 
             AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1132,6 +1147,7 @@
             groupBox3.PerformLayout();
             groupBox5.ResumeLayout(false);
             groupBox5.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBoxSprite).EndInit();
             tabControl.ResumeLayout(false);
             tabPageSettings.ResumeLayout(false);
             tabPageSettings.PerformLayout();
@@ -1141,12 +1157,12 @@
             groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)chaosHpTrackBar).EndInit();
             tabPageCosmetics.ResumeLayout(false);
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
             groupBox7.ResumeLayout(false);
             groupBox7.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox8.PerformLayout();
-            groupBox9.ResumeLayout(false);
-            groupBox9.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1231,5 +1247,6 @@
         private System.Windows.Forms.ComboBox modeBoatSprite;
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.CheckBox flagShuffleBackgrounds;
+        private NearestNeighborPictureBox pictureBoxSprite;
     }
 }

@@ -31,6 +31,34 @@ namespace FF1_PRR
 			PopulateSpriteSelection();
 		}
 
+		public class NearestNeighborPictureBox : PictureBox
+		{
+			protected override void OnPaint(PaintEventArgs pe)
+			{
+				if (Image != null)
+				{
+					pe.Graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.NearestNeighbor;
+					pe.Graphics.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.Half;
+
+					// Calculate aspect ratio
+					float imageAspectRatio = (float)Image.Width / Image.Height;
+					int drawHeight = Height;
+					int drawWidth = (int)(Height * imageAspectRatio);
+
+					// Calculate drawing rectangle to center horizontally
+					Rectangle drawRect = new Rectangle((Width - drawWidth) / 2, 0, drawWidth, drawHeight);
+
+					pe.Graphics.DrawImage(Image, drawRect);
+				}
+				else
+				{
+					base.OnPaint(pe);
+				}
+			}
+		}
+
+
+
 		public void DetermineFlags(object sender, EventArgs e)
 		{
 			if (loading) return;
@@ -847,21 +875,73 @@ namespace FF1_PRR
 			MonsterParty.mandatoryRandomEncounters(r1, Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master"), flagNoEscapeRandomize.Checked);
 		}
 
+		// private void PopulateSpriteSelection()
+		// {
+		// 	string spriteDirectory = Path.Combine(Application.StartupPath, "data", "mods", "sprites");
+		// 	if (Directory.Exists(spriteDirectory))
+		// 	{
+		// 		var spriteFolders = Directory.GetDirectories(spriteDirectory);
+		// 		foreach (var folder in spriteFolders)
+		// 		{
+		// 			string folderName = Path.GetFileName(folder);
+		// 			spriteSelection.Items.Add(folderName);
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 		MessageBox.Show("Sprite directory not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+		// 	}
+		// }
+
 		private void PopulateSpriteSelection()
 		{
 			string spriteDirectory = Path.Combine(Application.StartupPath, "data", "mods", "sprites");
 			if (Directory.Exists(spriteDirectory))
 			{
 				var spriteFolders = Directory.GetDirectories(spriteDirectory);
-				foreach (var folder in spriteFolders)
+				var sortedFolders = spriteFolders
+						.Select(folder => new
+						{
+							FullPath = folder,
+							FolderName = Path.GetFileName(folder),
+							Game = Path.GetFileName(folder).Split('-').Last().Trim()
+						})
+						.OrderBy(folder => folder.Game) // Sort by the game part
+						.ToList();
+
+				spriteSelection.Items.Clear();
+				foreach (var folder in sortedFolders)
 				{
-					string folderName = Path.GetFileName(folder);
-					spriteSelection.Items.Add(folderName);
+					spriteSelection.Items.Add(folder.FolderName);
 				}
 			}
 			else
 			{
 				MessageBox.Show("Sprite directory not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+
+		private void SpriteSelection_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// Get the selected sprite name
+			string selectedSprite = spriteSelection.SelectedItem.ToString();
+
+			// Build the path to the sprite image directory
+			string spriteDirectory = Path.Combine(Application.StartupPath, "data", "mods", "sprites", selectedSprite);
+
+			// Find the PNG file in the nested directories
+			string[] imageFiles = Directory.GetFiles(spriteDirectory, "*.png", SearchOption.AllDirectories);
+
+			if (imageFiles.Length > 0)
+			{
+				// Load the first PNG file into the PictureBox
+				pictureBoxSprite.Image = Image.FromFile(imageFiles[0]);
+			}
+			else
+			{
+				pictureBoxSprite.Image = null; // Clear the PictureBox if no image is found
+				MessageBox.Show($"No PNG file found in the directory for {selectedSprite}.", "File Not Found", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 			}
 		}
 

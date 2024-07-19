@@ -16,7 +16,7 @@ namespace FF1_PRR.Randomize
       public string asset_name { get; set; }
       public int shadow_type { get; set; }
       public string shadow_name { get; set; }
-      public bool shuffle { get; set; } // New field to determine if it should be shuffled
+      public bool shuffle { get; set; }
     }
 
     public NPCAssets(Random r1, string modsDir, string gameDir, bool oopsAllGarland, bool shuffleNPCs)

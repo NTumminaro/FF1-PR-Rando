@@ -1,0 +1,7 @@
+TextureOverride = Assets\GameAssets\Serial\Res\Chara\Map\MO_FF5_N024_C00/sactx-128x64-Uncompressed-MO_FF5_N024_C00-701f515e
+Rect = [20,40,16,16]
+Pivot = [0.5,0]
+PixelsPerUnit = 1
+Border = [0,0,0,0]
+WrapMode = Clamp
+FilterMode = Point
