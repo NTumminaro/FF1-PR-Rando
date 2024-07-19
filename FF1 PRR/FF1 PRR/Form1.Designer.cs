@@ -28,6 +28,7 @@
         private void InitializeComponent()
         {
             components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FF1PRR));
             btnRandomize = new System.Windows.Forms.Button();
             label1 = new System.Windows.Forms.Label();
             FF1PRFolder = new System.Windows.Forms.TextBox();
@@ -1087,6 +1088,7 @@
             Controls.Add(FF1PRFolder);
             Controls.Add(label1);
             Controls.Add(btnRandomize);
+            Icon = (System.Drawing.Icon)resources.GetObject("$this.Icon");
             Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             Name = "FF1PRR";
             Text = "Final Fantasy 1 Pixel Remaster Randomizer";

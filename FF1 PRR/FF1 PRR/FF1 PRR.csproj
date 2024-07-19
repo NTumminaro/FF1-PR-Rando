@@ -5,7 +5,15 @@
     <TargetFramework>net8.0-windows7.0</TargetFramework>
     <RootNamespace>FF1_PRR</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
+    <PackageIcon>186830 32.png</PackageIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\186830 32.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CsvHelper" Version="27.1.1" />
