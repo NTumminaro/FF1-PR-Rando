@@ -92,3 +92,4 @@ If you have any questions or feedback regarding the beta version of the randomiz
 - Add a setting to use differnt pixel remaster music.
 - Refactor some classes and seperate concerns.
 - replace my spaghetti code (i.e. SpriteUpdater.cs) with more consistent and readable code.
+- Add a setting to allow the ship to convert to the airship upon getting floater.
