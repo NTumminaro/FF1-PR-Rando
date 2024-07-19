@@ -5,11 +5,16 @@
     <TargetFramework>net8.0-windows7.0</TargetFramework>
     <RootNamespace>FF1_PRR</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
-    <PackageIcon>186830 32.png</PackageIcon>
+    <PackageIcon>186830 128.png</PackageIcon>
+    <ApplicationIcon>186830 32.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\..\186830 32.png">
+    <Content Include="186830 32.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\186830 128.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
