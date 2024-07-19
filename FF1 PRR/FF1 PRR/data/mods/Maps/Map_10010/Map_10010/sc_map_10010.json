@@ -166,12 +166,12 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [15, 1, 18, 0, 0, 0, 0, 0],
+				"iValues": [9, 1, 18, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "This was changed from 15 to 9, so airship should be available from the start. This used to check for canal's flag first."
 		},
 		{
 			"label": "",
@@ -217,12 +217,12 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [9, 1, 23, 0, 0, 0, 0, 0],
+				"iValues": [24, 1, 23, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": "This was changed from 24 to 9, so airship should be available from the start. This used to check for canal's flag first."
+			"comment": ""
 		},
 		{
 			"label": "",
