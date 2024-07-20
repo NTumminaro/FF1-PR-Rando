@@ -16,7 +16,7 @@
 						{ "name": "action_id", "type": "int", "value": 4 },
 						{ "name": "affected", "type": "bool", "value": false },
 						{ "name": "all_layers", "type": "bool", "value": false },
-						{ "name": "asset_id", "type": "int", "value": 28 },
+						{ "name": "asset_id", "type": "int", "value": 1 },
 						{ "name": "birdview_puppet", "type": "bool", "value": false },
 						{ "name": "direction", "type": "int", "value": 4 },
 						{ "name": "entity_id", "type": "int", "value": 56 },
