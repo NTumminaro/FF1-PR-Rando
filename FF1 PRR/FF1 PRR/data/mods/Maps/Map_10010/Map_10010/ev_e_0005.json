@@ -34,33 +34,6 @@
 					"y": 3760
 				},
 				{
-					"gid": 998,
-					"height": 16,
-					"id": 97,
-					"name": "Event",
-					"properties": [
-						{ "name": "action_id", "type": "int", "value": 2 },
-						{ "name": "direction", "type": "int", "value": 0 },
-						{ "name": "entity_id", "type": "int", "value": 89 },
-						{ "name": "gimmick", "type": "bool", "value": false },
-						{
-							"name": "ignore_route_link_object_id",
-							"type": "int",
-							"value": -1
-						},
-						{ "name": "link_object_id", "type": "int", "value": 0 },
-						{ "name": "object_id", "type": "int", "value": 0 },
-						{ "name": "object_type", "type": "int", "value": 2 },
-						{ "name": "script_id", "type": "int", "value": 17 }
-					],
-					"rotation": 0,
-					"type": "",
-					"visible": true,
-					"width": 16,
-					"x": 2320,
-					"y": 2336
-				},
-				{
 					"gid": 1000,
 					"height": 16,
 					"id": 98,
