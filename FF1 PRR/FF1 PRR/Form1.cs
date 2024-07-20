@@ -64,6 +64,9 @@ namespace FF1_PRR
 			if (loading) return;
 
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
+			
+			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
+			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
 
 			string flags = "";
 			flags += ConvertFlagsToString(new CheckBox[] {
@@ -81,7 +84,7 @@ namespace FF1_PRR
 																flagBoostPromoted, flagSecretChaos
 												});
 
-			flags += ConvertFlagsToString(new CheckBox[] { flagDockAnywhere, flagShuffleCanoe });
+			flags += ConvertFlagsToString(new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses });
 
 			flags += convertIntToChar(modeShops.SelectedIndex + (8 * modeXPBoost.SelectedIndex));
 			flags += convertIntToChar(modeTreasure.SelectedIndex + (8 * modeMagic.SelectedIndex));
@@ -135,7 +138,7 @@ namespace FF1_PRR
 																flagBoostPromoted, flagSecretChaos
 												});
 
-			ApplyFlagsToCheckboxes(flags.Substring(3, 1), new CheckBox[] { flagDockAnywhere, flagShuffleCanoe });
+			ApplyFlagsToCheckboxes(flags.Substring(3, 1), new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses });
 
 			modeShops.SelectedIndex = convertChartoInt(flags[4]) % 8;
 			modeXPBoost.SelectedIndex = convertChartoInt(flags[4]) / 8;
@@ -174,6 +177,9 @@ namespace FF1_PRR
 			}
 
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
+
+			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
+			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
 
 			loading = false;
 		}
@@ -661,6 +667,7 @@ namespace FF1_PRR
 			if (flagNoEscapeNES.Checked) noEscapeAdjustment();
 			if (flagHeroStatsStandardize.Checked || modeHeroStats.SelectedIndex > 0) randomizeHeroStats();
 			if (flagShuffleBackgrounds.Checked) new Cosmetics(r1, Path.Combine("data", "mods"), DATA_PATH, flagShuffleBackgrounds.Checked);
+			if (flagBossShuffle.Checked) new ShuffleBosses(r1, Path.Combine(RES_MAP_PATH, "Magicite", "FF1PRR"), flagBossShuffle.Checked, flagIncludeAllBosses.Checked);
 			monsterBoost();
 			// if (CuteHats.Checked)
 			// {
@@ -989,11 +996,6 @@ namespace FF1_PRR
 			chaosHpLabel.Text = $"Chaos HP: {selectedHp}";
 
 			DetermineFlags(sender, e);
-		}
-
-		private void flagReduceChaosHP_CheckedChanged(object sender, EventArgs e)
-		{
-			chaosHpTrackBar.Enabled = !flagReduceChaosHP.Checked;
 		}
 
 		private void UpdateChaosHpCsv()

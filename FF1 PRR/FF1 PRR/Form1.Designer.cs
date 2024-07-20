@@ -79,6 +79,7 @@
             modeMagic = new System.Windows.Forms.ComboBox();
             flagMagicKeepPermissions = new System.Windows.Forms.CheckBox();
             flagShuffleBackgrounds = new System.Windows.Forms.CheckBox();
+            flagIncludeAllBosses = new System.Windows.Forms.CheckBox();
             label12 = new System.Windows.Forms.Label();
             label13 = new System.Windows.Forms.Label();
             currentSelectionsListBox = new System.Windows.Forms.ListBox();
@@ -603,7 +604,7 @@
             // flagNoEscapeRandomize
             // 
             flagNoEscapeRandomize.AutoSize = true;
-            flagNoEscapeRandomize.Location = new System.Drawing.Point(168, 82);
+            flagNoEscapeRandomize.Location = new System.Drawing.Point(167, 86);
             flagNoEscapeRandomize.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             flagNoEscapeRandomize.Name = "flagNoEscapeRandomize";
             flagNoEscapeRandomize.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -617,7 +618,7 @@
             // flagNoEscapeNES
             // 
             flagNoEscapeNES.AutoSize = true;
-            flagNoEscapeNES.Location = new System.Drawing.Point(3, 85);
+            flagNoEscapeNES.Location = new System.Drawing.Point(168, 63);
             flagNoEscapeNES.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             flagNoEscapeNES.Name = "flagNoEscapeNES";
             flagNoEscapeNES.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -659,16 +660,16 @@
             // flagBossShuffle
             // 
             flagBossShuffle.AutoSize = true;
-            flagBossShuffle.Enabled = false;
-            flagBossShuffle.Location = new System.Drawing.Point(3, 107);
+            flagBossShuffle.Location = new System.Drawing.Point(3, 86);
             flagBossShuffle.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             flagBossShuffle.Name = "flagBossShuffle";
             flagBossShuffle.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagBossShuffle.Size = new System.Drawing.Size(128, 23);
+            flagBossShuffle.Size = new System.Drawing.Size(106, 23);
             flagBossShuffle.TabIndex = 4;
-            flagBossShuffle.Text = "Shuffle Boss Spots";
-            toolTip1.SetToolTip(flagBossShuffle, "Change which boss appears at which boss location.");
+            flagBossShuffle.Text = "Shuffle Fiends";
+            toolTip1.SetToolTip(flagBossShuffle, "Shuffles which of the 4 fiends appears in each dungeon.");
             flagBossShuffle.UseVisualStyleBackColor = true;
+            flagBossShuffle.CheckedChanged += DetermineFlags;
             // 
             // label17
             // 
@@ -735,6 +736,21 @@
             toolTip1.SetToolTip(flagShuffleBackgrounds, "If checked, the battle backrounds will be randomized");
             flagShuffleBackgrounds.UseVisualStyleBackColor = true;
             flagShuffleBackgrounds.CheckedChanged += DetermineFlags;
+            // 
+            // flagIncludeAllBosses
+            // 
+            flagIncludeAllBosses.AutoSize = true;
+            flagIncludeAllBosses.Enabled = false;
+            flagIncludeAllBosses.Location = new System.Drawing.Point(3, 108);
+            flagIncludeAllBosses.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagIncludeAllBosses.Name = "flagIncludeAllBosses";
+            flagIncludeAllBosses.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagIncludeAllBosses.Size = new System.Drawing.Size(124, 23);
+            flagIncludeAllBosses.TabIndex = 37;
+            flagIncludeAllBosses.Text = "Shuffle All Bosses";
+            toolTip1.SetToolTip(flagIncludeAllBosses, "Include the re-fights, garland, Astos, and Vampire (not Chaos).");
+            flagIncludeAllBosses.UseVisualStyleBackColor = true;
+            flagIncludeAllBosses.CheckedChanged += DetermineFlags;
             // 
             // label12
             // 
@@ -929,6 +945,7 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(flagIncludeAllBosses);
             groupBox4.Controls.Add(chaosHpLabel);
             groupBox4.Controls.Add(modeMonsterStatAdjustment);
             groupBox4.Controls.Add(label15);
@@ -960,6 +977,8 @@
             // 
             // chaosHpTrackBar
             // 
+            chaosHpTrackBar.Enabled = false;
+            chaosHpTrackBar.LargeChange = 1;
             chaosHpTrackBar.Location = new System.Drawing.Point(167, 15);
             chaosHpTrackBar.Maximum = 3;
             chaosHpTrackBar.Name = "chaosHpTrackBar";
@@ -1248,5 +1267,6 @@
         private System.Windows.Forms.GroupBox groupBox9;
         private System.Windows.Forms.CheckBox flagShuffleBackgrounds;
         private NearestNeighborPictureBox pictureBoxSprite;
+        private System.Windows.Forms.CheckBox flagIncludeAllBosses;
     }
 }
