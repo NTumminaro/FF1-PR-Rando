@@ -8,461 +8,415 @@ using FF1_PRR.Inventory;
 
 namespace FF1_PRR.Inventory
 {
-	public class Magic
-	{
-		enum whiteMagic
-		{
-			wCure = 213,
-			wProtect = 214,
-			wDia = 215,
-			wBlink = 216,
-			wInvis = 221,
-			wSilence = 222,
-			wBlindna = 223,
-			wNulShock = 224,
-			wCura = 229,
-			wNulBlaze = 230,
-			wDiara = 231,
-			wHeal = 232,
-			wPoisona = 237,
-			wNulFrost = 238,
-			wFear = 239,
-			wVox = 240,
-			wCuraga = 245,
-			wDiaga = 246,
-			wLife = 247,
-			wHealara = 248,
-			wStona = 253,
-			wProtera = 254,
-			wExit = 255,
-			wInvisira = 256,
-			wCuraja = 261,
-			wNulDeath = 262,
-			wDiaja = 263,
-			wHealaga = 264,
-			wFullLife = 269,
-			wNulAll = 270,
-			wHoly = 271,
-			wDispel = 272
-		}
+  public class Magic
+  {
+    enum whiteMagic
+    {
+      wCure = 213,
+      wProtect = 214,
+      wDia = 215,
+      wBlink = 216,
+      wInvis = 221,
+      wSilence = 222,
+      wBlindna = 223,
+      wNulShock = 224,
+      wCura = 229,
+      wNulBlaze = 230,
+      wDiara = 231,
+      wHeal = 232,
+      wPoisona = 237,
+      wNulFrost = 238,
+      wFear = 239,
+      wVox = 240,
+      wCuraga = 245,
+      wDiaga = 246,
+      wLife = 247,
+      wHealara = 248,
+      wStona = 253,
+      wProtera = 254,
+      wExit = 255,
+      wInvisira = 256,
+      wCuraja = 261,
+      wNulDeath = 262,
+      wDiaja = 263,
+      wHealaga = 264,
+      wFullLife = 269,
+      wNulAll = 270,
+      wHoly = 271,
+      wDispel = 272
+    }
 
-		enum blackMagic
-		{
-			bFire = 217,
-			bFocus = 218,
-			bSleep = 219,
-			bThunder = 220,
-			bBlizzard = 225,
-			bTemper = 226,
-			bDark = 227,
-			bSlow = 228,
-			bFira = 233,
-			bThundara = 234,
-			bHold = 235,
-			bFocara = 236,
-			bSleepra = 241,
-			bConfuse = 242,
-			bHaste = 243,
-			bBlizzara = 244,
-			bFiraga = 249,
-			bTeleport = 250,
-			bScourge = 251,
-			bSlowra = 252,
-			bThundaga = 257,
-			bQuake = 258,
-			bDeath = 259,
-			bStun = 260,
-			bBlizzaga = 265,
-			bSaber = 266,
-			bBreak = 267,
-			bBlind = 268,
-			bFlare = 273,
-			bWarp = 274,
-			bStop = 275,
-			bKill = 276
-		}
+    enum blackMagic
+    {
+      bFire = 217,
+      bFocus = 218,
+      bSleep = 219,
+      bThunder = 220,
+      bBlizzard = 225,
+      bTemper = 226,
+      bDark = 227,
+      bSlow = 228,
+      bFira = 233,
+      bThundara = 234,
+      bHold = 235,
+      bFocara = 236,
+      bSleepra = 241,
+      bConfuse = 242,
+      bHaste = 243,
+      bBlizzara = 244,
+      bFiraga = 249,
+      bTeleport = 250,
+      bScourge = 251,
+      bSlowra = 252,
+      bThundaga = 257,
+      bQuake = 258,
+      bDeath = 259,
+      bStun = 260,
+      bBlizzaga = 265,
+      bSaber = 266,
+      bBreak = 267,
+      bBlind = 268,
+      bFlare = 273,
+      bWarp = 274,
+      bStop = 275,
+      bKill = 276
+    }
 
-		public static List<int> bAll = Enum.GetValues(typeof(blackMagic)).Cast<int>().ToList();
-		public static List<int> wAll = Enum.GetValues(typeof(whiteMagic)).Cast<int>().ToList();
-		public static List<int> all = bAll.Concat(wAll).ToList();
+    public static List<int> bAll = Enum.GetValues(typeof(blackMagic)).Cast<int>().ToList();
+    public static List<int> wAll = Enum.GetValues(typeof(whiteMagic)).Cast<int>().ToList();
+    public static List<int> all = bAll.Concat(wAll).ToList();
 
-		public static int WHITE_MAGIC = 1;
-		public static int BLACK_MAGIC = 2;
-		public static int DUPE_CURE_4 = 100;
+    public static int WHITE_MAGIC = 1;
+    public static int BLACK_MAGIC = 2;
+    public static int DUPE_CURE_4 = 100;
 
-		private List<ability> records;
-		private string file;
-		private string productpath;
+    private List<ability> records;
+    private string file;
+    private string productpath;
 
-		public Magic(Random r1, int randoLevel, string fileName, string product, bool shuffleShops, bool keepPermissions)
-		{
-			file = fileName;
-			productpath = product;
-			using (StreamReader reader = new StreamReader(fileName))
-			using (CsvReader csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
-			{
-				records = csv.GetRecords<ability>().ToList();
-			}
-			shuffleMagic(r1, randoLevel, shuffleShops, keepPermissions);
-		}
+    public Magic(Random r1, int randoLevel, string fileName, string product, bool keepPermissions)
+    {
+      file = fileName;
+      productpath = product;
+      using (StreamReader reader = new StreamReader(fileName))
+      using (CsvReader csv = new CsvReader(reader, System.Globalization.CultureInfo.InvariantCulture))
+      {
+        records = csv.GetRecords<ability>().ToList();
+      }
+      shuffleMagic(r1, randoLevel, keepPermissions);
+    }
 
-		public List<ability> getRecords()
-		{
-			return records;
-		}
+    public List<ability> getRecords()
+    {
+      return records;
+    }
 
-		public void writeToFile()
-		{
-			using (StreamWriter writer = new StreamWriter(file))
-			using (CsvWriter csv = new CsvWriter(writer, System.Globalization.CultureInfo.InvariantCulture))
-			{
-				csv.WriteRecords(records);
-			}
-		}
+    public void writeToFile()
+    {
+      using (StreamWriter writer = new StreamWriter(file))
+      using (CsvWriter csv = new CsvWriter(writer, System.Globalization.CultureInfo.InvariantCulture))
+      {
+        csv.WriteRecords(records);
+      }
+    }
 
-		public class ability
-		{
-			public int id { get; set; }
-			public int sort_id { get; set; }
-			public int ability_lv { get; set; }
-			public int ability_group_id { get; set; }
-			public int type_id { get; set; }
-			public int attribute_id { get; set; }
-			public int attribute_group_id { get; set; }
-			public int system_id { get; set; }
-			public int use_value { get; set; }
-			public int standard_value { get; set; }
-			public int adding_hit_rate { get; set; }
-			public int valid_hit_rate { get; set; }
-			public int weak_hit_rate { get; set; }
-			public int attack_count { get; set; }
-			public int accuracy_rate { get; set; }
-			public int Impact_status { get; set; }
-			public int use_job_group_id { get; set; }
-			public int condition_group_id { get; set; }
-			public int renge_id { get; set; }
-			public int menu_renge_id { get; set; }
-			public int battle_renge_id { get; set; }
-			public int content_flag_group_id { get; set; }
-			public int invalid_reflection { get; set; }
-			public int invalid_boss { get; set; }
-			public int resistance_attribute { get; set; }
-			public int battle_effect_asset_id { get; set; }
-			public int menu_se_asset_id { get; set; }
-			public int reaction_type { get; set; }
-			public int menu_function_group_id { get; set; }
-			public int battle_function_group_id { get; set; }
-			public int buy { get; set; }
-			public int sell { get; set; }
-			public int sales_not_possible { get; set; }
-			public int ability_wait { get; set; }
-			public string process_prog { get; set; }
-			public int data_a { get; set; }
-			public int data_b { get; set; }
-			public int data_c { get; set; }
-		}
+    public class ability
+    {
+      public int id { get; set; }
+      public int sort_id { get; set; }
+      public int ability_lv { get; set; }
+      public int ability_group_id { get; set; }
+      public int type_id { get; set; }
+      public int attribute_id { get; set; }
+      public int attribute_group_id { get; set; }
+      public int system_id { get; set; }
+      public int use_value { get; set; }
+      public int standard_value { get; set; }
+      public int adding_hit_rate { get; set; }
+      public int valid_hit_rate { get; set; }
+      public int weak_hit_rate { get; set; }
+      public int attack_count { get; set; }
+      public int accuracy_rate { get; set; }
+      public int Impact_status { get; set; }
+      public int use_job_group_id { get; set; }
+      public int condition_group_id { get; set; }
+      public int renge_id { get; set; }
+      public int menu_renge_id { get; set; }
+      public int battle_renge_id { get; set; }
+      public int content_flag_group_id { get; set; }
+      public int invalid_reflection { get; set; }
+      public int invalid_boss { get; set; }
+      public int resistance_attribute { get; set; }
+      public int battle_effect_asset_id { get; set; }
+      public int menu_se_asset_id { get; set; }
+      public int reaction_type { get; set; }
+      public int menu_function_group_id { get; set; }
+      public int battle_function_group_id { get; set; }
+      public int buy { get; set; }
+      public int sell { get; set; }
+      public int sales_not_possible { get; set; }
+      public int ability_wait { get; set; }
+      public string process_prog { get; set; }
+      public int data_a { get; set; }
+      public int data_b { get; set; }
+      public int data_c { get; set; }
+    }
 
-		public void shuffleMagic(Random r1, int randoLevel, bool shuffleShops, bool keepPermissions)
-		{
-			// Shuffle levels and price between the white spells and then the black spells.
-			List<int> wMagic = new List<int> {
-				4, 5, 6, 7,
-				12, 13, 14, 15,
-				20, 21, 22, 23,
-				28, 29, 30, 31,
-				36, 37, 38, 39,
-				44, 45, 46, 47,
-				52, 53, 54, 55,
-				60, 61, 62, 63
-		};
-			List<int> bMagic = new List<int> {
-				8, 9, 10, 11,
-				16, 17, 18, 19,
-				24, 25, 26, 27,
-				32, 33, 34, 35,
-				40, 41, 42, 43,
-				48, 49, 50, 51,
-				56, 57, 58, 59,
-				64, 65, 66, 67
-		};
+    //RandoLevel 1: Simple
+    // Description: In the Simple mode, all spells are shuffled while keeping their original levels and prices. This ensures that the progression of spell acquisition remains consistent with the original game design. The spell levels and prices are maintained in the correct order, ensuring a balanced gameplay experience.
+    // RandoLevel 2: Standard
+    // Description: The Standard mode shuffles all spells similar to the Simple mode, maintaining their original levels and prices. Additionally, the order of spells in shops is shuffled, with the first shop's order preserved. This introduces variability in spell availability across different shops, enhancing the exploration aspect of the game.
+    // RandoLevel 3: Pro
+    // Description: The Pro mode shuffles spells and their levels and prices independently. Spells of the same level are distributed across different shops, ensuring there are always four spells per level available. Prices are matched to the original cost of spells, regardless of their shuffled levels. This mode increases the challenge by requiring players to find spells across various shops.
+    // RandoLevel 4: Chaos
+    // Description: The Chaos mode provides the highest level of randomness. All spells are shuffled, including their type (white or black magic) and job group IDs. This means spells can change their magic type and become available to different job groups. After shuffling, the spells are split into white and black categories for their respective shops. This mode offers an unpredictable and challenging experience, where spell types and job compatibility are completely randomized.
 
-			if (randoLevel == 1 || randoLevel == 2) // Standard and Pro
-			{
-				List<ability> spellbook = new List<ability>();
-				List<int> levels = new List<int>();
-				List<int> prices = new List<int>();
-				// we have to go through it twice to get the level and price index in the correct order...
-				foreach (ability spell in records)
-				{
-					if (spell.ability_group_id == 1 && spell.type_id == 1 && spell.id != DUPE_CURE_4)
-					{
-						spellbook.Insert(0, spell);
-						spellbook[0].sort_id = spell.id + r1.Next(0, 100);
-						levels.Add(spell.ability_lv);
-						prices.Add(spell.buy);
-					}
-				}
-				foreach (ability spell in records)
-				{
-					if (spell.ability_group_id == 1 && spell.type_id == 2 && spell.id != DUPE_CURE_4)
-					{
-						spellbook.Insert(0, spell);
-						spellbook[0].sort_id = spell.id + r1.Next(0, 100);
-						levels.Add(spell.ability_lv);
-						prices.Add(spell.buy);
-					}
-				}
-				if (randoLevel == 2)
-				{
-					// swap items by family
-					sortByFamily(spellbook);
-				}
-				// sort by school, then sort ID
-				spellbook.Sort((x, y) =>
-				{
-					int bySchool = x.type_id.CompareTo(y.type_id);
-					if (bySchool == 0)
-					{
-						return x.sort_id.CompareTo(y.sort_id);
-					}
-					return bySchool;
-				});
+    public void shuffleMagic(Random r1, int randoLevel, bool keepPermissions)
+    {
+      List<ability> whiteSpells = records.Where(spell => spell.type_id == WHITE_MAGIC && spell.id != DUPE_CURE_4).ToList();
+      List<ability> blackSpells = records.Where(spell => spell.type_id == BLACK_MAGIC).ToList();
 
-				foreach (ability spell in spellbook)
-				{
-					spell.ability_lv = levels[0];
-					spell.buy = prices[0];
-					levels.RemoveAt(0);
-					prices.RemoveAt(0);
-				}
-			}
+      switch (randoLevel)
+      {
+        case 1:
+          // Simple
+          ShuffleSpells(r1, whiteSpells, blackSpells, keepPermissions);
+          break;
 
-			if (randoLevel == 3 || randoLevel == 4) // Wild and Chaos
-			{
-				// Enhanced shuffling logic
-				void shuffleList(List<int> list)
-				{
-					for (int i = list.Count - 1; i > 0; i--)
-					{
-						int j = r1.Next(i + 1);
-						int temp = list[i];
-						list[i] = list[j];
-						list[j] = temp;
-					}
-				}
+        case 2:
+          // Standard
+          ShuffleSpells(r1, whiteSpells, blackSpells, keepPermissions);
+          ShuffleShopsExceptFirst(r1, ref whiteSpells, ref blackSpells);
+          break;
 
-				// Shuffle by chunks to break patterns
-				void shuffleByChunks(List<int> magicList, int chunkSize)
-				{
-					int numChunks = magicList.Count / chunkSize;
-					List<int> chunks = Enumerable.Range(0, numChunks).ToList();
-					shuffleList(chunks);
+        case 3:
+          // Pro
+          ShuffleSpells(r1, whiteSpells, blackSpells, keepPermissions);
+          ShuffleLevelsAndPrices(whiteSpells, r1);
+          ShuffleLevelsAndPrices(blackSpells, r1);
+          EnsureFourSpellsPerLevel(whiteSpells, r1);
+          EnsureFourSpellsPerLevel(blackSpells, r1);
+          break;
 
-					for (int i = 0; i < numChunks; i++)
-					{
-						int chunkStart = chunks[i] * chunkSize;
-						int chunkEnd = chunkStart + chunkSize;
+        case 4:
+          // Chaos
+          List<ability> allSpells = whiteSpells.Concat(blackSpells).ToList();
+          allSpells.Shuffle(r1);
+          RandomizeTypeAndJobGroup(allSpells, r1, keepPermissions);
+          SplitAndAssignSpells(allSpells, ref whiteSpells, ref blackSpells);
+          break;
+      }
 
-						List<int> chunk = magicList.GetRange(chunkStart, chunkSize);
-						shuffleList(chunk);
+      UpdateAbilityCsv(whiteSpells);
+      UpdateAbilityCsv(blackSpells);
+      UpdateProductCsv(r1, randoLevel);
+      writeToFile();
+    }
 
-						for (int j = chunkStart; j < chunkEnd; j++)
-						{
-							magicList[j] = chunk[j - chunkStart];
-						}
-					}
-				}
+    private void ShuffleSpells(Random r1, List<ability> whiteSpells, List<ability> blackSpells, bool keepPermissions)
+    {
+      // Extract the original levels and prices before shuffling
+      List<int> originalWhiteLevels = whiteSpells.Select(spell => spell.ability_lv).ToList();
+      List<int> originalWhitePrices = whiteSpells.Select(spell => spell.buy).ToList();
+      List<int> originalWhiteJobGroupIds = whiteSpells.Select(spell => spell.use_job_group_id).ToList();
 
-				shuffleByChunks(wMagic, 4);
-				shuffleByChunks(bMagic, 4);
+      List<int> originalBlackLevels = blackSpells.Select(spell => spell.ability_lv).ToList();
+      List<int> originalBlackPrices = blackSpells.Select(spell => spell.buy).ToList();
+      List<int> originalBlackJobGroupIds = blackSpells.Select(spell => spell.use_job_group_id).ToList();
 
-				// Additional shuffling rounds for better distribution
-				for (int i = 0; i < 5; i++)
-				{
-					shuffleList(wMagic);
-					shuffleList(bMagic);
-				}
+      // Shuffle the spells
+      whiteSpells.Shuffle(r1);
+      blackSpells.Shuffle(r1);
 
-				// Apply the shuffled magic to the records
-				for (int lnI = 0; lnI < 640; lnI++)
-				{
-					List<int> magic = lnI < 320 ? wMagic : bMagic;
+      // Apply original levels, prices, and job group IDs to the shuffled list
+      for (int i = 0; i < whiteSpells.Count; i++)
+      {
+        whiteSpells[i].ability_lv = originalWhiteLevels[i];
+        whiteSpells[i].buy = originalWhitePrices[i];
+        if (!keepPermissions)
+        {
+          whiteSpells[i].use_job_group_id = originalWhiteJobGroupIds[i];
+        }
+      }
 
-					int ln1 = magic[r1.Next() % magic.Count];
-					int ln2 = magic[r1.Next() % magic.Count];
-					int buy = records[ln1].buy;
-					int level = records[ln1].ability_lv;
-					records[ln1].buy = records[ln2].buy;
-					records[ln1].ability_lv = records[ln2].ability_lv;
-					records[ln2].buy = buy;
-					records[ln2].ability_lv = level;
-				}
-			}
+      for (int i = 0; i < blackSpells.Count; i++)
+      {
+        blackSpells[i].ability_lv = originalBlackLevels[i];
+        blackSpells[i].buy = originalBlackPrices[i];
+        if (!keepPermissions)
+        {
+          blackSpells[i].use_job_group_id = originalBlackJobGroupIds[i];
+        }
+      }
+    }
 
-			if (!keepPermissions)
-			{
-				List<int> permissions = new List<int> {
-						42, 42, 27, 43,
-						42, 42, 42, 42,
-						42, 42, 27, 27,
-						45, 45, 27, 46,
-						45, 27, 46, 27,
-						27, 46, 50, 46,
-						24, 46, 24, 27,
-						24, 24, 24, 24,
+    private void ShuffleShopsExceptFirst(Random r1, ref List<ability> whiteSpells, ref List<ability> blackSpells)
+    {
+      List<int> whiteShopIds = Product.whiteMagicStores.Skip(1).ToList();
+      List<int> blackShopIds = Product.blackMagicStores.Skip(1).ToList();
 
-						44, 44, 44, 44,
-						44, 44, 44, 44,
-						44, 44, 44, 44,
-						44, 44, 44, 44,
-						47, 48, 49, 47,
-						49, 29, 29, 29,
-						49, 22, 22, 29,
-						22, 22, 22, 22
-				};
+      whiteShopIds.Shuffle(r1);
+      blackShopIds.Shuffle(r1);
 
-				int lnJ = 0;
-				for (int lnI = 1; lnI <= 8; lnI++)
-				{
-					foreach (int wm in wMagic)
-					{
-						if (records[wm].ability_lv == lnI)
-						{
-							records[wm].use_job_group_id = permissions[lnJ];
-							lnJ++;
-						}
-					}
-				}
-				for (int lnI = 1; lnI <= 8; lnI++)
-				{
-					foreach (int bm in bMagic)
-					{
-						if (records[bm].ability_lv == lnI)
-						{
-							records[bm].use_job_group_id = permissions[lnJ];
-							lnJ++;
-						}
-					}
-				}
-			}
+      whiteShopIds.Insert(0, Product.whiteMagicStores.First());
+      blackShopIds.Insert(0, Product.blackMagicStores.First());
 
-			//clear out old spell inventory
-			List<ShopItem> shopDB = Product.readShopDB(productpath);
-			shopDB = shopDB.FindAll(x => !Product.allMagicStores.Contains(x.group_id));
+      AssignShopsToSpells(ref whiteSpells, whiteShopIds);
+      AssignShopsToSpells(ref blackSpells, blackShopIds);
+    }
 
-			//then, add the new spell inventory
-			shopDB = determineSpells(r1, randoLevel, shuffleShops, shopDB);
-			shopDB.Sort((x, y) => x.id.CompareTo(y.id));
+    private void AssignShopsToSpells(ref List<ability> spells, List<int> shopIds)
+    {
+      for (int i = 0; i < spells.Count; i++)
+      {
+        spells[i].sort_id = shopIds[i % shopIds.Count];
+      }
+    }
 
-			//and write out the product.csv
-			Product.writeShopDB(productpath, shopDB);
-			//and the ability.csv
-			writeToFile();
-		}
+    private void ShuffleLevelsAndPrices(List<ability> spells, Random r1)
+    {
+      List<int> levels = spells.Select(spell => spell.ability_lv).ToList();
+      List<int> prices = spells.Select(spell => spell.buy).ToList();
 
+      levels.Shuffle(r1);
+      prices.Shuffle(r1);
 
-		private void sortByFamily(List<ability> spellbook)
-		{
-			List<List<int>> spellFamilies = new List<List<int>>()
-			{
-				new List<int>(){(int)blackMagic.bFire,    (int)blackMagic.bFira,    (int)blackMagic.bFiraga,  (int)blackMagic.bFlare},
-				new List<int>(){(int)blackMagic.bBlizzard,(int)blackMagic.bBlizzara,(int)blackMagic.bBlizzaga,(int)blackMagic.bFlare},
-				new List<int>(){(int)blackMagic.bThunder, (int)blackMagic.bThundara,(int)blackMagic.bThundaga,(int)blackMagic.bFlare},
-				new List<int>(){(int)blackMagic.bFocus,   (int)blackMagic.bFocara},
-				new List<int>(){(int)blackMagic.bSleep,   (int)blackMagic.bSleepra},
-				new List<int>(){(int)blackMagic.bDark,    (int)blackMagic.bBlind},
-				new List<int>(){(int)blackMagic.bSlow,    (int)blackMagic.bSlowra},
-				new List<int>(){(int)blackMagic.bHold,    (int)blackMagic.bStun},
-				new List<int>(){(int)blackMagic.bTeleport,(int)blackMagic.bWarp},
-				new List<int>(){(int)blackMagic.bDeath,   (int)blackMagic.bKill},
-				new List<int>(){(int)blackMagic.bStun,    (int)blackMagic.bBlind,   (int)blackMagic.bKill},
+      for (int i = 0; i < spells.Count; i++)
+      {
+        spells[i].ability_lv = levels[i];
+        spells[i].buy = prices[i];
+      }
+    }
 
-				new List<int>(){(int)whiteMagic.wCure,    (int)whiteMagic.wCura,    (int)whiteMagic.wCuraga,(int)whiteMagic.wCuraja},
-				new List<int>(){(int)whiteMagic.wProtect, (int)whiteMagic.wProtera},
-				new List<int>(){(int)whiteMagic.wDia,     (int)whiteMagic.wDiara,   (int)whiteMagic.wDiaga, (int)whiteMagic.wDiaja, (int)whiteMagic.wHoly},
-				new List<int>(){(int)whiteMagic.wNulShock,(int)whiteMagic.wNulAll},
-				new List<int>(){(int)whiteMagic.wInvis,   (int)whiteMagic.wInvisira},
-				new List<int>(){(int)whiteMagic.wNulBlaze,(int)whiteMagic.wNulAll},
-				new List<int>(){(int)whiteMagic.wHeal,    (int)whiteMagic.wHealara, (int)whiteMagic.wHealaga},
-				new List<int>(){(int)whiteMagic.wNulFrost,(int)whiteMagic.wNulAll},
-				new List<int>(){(int)whiteMagic.wLife,    (int)whiteMagic.wFullLife},
-				new List<int>(){(int)whiteMagic.wNulDeath,(int)whiteMagic.wNulAll}
-			};
-			foreach (List<int> family in spellFamilies)
-			{
-				List<int> sort_ids = new List<int>();
-				List<ability> spells = new List<ability>();
-				foreach (int index in family)
-				{
-					ability spell = spellbook.Find(x => x.id == index - 208);
-					spells.Add(spell);
-					sort_ids.Add(spell.sort_id);
-				}
-				sort_ids.Sort();
-				foreach (ability spell in spells)
-				{
-					spell.sort_id = sort_ids[0];
-					sort_ids.RemoveAt(0);
-				}
-			}
-		}
+    private void EnsureFourSpellsPerLevel(List<ability> spells, Random r1)
+    {
+      var groupedByLevel = spells.GroupBy(spell => spell.ability_lv).ToList();
+      foreach (var group in groupedByLevel)
+      {
+        if (group.Count() != 4)
+        {
+          var difference = 4 - group.Count();
+          for (int i = 0; i < Math.Abs(difference); i++)
+          {
+            if (difference > 0)
+            {
+              var randomSpell = spells[r1.Next(spells.Count)];
+              randomSpell.ability_lv = group.Key;
+            }
+            else
+            {
+              var randomSpell = group.ElementAt(r1.Next(group.Count()));
+              randomSpell.ability_lv = spells[r1.Next(spells.Count)].ability_lv;
+            }
+          }
+        }
+      }
+    }
 
-		private List<ShopItem> determineSpells(Random r1, int randoLevel, bool shuffleShops, List<ShopItem> shopDB)
-		{
-			List<ShopItem> magicShopDB = new List<ShopItem>();
-			int[,] magicMemory = new int[2, 8];
-			// Since we're now using Partial Assets, we need to fill back in the IDs we removed wherever we can.  Otherwise, the vanilla shops will also be used, which is incorrect.
-			int productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
-			List<int> shopLookup = new List<int>{
-										0,0,0,0,
-										1,1,1,1,
-										2,2,2,2,
-										3,3,3,3,
-										4,4,4,4,
-										5,5,5,5,
-										6,6,8,8,
-										7,7,9,9
-									};
-			List<int> wmShops = Product.whiteMagicStores;
-			List<int> bmShops = Product.blackMagicStores;
-			if (shuffleShops)
-			{
-				//this is a lot of steps for something that would be one line in a real language
-				int wmHead = wmShops[0];
-				int bmHead = bmShops[0];
-				wmShops = wmShops.Skip(1).ToList();
-				bmShops = bmShops.Skip(1).ToList();
-				wmShops.Shuffle(r1);
-				bmShops.Shuffle(r1);
-				wmShops.Insert(0, wmHead);
-				bmShops.Insert(0, bmHead);
-			}
-			if (randoLevel == 4)
-			{
-				shopLookup.Shuffle(r1);
-				wmShops.Shuffle(r1);
-				bmShops.Shuffle(r1);
-			}
+    private void RandomizeTypeAndJobGroup(List<ability> spells, Random r1, bool keepPermissions)
+    {
+      List<int> typeIds = new List<int> { WHITE_MAGIC, BLACK_MAGIC };
+      List<int> jobGroupIds = spells.Select(spell => spell.use_job_group_id).Distinct().ToList();
 
-			foreach (ability spell in records)
-			{
-				if (spell.ability_group_id == 1 && spell.id != DUPE_CURE_4) //if it's a spell and not chaos's special Cure4
-				{
-					List<int> shopType = (spell.type_id == 1) ? wmShops : bmShops;
-					ShopItem newItem = new ShopItem
-					{
-						id = productID,
-						content_id = spell.id + 208, //Magic Constant for Ability ID -> shop ID map
-						group_id = shopType[shopLookup[(spell.ability_lv - 1) * 4 + magicMemory[spell.type_id - 1, spell.ability_lv - 1]]]
-					};
-					//determineMagicShop(magicMemory, spell.type_id, spell.ability_lv);
-					magicMemory[spell.type_id - 1, spell.ability_lv - 1]++;
-					shopDB.Add(newItem);
-					productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
-				}
-			}
+      typeIds.Shuffle(r1);
+      jobGroupIds.Shuffle(r1);
 
-			return shopDB;
-		}
-	}
+      for (int i = 0; i < spells.Count; i++)
+      {
+        spells[i].type_id = typeIds[r1.Next(typeIds.Count)];
+        if (!keepPermissions)
+        {
+          spells[i].use_job_group_id = jobGroupIds[r1.Next(jobGroupIds.Count)];
+        }
+      }
+    }
+
+    private void SplitAndAssignSpells(List<ability> allSpells, ref List<ability> whiteSpells, ref List<ability> blackSpells)
+    {
+      whiteSpells = allSpells.Where(spell => spell.type_id == WHITE_MAGIC).ToList();
+      blackSpells = allSpells.Where(spell => spell.type_id == BLACK_MAGIC).ToList();
+    }
+
+    private void UpdateAbilityCsv(List<ability> spells)
+    {
+      foreach (var spell in spells)
+      {
+        var originalSpell = records.FirstOrDefault(r => r.id == spell.id);
+        if (originalSpell != null)
+        {
+          originalSpell.ability_lv = spell.ability_lv;
+          originalSpell.buy = spell.buy;
+          originalSpell.use_job_group_id = spell.use_job_group_id;
+          originalSpell.type_id = spell.type_id;
+        }
+      }
+    }
+
+    private void UpdateProductCsv(Random r1, int randoLevel)
+    {
+      List<ShopItem> shopDB = Product.readShopDB(productpath);
+      shopDB = shopDB.FindAll(x => !Product.allMagicStores.Contains(x.group_id));
+
+      shopDB = determineSpells(r1, randoLevel, shopDB);
+      shopDB.Sort((x, y) => x.id.CompareTo(y.id));
+      Product.writeShopDB(productpath, shopDB);
+    }
+
+    private List<ShopItem> determineSpells(Random r1, int randoLevel, List<ShopItem> shopDB)
+    {
+      List<ShopItem> magicShopDB = new List<ShopItem>();
+      int[,] magicMemory = new int[2, 8];
+      int productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
+      List<int> shopLookup = new List<int>{
+                0,0,0,0,
+                1,1,1,1,
+                2,2,2,2,
+                3,3,3,3,
+                4,4,4,4,
+                5,5,5,5,
+                6,6,8,8,
+                7,7,9,9
+            };
+      List<int> wmShops = Product.whiteMagicStores;
+      List<int> bmShops = Product.blackMagicStores;
+
+      if (randoLevel == 2 || randoLevel == 4)
+      {
+        int wmHead = wmShops[0];
+        int bmHead = bmShops[0];
+        wmShops = wmShops.Skip(1).ToList();
+        bmShops = bmShops.Skip(1).ToList();
+        wmShops.Shuffle(r1);
+        bmShops.Shuffle(r1);
+        wmShops.Insert(0, wmHead);
+        bmShops.Insert(0, bmHead);
+      }
+
+      if (randoLevel == 4)
+      {
+        shopLookup.Shuffle(r1);
+        wmShops.Shuffle(r1);
+        bmShops.Shuffle(r1);
+      }
+
+      foreach (ability spell in records)
+      {
+        if (spell.ability_group_id == 1 && spell.id != DUPE_CURE_4)
+        {
+          List<int> shopType = (spell.type_id == WHITE_MAGIC) ? wmShops : bmShops;
+          ShopItem newItem = new ShopItem
+          {
+            id = productID,
+            content_id = spell.id + 208,
+            group_id = shopType[shopLookup[(spell.ability_lv - 1) * 4 + magicMemory[spell.type_id - 1, spell.ability_lv - 1]]]
+          };
+          magicMemory[spell.type_id - 1, spell.ability_lv - 1]++;
+          shopDB.Add(newItem);
+          productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
+        }
+      }
+
+      return shopDB;
+    }
+  }
 }

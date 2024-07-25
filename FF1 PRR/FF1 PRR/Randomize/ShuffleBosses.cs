@@ -73,6 +73,4 @@ namespace FF1_PRR.Randomize
       File.WriteAllText(filePath, json.ToString());
     }
   }
-
-  // Extension method for shuffling lists
 }

@@ -828,7 +828,7 @@ namespace FF1_PRR
 			Magic magicData = new Magic(r1, modeMagic.SelectedIndex,
 																			Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "ability.csv"),
 																			Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "product.csv"),
-																			flagMagicShuffleShops.Checked, flagMagicKeepPermissions.Checked);
+																			flagMagicKeepPermissions.Checked);
 		}
 
 		private void randomizeKeyItems()
