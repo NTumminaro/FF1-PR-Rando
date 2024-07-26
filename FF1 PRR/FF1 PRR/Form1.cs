@@ -64,7 +64,7 @@ namespace FF1_PRR
 			if (loading) return;
 
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
-			
+
 			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
 			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
 
@@ -675,7 +675,9 @@ namespace FF1_PRR
 			// Demerine says: eeeeeeeee
 			// }
 
-			if (flagDockAnywhere.Checked) File.Copy(Path.Combine("data", "mods", "attribute.json"), Path.Combine(RES_MAP_PATH, "Magicite", "FF1PRR", "Map_10010", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_10010", "Map_10010", "attribute.json"), true);
+			// if (flagDockAnywhere.Checked) File.Copy(Path.Combine("data", "mods", "attribute.json"), Path.Combine(RES_MAP_PATH, "Magicite", "FF1PRR", "Map_10010", "Assets", "GameAssets", "Serial", "Res", "Map", "Map_10010", "Map_10010", "attribute.json"), true);
+
+			if (flagDockAnywhere.Checked) File.Copy(Path.Combine("data", "mods", "landing_group.csv"), Path.Combine(RES_MAP_PATH, "Magicite", "FF1PRR", "master", "Assets", "GameAssets", "Serial", "Data", "Master", "landing_group.csv"), true);
 
 			string dataPath = Path.Combine(FF1PRFolder.Text, "FINAL FANTASY_Data", "StreamingAssets");
 			// bool hiddenChaos = false; // Set this based on your testing needs
