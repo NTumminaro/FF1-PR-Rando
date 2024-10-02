@@ -239,14 +239,6 @@ namespace FF1_PRR.Randomize
 			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
 			var mnemonicsList = jEvents.Mnemonics.ToList();
 
-			// Replace the SysCall for the canoe and crystals with the placeholder
-			if (loc.keyItem != (int)flags.canoe)
-			{
-				ReplaceSysCall(mnemonicsList, "カヌーの入手", "キー入力待ち");
-			}
-			// Always replace crystal SysCalls with the placeholder
-			ReplaceCrystalSysCalls(mnemonicsList);
-
 			// Flag to track if the SysCall has been updated
 			bool syscallUpdated = false;
 
@@ -281,21 +273,27 @@ namespace FF1_PRR.Randomize
 				// Process SysCall mnemonics
 				if (singleScript.mnemonic == "SysCall")
 				{
-					if (loc.keyItem == (int)flags.canoe)
+					// Only process SysCalls that are placeholders or the specific special calls
+					if (singleScript.operands.sValues[0] == "キー入力待ち" ||
+							singleScript.operands.sValues[0] == "カヌーの入手" ||
+							IsCrystalSysCall(singleScript.operands.sValues[0]))
 					{
-						singleScript.operands.sValues[0] = "カヌーの入手"; // Canoe SysCall
-						syscallUpdated = true;
-					}
-					else if (IsCrystal(loc.keyItem))
-					{
-						singleScript.operands.sValues[0] = GetCrystalSysCall(loc.keyItem); // Crystal SysCall
-						syscallUpdated = true;
-					}
-					else
-					{
-						// Replace with placeholder
-						singleScript.operands.sValues[0] = "キー入力待ち";
-						syscallUpdated = true;
+						if (loc.keyItem == (int)flags.canoe)
+						{
+							singleScript.operands.sValues[0] = "カヌーの入手"; // Canoe SysCall
+							syscallUpdated = true;
+						}
+						else if (IsCrystal(loc.keyItem))
+						{
+							singleScript.operands.sValues[0] = GetCrystalSysCall(loc.keyItem); // Crystal SysCall
+							syscallUpdated = true;
+						}
+						else
+						{
+							// Replace with placeholder
+							singleScript.operands.sValues[0] = "キー入力待ち";
+							syscallUpdated = true;
+						}
 					}
 				}
 			}
@@ -311,6 +309,7 @@ namespace FF1_PRR.Randomize
 			string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
 			File.WriteAllText(fileName, updatedJson);
 		}
+
 
 		private void ReplaceSysCall(List<EventJSON.Mnemonic> mnemonicsList, string original, string replacement)
 		{
