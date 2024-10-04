@@ -217,12 +217,12 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [24, 1, 23, 0, 0, 0, 0, 0],
+				"iValues": [33, 1, 23, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "checks first if you have chime, if not, you can still get airship, but no chime access"
 		},
 		{
 			"label": "",
@@ -257,12 +257,12 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [25, 1, 27, 0, 0, 0, 0, 0],
+				"iValues": [24, 1, 27, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "if you do have chime, check if you have levistone, 0025 and 0026 are now identical, so it shouldnt matter if you have it or not"
 		},
 		{
 			"label": "",
@@ -297,12 +297,12 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [33, 1, 31, 0, 0, 0, 0, 0],
+				"iValues": [25, 1, 31, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "if you have levistone, check if you have gotten the airship, if so unlock everything, if not, then load the airship cutscene"
 		},
 		{
 			"label": "",

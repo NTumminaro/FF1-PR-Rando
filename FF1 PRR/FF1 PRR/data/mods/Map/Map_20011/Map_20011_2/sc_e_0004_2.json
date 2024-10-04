@@ -28,7 +28,7 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [5, 1, 16, 0, 0, 0, 0, 0],
+				"iValues": [69, 1, 16, 0, 0, 0, 0, 0],
 				"rValues": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
