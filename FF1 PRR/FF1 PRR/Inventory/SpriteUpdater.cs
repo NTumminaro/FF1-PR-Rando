@@ -254,30 +254,40 @@ namespace FF1_PRR.Inventory
       string mapPath = Path.Combine(destFolderPath, "Assets", "GameAssets", "Serial", "Res", "Chara", "Map");
       DirectoryInfo mapDir = new DirectoryInfo(mapPath);
 
+      if (!mapDir.Exists)
+      {
+        return; // Map directory doesn't exist, nothing to rename
+      }
+
       foreach (var subDir in mapDir.GetDirectories())
       {
         if (subDir.Name.StartsWith("MO_", StringComparison.OrdinalIgnoreCase))
         {
           string newSubDirName = ReplacePlaceholder(subDir.Name, characterFolder);
           string newSubDirPath = Path.Combine(mapDir.FullName, newSubDirName);
+          
+          // Move the directory first if needed
+          DirectoryInfo workingDir = subDir;
           if (!string.Equals(subDir.FullName, newSubDirPath, StringComparison.OrdinalIgnoreCase))
           {
             Directory.Move(subDir.FullName, newSubDirPath);
+            workingDir = new DirectoryInfo(newSubDirPath);
           }
 
-          // Rename .png files in the subdirectory
-          foreach (var file in subDir.GetFiles("*.png"))
+          // Now rename .png files in the (possibly moved) directory
+          foreach (var file in workingDir.GetFiles("*.png"))
           {
             string newFileName = ReplacePlaceholder(file.Name, characterFolder);
-            string newFilePath = Path.Combine(subDir.FullName, newFileName);
-            if (File.Exists(newFilePath))
-            {
-              File.Delete(newFilePath);
-            }
-
-            // Skip move if source and destination are the same
+            string newFilePath = Path.Combine(workingDir.FullName, newFileName);
+            
+            // Skip if source and destination are the same
             if (!string.Equals(file.FullName, newFilePath, StringComparison.OrdinalIgnoreCase))
             {
+              if (File.Exists(newFilePath))
+              {
+                File.Delete(newFilePath);
+              }
+
               // Retry logic to handle intermittent issues
               int retries = 3;
               bool success = false;

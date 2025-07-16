@@ -1,11 +1,11 @@
 using CsvHelper;
 using Newtonsoft.Json;
 using FF1_PRR.Inventory;
+using FF1_PRR.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using FF1_PRR.Common;
 
 namespace FF1_PRR.Randomize
 {
@@ -76,8 +76,6 @@ namespace FF1_PRR.Randomize
 
     List<NPCInfo> npcList = new List<NPCInfo>();
 
-    string logFilePath;
-
     private List<string> customAssetIds = new List<string>
         {
             "1", "2", "11", "13", "15", "16", "17", "18", "21",
@@ -98,9 +96,7 @@ namespace FF1_PRR.Randomize
       }
 
       List<NPCInfo> regularNPCs = npcList.Where(npc => !npc.exclude).ToList();
-      List<NPCInfo> excludedNPCs = npcList.Where(npc => npc.exclude).ToList();
-
-      List<string> assetIdList = customAssetIds;
+      List<string> assetIdList = new List<string>(customAssetIds);
 
 
       // Assign script_id and set foldername for JackInTheBox
@@ -129,7 +125,6 @@ namespace FF1_PRR.Randomize
 
         for (int i = 0; i < npcList.Count; i++)
         {
-          // LogMessage($"Shuffling asset_id for NPC ID {npcList[i].id}: {npcList[i].asset_id} -> {evenlyDistributedAssetIds[i]}");
           npcList[i].asset_id = evenlyDistributedAssetIds[i];
         }
       }
@@ -151,21 +146,15 @@ namespace FF1_PRR.Randomize
           {
             if (obj.id == npc.id)
             {
-              // LogMessage($"Found NPC with id {npc.id} in map {npc.map}, submap {npc.submap}. Updating asset_id to {npc.asset_id}");
               obj.properties.Find(x => x.name == "asset_id").value = npc.asset_id.ToString();
 
               // Update script_id and action_id only if script_id is 542
               if (npc.script_id == "542")
               {
-                // LogMessage($"Updating script_id to {npc.script_id} and setting action_id to 2 for NPC ID {npc.id} due to script_id 542");
                 obj.properties.Find(x => x.name == "script_id").value = npc.script_id.ToString();
 
                 var actionProperty = obj.properties.Find(x => x.name == "action_id");
-                if (actionProperty == null)
-                {
-                  // LogMessage($"Error: action_id property not found for NPC ID {npc.id}");
-                }
-                else
+                if (actionProperty != null)
                 {
                   actionProperty.value = "2";
                 }
@@ -179,18 +168,8 @@ namespace FF1_PRR.Randomize
         }
         if (!npcFound)
         {
-          // LogMessage($"NPC with id {npc.id} not found in map {npc.map}, submap {npc.submap}. Object IDs and properties checked:");
-          foreach (var layer in entity_default.layers)
-          {
-            foreach (var obj in layer.objects)
-            {
-              // LogMessage($"Object ID: {obj.id}, Object Name: {obj.name}");
-              foreach (var prop in obj.properties)
-              {
-                // LogMessage($"Property Name: {prop.name}, Property Value: {prop.value}");
-              }
-            }
-          }
+          // NPC not found - this could indicate a data mismatch
+          // Consider logging this to a debug file if needed for troubleshooting
         }
 
         JsonSerializer serializer = new JsonSerializer();
@@ -201,7 +180,6 @@ namespace FF1_PRR.Randomize
           serializer.Serialize(writer, entity_default);
         }
       }
-      // LogMessage("NPC randomization complete.");
     }
 
     private void AddScriptsToSubmap(string submapPath, string mapRootPath)
@@ -294,13 +272,7 @@ namespace FF1_PRR.Randomize
       }
     }
 
-    // private void LogMessage(string message)
-    // {
-    //   using (StreamWriter sw = new StreamWriter(logFilePath, true))
-    //   {
-    //     sw.WriteLine($"{DateTime.Now}: {message}");
-    //   }
-    // }
+
 
     private void LogChaosLocation(string message)
     {
@@ -314,19 +286,4 @@ namespace FF1_PRR.Randomize
 
 
 
-// Extension method for shuffling lists
-public static class ListExtensions
-{
-  public static void Shuffle<T>(this IList<T> list, Random random)
-  {
-    int n = list.Count;
-    while (n > 1)
-    {
-      n--;
-      int k = random.Next(n + 1);
-      T value = list[k];
-      list[k] = list[n];
-      list[n] = value;
-    }
-  }
-}
+

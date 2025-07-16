@@ -6,7 +6,7 @@ using System.Linq;
 using static FF1_PRR.Common.Common;
 using FF1_PRR.Inventory;
 
-namespace FF1_PRR.Inventory
+namespace FF1_PRR.Randomize
 {
 	public class Magic
 	{
@@ -89,6 +89,7 @@ namespace FF1_PRR.Inventory
 		public static int WHITE_MAGIC = 1;
 		public static int BLACK_MAGIC = 2;
 		public static int DUPE_CURE_4 = 100;
+		public static int MAGIC_ID_OFFSET = 208; // Offset for converting ability ID to shop content ID
 
 		private List<ability> records;
 		private string file;
@@ -394,7 +395,7 @@ namespace FF1_PRR.Inventory
 				List<ability> spells = new List<ability>();
 				foreach (int index in family)
 				{
-					ability spell = spellbook.Find(x => x.id == index - 208);
+					ability spell = spellbook.Find(x => x.id == index - MAGIC_ID_OFFSET);
 					spells.Add(spell);
 					sort_ids.Add(spell.sort_id);
 				}
@@ -409,35 +410,13 @@ namespace FF1_PRR.Inventory
 
 		private List<ShopItem> determineSpells(Random r1, int randoLevel, bool shuffleShops, List<ShopItem> shopDB)
 		{
-			List<ShopItem> magicShopDB = new List<ShopItem>();
 			int[,] magicMemory = new int[2, 8];
-			// Since we're now using Partial Assets, we need to fill back in the IDs we removed wherever we can.  Otherwise, the vanilla shops will also be used, which is incorrect.
-			int productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
-			List<int> shopLookup = new List<int>{
-										0,0,0,0,
-										1,1,1,1,
-										2,2,2,2,
-										3,3,3,3,
-										4,4,4,4,
-										5,5,5,5,
-										6,6,8,8,
-										7,7,9,9
-									};
-			List<int> wmShops = Product.whiteMagicStores;
-			List<int> bmShops = Product.blackMagicStores;
-			if (shuffleShops)
-			{
-				//this is a lot of steps for something that would be one line in a real language
-				int wmHead = wmShops[0];
-				int bmHead = bmShops[0];
-				wmShops = wmShops.Skip(1).ToList();
-				bmShops = bmShops.Skip(1).ToList();
-				wmShops.Shuffle(r1);
-				bmShops.Shuffle(r1);
-				wmShops.Insert(0, wmHead);
-				bmShops.Insert(0, bmHead);
-			}
-			if (randoLevel == 4)
+			int productID = GetNextAvailableProductId(shopDB);
+			
+			List<int> shopLookup = CreateShopLookup();
+			var (wmShops, bmShops) = GetMagicShops(shuffleShops, r1);
+			
+			if (randoLevel == 4) // Chaos mode
 			{
 				shopLookup.Shuffle(r1);
 				wmShops.Shuffle(r1);
@@ -446,23 +425,98 @@ namespace FF1_PRR.Inventory
 
 			foreach (ability spell in records)
 			{
-				if (spell.ability_group_id == 1 && spell.id != DUPE_CURE_4) //if it's a spell and not chaos's special Cure4
+				if (spell.ability_group_id == 1 && spell.id != DUPE_CURE_4)
 				{
-					List<int> shopType = (spell.type_id == 1) ? wmShops : bmShops;
-					ShopItem newItem = new ShopItem
-					{
-						id = productID,
-						content_id = spell.id + 208, //Magic Constant for Ability ID -> shop ID map
-						group_id = shopType[shopLookup[(spell.ability_lv - 1) * 4 + magicMemory[spell.type_id - 1, spell.ability_lv - 1]]]
-					};
-					//determineMagicShop(magicMemory, spell.type_id, spell.ability_lv);
+					var shopItem = CreateMagicShopItem(spell, shopLookup, wmShops, bmShops, magicMemory, productID);
+					shopDB.Add(shopItem);
+					
 					magicMemory[spell.type_id - 1, spell.ability_lv - 1]++;
-					shopDB.Add(newItem);
-					productID = Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
+					productID = GetNextAvailableProductId(shopDB);
 				}
 			}
 
 			return shopDB;
+		}
+
+		private int GetNextAvailableProductId(List<ShopItem> shopDB)
+		{
+			return Enumerable.Range(1, 1000).Except(shopDB.Select(x => x.id)).First();
+		}
+
+		private List<int> CreateShopLookup()
+		{
+			return new List<int>
+			{
+				0,0,0,0,  // Level 1 spells: 4 spells per level, distributed across shops
+				1,1,1,1,  // Level 2 spells
+				2,2,2,2,  // Level 3 spells
+				3,3,3,3,  // Level 4 spells
+				4,4,4,4,  // Level 5 spells
+				5,5,5,5,  // Level 6 spells
+				6,6,8,8,  // Level 7 spells (note: shops 6 and 8)
+				7,7,9,9   // Level 8 spells (note: shops 7 and 9)
+			};
+		}
+
+		private (List<int> wmShops, List<int> bmShops) GetMagicShops(bool shuffleShops, Random r1)
+		{
+			List<int> wmShops = new List<int>(Product.whiteMagicStores);
+			List<int> bmShops = new List<int>(Product.blackMagicStores);
+			
+			if (shuffleShops)
+			{
+				// Preserve the first shop (usually the starting town) but shuffle the rest
+				var wmHead = wmShops[0];
+				var bmHead = bmShops[0];
+				
+				var wmTail = wmShops.Skip(1).ToList();
+				var bmTail = bmShops.Skip(1).ToList();
+				
+				wmTail.Shuffle(r1);
+				bmTail.Shuffle(r1);
+				
+				wmShops = new List<int> { wmHead };
+				wmShops.AddRange(wmTail);
+				
+				bmShops = new List<int> { bmHead };
+				bmShops.AddRange(bmTail);
+			}
+			
+			return (wmShops, bmShops);
+		}
+
+		private ShopItem CreateMagicShopItem(ability spell, List<int> shopLookup, List<int> wmShops, List<int> bmShops, int[,] magicMemory, int productID)
+		{
+			List<int> shopType = (spell.type_id == 1) ? wmShops : bmShops;
+			int shopIndex = CalculateShopIndex(spell, shopLookup, magicMemory);
+			
+			// Ensure we don't go out of bounds
+			if (shopIndex >= shopType.Count)
+			{
+				shopIndex = shopType.Count - 1;
+			}
+			
+			return new ShopItem
+			{
+				id = productID,
+				content_id = spell.id + MAGIC_ID_OFFSET, // Magic constant for ability ID -> shop ID mapping
+				group_id = shopType[shopIndex]
+			};
+		}
+
+		private int CalculateShopIndex(ability spell, List<int> shopLookup, int[,] magicMemory)
+		{
+			int levelIndex = (spell.ability_lv - 1) * 4; // 4 spells per level
+			int spellCountForLevel = magicMemory[spell.type_id - 1, spell.ability_lv - 1];
+			int lookupIndex = levelIndex + spellCountForLevel;
+			
+			// Ensure we don't go out of bounds of shopLookup
+			if (lookupIndex >= shopLookup.Count)
+			{
+				lookupIndex = shopLookup.Count - 1;
+			}
+			
+			return shopLookup[lookupIndex];
 		}
 	}
 }
