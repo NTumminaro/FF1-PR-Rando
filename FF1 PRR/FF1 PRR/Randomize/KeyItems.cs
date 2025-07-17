@@ -13,6 +13,9 @@ namespace FF1_PRR.Randomize
 {
 	public class KeyItems
 	{
+		private readonly RandomizerLogger logger;
+		private readonly ValidationUtility validator;
+
 		// 24 flags
 		enum flags
 		{
@@ -87,12 +90,26 @@ namespace FF1_PRR.Randomize
 
 		public KeyItems(Random r1, string directory, bool flagDockAnywhere, bool flagShuffleCanoe)
 		{
-			List<locationData> ld = new List<locationData>();
-			List<int> complete = new List<int>();
+			// Initialize logging and validation
+			logger = new RandomizerLogger();
+			
+			using var operation = logger.StartOperation("Key Items Randomization");
+			
+			try
+			{
+				// Validate input parameters
+				ValidateInputParameters(r1, directory, operation);
+				
+				List<locationData> ld = new List<locationData>();
+				List<int> complete = new List<int>();
 
-			Process p = new Process();
-			string keyItemDataFile = flagDockAnywhere ? "KeyItemDataShipDockAnywhere.lp" : "KeyItemDataShip.lp";
-			string keyItemSolvingFile = flagShuffleCanoe ? "KeyItemSolvingShipShuffleCanoe.lp" : "KeyItemSolvingShip.lp";
+				// Validate clingo files exist
+				string keyItemDataFile = flagDockAnywhere ? "KeyItemDataShipDockAnywhere.lp" : "KeyItemDataShip.lp";
+				string keyItemSolvingFile = flagShuffleCanoe ? "KeyItemSolvingShipShuffleCanoe.lp" : "KeyItemSolvingShip.lp";
+				
+				ValidateClingoFiles(keyItemDataFile, keyItemSolvingFile);
+
+				Process p = new Process();
 
 			p.StartInfo = new ProcessStartInfo(Path.Combine("clingo", "clingo"), Path.Combine("clingo", keyItemSolvingFile) + " " + Path.Combine("clingo", keyItemDataFile) + " --sign-def=3 --seed=" + r1.Next().ToString().Trim() + " --outf=2")
 			{
@@ -230,14 +247,117 @@ namespace FF1_PRR.Randomize
 				}
 			}
 
-			// SetVehicle - 3/145/160 for airship.  4/145/162 for ship.
+				// SetVehicle - 3/145/160 for airship.  4/145/162 for ship.
+				
+				operation.Complete($"Successfully processed {ld.Count} key item locations");
+			}
+			catch (Exception ex)
+			{
+				operation.Fail("Key items randomization failed", ex);
+				logger.Critical("Key items randomization failed", "KeyItems", ex);
+				throw new RandomizationException("Key items randomization failed", ex);
+			}
+		}
+
+		/// <summary>
+		/// Validates input parameters for key items randomization
+		/// </summary>
+		private void ValidateInputParameters(Random r1, string directory, OperationTracker operation)
+		{
+			if (r1 == null)
+			{
+				throw new ArgumentNullException(nameof(r1), "Random number generator cannot be null");
+			}
+
+			if (string.IsNullOrWhiteSpace(directory))
+			{
+				throw new ArgumentException("Directory path cannot be null or empty", nameof(directory));
+			}
+
+			var directoryValidation = ValidationUtility.ValidateDirectoryExists(directory, "Game Directory");
+			if (!directoryValidation.IsValid)
+			{
+				operation.Fail($"Invalid directory: {directory}");
+				throw new DirectoryNotFoundException($"Game directory not found: {directory}");
+			}
+
+			logger.Info($"Validated input parameters - Directory: {directory}", "KeyItems");
+		}
+
+		/// <summary>
+		/// Validates that required clingo files exist
+		/// </summary>
+		private void ValidateClingoFiles(string keyItemDataFile, string keyItemSolvingFile)
+		{
+			var clingoDir = Path.Combine("clingo");
+			var clingoExe = Path.Combine(clingoDir, "clingo");
+			var dataFile = Path.Combine(clingoDir, keyItemDataFile);
+			var solvingFile = Path.Combine(clingoDir, keyItemSolvingFile);
+
+			var validationResults = new List<ValidationResult>
+			{
+				ValidationUtility.ValidateDirectoryExists(clingoDir, "Clingo Directory"),
+				ValidationUtility.ValidateFileExists(clingoExe, "Clingo Executable"),
+				ValidationUtility.ValidateFileExists(dataFile, "Key Item Data File"),
+				ValidationUtility.ValidateFileExists(solvingFile, "Key Item Solving File")
+			};
+
+			logger.LogValidations(validationResults, "Clingo Files");
+
+			var failures = validationResults.Where(r => !r.IsValid).ToList();
+			if (failures.Any())
+			{
+				var errorMessage = $"Clingo file validation failed:\n{string.Join("\n", failures.Select(f => f.ErrorMessage))}";
+				logger.Error(errorMessage, "KeyItems");
+				throw new FileNotFoundException(errorMessage);
+			}
+
+			logger.Info($"Validated clingo files - Data: {keyItemDataFile}, Solving: {keyItemSolvingFile}", "KeyItems");
 		}
 
 		private void JsonRewrite(string fileName, locationData loc)
 		{
-			string json = File.ReadAllText(fileName);
-			EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
-			var mnemonicsList = jEvents.Mnemonics.ToList();
+			using var operation = logger.StartOperation($"JSON Rewrite: {Path.GetFileName(fileName)}");
+			
+			try
+			{
+				// Validate JSON file exists and is accessible
+				var fileValidation = ValidationUtility.ValidateFileExists(fileName, "Event JSON File");
+				if (!fileValidation.IsValid)
+				{
+					operation.Fail($"JSON file validation failed: {fileName}");
+					throw new FileNotFoundException($"Event JSON file not found: {fileName}");
+				}
+
+				// Validate file permissions
+				var permissionValidation = ValidationUtility.ValidateFilePermissions(fileName, true, "Event JSON File");
+				if (!permissionValidation.IsValid)
+				{
+					operation.Fail($"Insufficient permissions for JSON file: {fileName}");
+					throw new UnauthorizedAccessException($"Cannot write to JSON file: {fileName}");
+				}
+
+				logger.Debug($"Processing location {loc.ff1Event} with key item {loc.keyItem}", "JsonRewrite");
+
+				string json = File.ReadAllText(fileName);
+				
+				// Validate JSON structure
+				var jsonValidation = ValidationUtility.ValidateJsonStructure(fileName, new[] { "Mnemonics" }, "Event JSON");
+				if (!jsonValidation.IsValid)
+				{
+					operation.Fail($"Invalid JSON structure: {fileName}");
+					throw new InvalidDataException($"Invalid JSON structure in {fileName}: {jsonValidation.ErrorMessage}");
+				}
+
+				EventJSON jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
+				
+				if (jEvents?.Mnemonics == null)
+				{
+					operation.Fail($"JSON file has no Mnemonics array: {fileName}");
+					throw new InvalidDataException($"JSON file missing Mnemonics array: {fileName}");
+				}
+
+				var mnemonicsList = jEvents.Mnemonics.ToList();
 
 			// Flag to track if the SysCall has been updated
 			bool syscallUpdated = false;
@@ -282,17 +402,21 @@ namespace FF1_PRR.Randomize
 						{
 							singleScript.operands.sValues[0] = "カヌーの入手"; // Canoe SysCall
 							syscallUpdated = true;
+							logger.Debug($"Updated SysCall to Canoe for location {loc.ff1Event}", "SysCall Update");
 						}
 						else if (IsCrystal(loc.keyItem))
 						{
-							singleScript.operands.sValues[0] = GetCrystalSysCall(loc.keyItem); // Crystal SysCall
+							var crystalSysCall = GetCrystalSysCall(loc.keyItem);
+							singleScript.operands.sValues[0] = crystalSysCall; // Crystal SysCall
 							syscallUpdated = true;
+							logger.Debug($"Updated SysCall to {crystalSysCall} for location {loc.ff1Event}", "SysCall Update");
 						}
 						else
 						{
-							// Replace with placeholder
+							// Replace with placeholder for non-special items
 							singleScript.operands.sValues[0] = "キー入力待ち";
 							syscallUpdated = true;
+							logger.Debug($"Updated SysCall to placeholder for location {loc.ff1Event} (key item {loc.keyItem})", "SysCall Update");
 						}
 					}
 				}
@@ -304,10 +428,105 @@ namespace FF1_PRR.Randomize
 				AddSysCall(mnemonicsList, loc.keyItem == (int)flags.canoe ? "カヌーの入手" : GetCrystalSysCall(loc.keyItem));
 			}
 
-			// Serialize and save the updated JSON
-			jEvents.Mnemonics = mnemonicsList.ToArray();
-			string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
-			File.WriteAllText(fileName, updatedJson);
+				// Validate crystal SysCall logic
+				ValidateCrystalSysCallLogic(loc, syscallUpdated);
+
+				// Serialize and save the updated JSON
+				jEvents.Mnemonics = mnemonicsList.ToArray();
+				string updatedJson = JsonConvert.SerializeObject(jEvents, Formatting.Indented);
+				
+				// Create backup before writing
+				CreateBackupFile(fileName);
+				
+				File.WriteAllText(fileName, updatedJson);
+				
+				// Validate the written file
+				var postWriteValidation = ValidationUtility.ValidateJsonStructure(fileName, new[] { "Mnemonics" }, "Updated Event JSON");
+				if (!postWriteValidation.IsValid)
+				{
+					operation.Fail($"Post-write validation failed: {fileName}");
+					RestoreBackupFile(fileName);
+					throw new InvalidDataException($"JSON file corrupted after write: {fileName}");
+				}
+
+				logger.Debug($"Successfully updated JSON file: {Path.GetFileName(fileName)}", "JsonRewrite");
+				operation.Complete($"JSON rewrite completed for location {loc.ff1Event}");
+			}
+			catch (Exception ex)
+			{
+				operation.Fail($"JSON rewrite failed for {Path.GetFileName(fileName)}", ex);
+				logger.Error($"Failed to rewrite JSON file: {fileName}", "JsonRewrite", ex);
+				
+				// Attempt to restore backup if it exists
+				RestoreBackupFile(fileName);
+				throw new FileOperationException(fileName, "JSON rewrite failed", ex);
+			}
+		}
+
+		/// <summary>
+		/// Validates crystal SysCall logic to ensure proper crystal tracking
+		/// </summary>
+		private void ValidateCrystalSysCallLogic(locationData loc, bool syscallUpdated)
+		{
+			if (IsCrystal(loc.keyItem))
+			{
+				var expectedSysCall = GetCrystalSysCall(loc.keyItem);
+				if (string.IsNullOrEmpty(expectedSysCall))
+				{
+					logger.Warning($"Unknown crystal type for key item {loc.keyItem} at location {loc.ff1Event}", "Crystal Validation");
+					throw new InvalidOperationException($"Unknown crystal type for key item {loc.keyItem}");
+				}
+
+				if (!syscallUpdated)
+				{
+					logger.Warning($"Crystal SysCall not updated for key item {loc.keyItem} at location {loc.ff1Event}", "Crystal Validation");
+				}
+				else
+				{
+					logger.Info($"Crystal SysCall validated: {expectedSysCall} for location {loc.ff1Event}", "Crystal Validation");
+				}
+			}
+		}
+
+		/// <summary>
+		/// Creates a backup of the JSON file before modification
+		/// </summary>
+		private void CreateBackupFile(string fileName)
+		{
+			try
+			{
+				var backupFileName = fileName + ".backup";
+				if (File.Exists(fileName))
+				{
+					File.Copy(fileName, backupFileName, true);
+					logger.Debug($"Created backup: {Path.GetFileName(backupFileName)}", "Backup");
+				}
+			}
+			catch (Exception ex)
+			{
+				logger.Warning($"Failed to create backup for {Path.GetFileName(fileName)}: {ex.Message}", "Backup");
+			}
+		}
+
+		/// <summary>
+		/// Restores a backup file if it exists
+		/// </summary>
+		private void RestoreBackupFile(string fileName)
+		{
+			try
+			{
+				var backupFileName = fileName + ".backup";
+				if (File.Exists(backupFileName))
+				{
+					File.Copy(backupFileName, fileName, true);
+					File.Delete(backupFileName);
+					logger.Info($"Restored backup for {Path.GetFileName(fileName)}", "Backup");
+				}
+			}
+			catch (Exception ex)
+			{
+				logger.Error($"Failed to restore backup for {Path.GetFileName(fileName)}: {ex.Message}", "Backup");
+			}
 		}
 
 
@@ -412,6 +631,82 @@ namespace FF1_PRR.Randomize
 		{
 			return sValue == "黄色クリスタル点灯" || sValue == "赤色クリスタル点灯" ||
 						 sValue == "青色クリスタル点灯" || sValue == "緑色クリスタル点灯";
+		}
+
+		/// <summary>
+		/// Validates that all crystal locations have proper SysCalls after randomization
+		/// </summary>
+		public static void ValidateCrystalSysCalls(string directory)
+		{
+			var logger = new RandomizerLogger();
+			using var operation = logger.StartOperation("Crystal SysCall Validation");
+
+			try
+			{
+				var crystalLocations = new Dictionary<string, string>
+				{
+					{ "Earth Crystal (Lich)", Path.Combine("Map", "Map_30031", "Map_30031_5", "sc_e_0021_2.json") },
+					{ "Fire Crystal (Marilith)", Path.Combine("Map", "Map_30051", "Map_30051_6", "sc_e_0023_2.json") },
+					{ "Water Crystal (Kraken)", Path.Combine("Map", "Map_30081", "Map_30081_1", "sc_e_0036_2.json") },
+					{ "Air Crystal (Tiamat)", Path.Combine("Map", "Map_30111", "Map_30111_5", "sc_e_0037_2.json") }
+				};
+
+				var expectedSysCalls = new Dictionary<string, string>
+				{
+					{ "Earth Crystal (Lich)", "黄色クリスタル点灯" },
+					{ "Fire Crystal (Marilith)", "赤色クリスタル点灯" },
+					{ "Water Crystal (Kraken)", "青色クリスタル点灯" },
+					{ "Air Crystal (Tiamat)", "緑色クリスタル点灯" }
+				};
+
+				foreach (var location in crystalLocations)
+				{
+					var filePath = Inventory.Updater.MemoriaToMagiciteFile(directory, location.Value);
+					
+					if (!File.Exists(filePath))
+					{
+						logger.Warning($"Crystal location file not found: {filePath}", "Crystal Validation");
+						continue;
+					}
+
+					var json = File.ReadAllText(filePath);
+					var jEvents = JsonConvert.DeserializeObject<EventJSON>(json);
+					
+					bool foundCorrectSysCall = false;
+					bool foundPlaceholder = false;
+
+					foreach (var mnemonic in jEvents.Mnemonics)
+					{
+						if (mnemonic.mnemonic == "SysCall")
+						{
+							var sysCallValue = mnemonic.operands.sValues[0];
+							
+							if (sysCallValue == expectedSysCalls[location.Key])
+							{
+								foundCorrectSysCall = true;
+								logger.Info($"✓ {location.Key}: Found correct SysCall '{sysCallValue}'", "Crystal Validation");
+							}
+							else if (sysCallValue == "キー入力待ち")
+							{
+								foundPlaceholder = true;
+								logger.Warning($"⚠ {location.Key}: Found placeholder SysCall - may need crystal injection", "Crystal Validation");
+							}
+						}
+					}
+
+					if (!foundCorrectSysCall && !foundPlaceholder)
+					{
+						logger.Info($"ℹ {location.Key}: No crystal SysCall found (may have different item)", "Crystal Validation");
+					}
+				}
+
+				operation.Complete("Crystal SysCall validation completed");
+			}
+			catch (Exception ex)
+			{
+				operation.Fail("Crystal SysCall validation failed", ex);
+				logger.Error("Failed to validate crystal SysCalls", "Crystal Validation", ex);
+			}
 		}
 
 

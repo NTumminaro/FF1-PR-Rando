@@ -6,6 +6,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FF1_PRR.Common;
 
 namespace FF1_PRR.Inventory
 {
@@ -23,6 +24,35 @@ namespace FF1_PRR.Inventory
 
 		public static void MemoriaToMagiciteCopy(string mainDirectory, string origDirectory, string type, string topKey, bool merge = false)
 		{
+			// Validate input parameters
+			if (string.IsNullOrWhiteSpace(mainDirectory))
+			{
+				throw new ArgumentException("Main directory cannot be null or empty", nameof(mainDirectory));
+			}
+
+			if (string.IsNullOrWhiteSpace(origDirectory))
+			{
+				throw new ArgumentException("Origin directory cannot be null or empty", nameof(origDirectory));
+			}
+
+			if (string.IsNullOrWhiteSpace(type))
+			{
+				throw new ArgumentException("Type cannot be null or empty", nameof(type));
+			}
+
+			// Validate directories exist
+			var mainDirValidation = ValidationUtility.ValidateDirectoryExists(mainDirectory, "Main Directory");
+			if (!mainDirValidation.IsValid)
+			{
+				throw new DirectoryNotFoundException($"Main directory not found: {mainDirectory}");
+			}
+
+			var origDirValidation = ValidationUtility.ValidateDirectoryExists(origDirectory, "Origin Directory");
+			if (!origDirValidation.IsValid)
+			{
+				throw new DirectoryNotFoundException($"Origin directory not found: {origDirectory}");
+			}
+
 			string topDirectory;
 			string topValue;
 
@@ -36,10 +66,14 @@ namespace FF1_PRR.Inventory
 					break;
 
 				case "Map":
+					if (string.IsNullOrWhiteSpace(topKey))
+					{
+						throw new ArgumentException("TopKey is required for Map type", nameof(topKey));
+					}
 					topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", topKey);
 					break;
 				default:
-					throw new Exception("Invalid type parameter in MemoriaToMagicite");
+					throw new ArgumentException($"Invalid type parameter: {type}. Valid types are: Message, MainData, Map");
 			}
 
 			topKey = topKey.ToLower();
@@ -119,6 +153,24 @@ namespace FF1_PRR.Inventory
 
 		public static string MemoriaToMagiciteFile(string mainDirectory, string fileToUse)
 		{
+			// Validate input parameters
+			if (string.IsNullOrWhiteSpace(mainDirectory))
+			{
+				throw new ArgumentException("Main directory cannot be null or empty", nameof(mainDirectory));
+			}
+
+			if (string.IsNullOrWhiteSpace(fileToUse))
+			{
+				throw new ArgumentException("File path cannot be null or empty", nameof(fileToUse));
+			}
+
+			// Validate main directory exists
+			var directoryValidation = ValidationUtility.ValidateDirectoryExists(mainDirectory, "Main Directory");
+			if (!directoryValidation.IsValid)
+			{
+				throw new DirectoryNotFoundException($"Main directory not found: {mainDirectory}");
+			}
+
 			string finalFile = fileToUse;
 			
 			// Remove leading backslashes
