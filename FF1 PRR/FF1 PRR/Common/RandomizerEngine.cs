@@ -104,6 +104,7 @@ namespace FF1_PRR.Common
             public bool ShopsTrad { get; set; }
             public bool MagicShuffleShops { get; set; }
             public bool MagicKeepPermissions { get; set; }
+            public bool MagicRandomizeClassPermissions { get; set; }
             public bool ReduceEncounterRate { get; set; }
             public bool TreasureTrad { get; set; }
             public bool RebalanceBosses { get; set; }
@@ -123,6 +124,7 @@ namespace FF1_PRR.Common
             public bool JackInTheBox { get; set; }
             public bool BossShuffle { get; set; }
             public bool ShuffleBackgrounds { get; set; }
+            public bool ShuffleMonsterEncounters { get; set; }
 
             public int ModeShops { get; set; }
             public int ModeXPBoost { get; set; }
@@ -348,6 +350,9 @@ namespace FF1_PRR.Common
             if (options.BossShuffle)
                 ShuffleBosses(options);
 
+            if (options.ShuffleMonsterEncounters)
+                ShuffleMonsterEncounters(options);
+
             ApplyMonsterBoost(options);
         }
 
@@ -356,7 +361,7 @@ namespace FF1_PRR.Common
             var magic = new Magic(r1, options.ModeMagic,
                 Path.Combine(GetDataPath(), "ability.csv"),
                 Path.Combine(GetDataPath(), "product.csv"),
-                options.MagicShuffleShops, options.MagicKeepPermissions);
+                options.MagicShuffleShops, options.MagicKeepPermissions, options.MagicRandomizeClassPermissions);
         }
 
         private void RandomizeShops(RandomizationOptions options)
@@ -412,6 +417,11 @@ namespace FF1_PRR.Common
             var bossShuffle = new ShuffleBosses(r1, 
                 Path.Combine(gameDirectory, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR"),
                 options.BossShuffle, options.IncludeAllBosses);
+        }
+
+        private void ShuffleMonsterEncounters(RandomizationOptions options)
+        {
+            var monsterEncounters = new MonsterEncounters(r1, GetDataPath(), options.ShuffleMonsterEncounters);
         }
 
         private void ApplyMonsterBoost(RandomizationOptions options)

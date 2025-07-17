@@ -58,10 +58,10 @@ namespace FF1_PRR
 			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
 
 			uiController.UpdateFlags(
-				new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagReduceEncounterRate },
+				new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagMagicRandomizeClassPermissions, flagReduceEncounterRate },
 				new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt },
 				new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos },
-				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses },
+				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses, flagShuffleMonsterEncounters },
 				modeShops, modeXPBoost, modeTreasure, modeMagic, modeMonsterStatAdjustment, modeHeroStats,
 				chaosHpTrackBar, flagJackInTheBox, RandoFlags);
 
@@ -78,10 +78,10 @@ namespace FF1_PRR
 				VisualFlags.Text = config.VisualFlags;
 
 			uiController.ApplyFlags(RandoFlags.Text, VisualFlags.Text,
-				new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagReduceEncounterRate },
+				new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagMagicRandomizeClassPermissions, flagReduceEncounterRate },
 				new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt },
 				new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos },
-				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses },
+				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses, flagShuffleMonsterEncounters },
 				modeShops, modeXPBoost, modeTreasure, modeMagic, modeMonsterStatAdjustment, modeHeroStats,
 				chaosHpTrackBar, flagJackInTheBox, chaosHpLabel,
 				modeShuffleNPCs, modeAirshipSprite, modeBoatSprite, flagShuffleBackgrounds);
@@ -223,6 +223,7 @@ namespace FF1_PRR
 				ShopsTrad = flagShopsTrad.Checked,
 				MagicShuffleShops = flagMagicShuffleShops.Checked,
 				MagicKeepPermissions = flagMagicKeepPermissions.Checked,
+				MagicRandomizeClassPermissions = flagMagicRandomizeClassPermissions.Checked,
 				ReduceEncounterRate = flagReduceEncounterRate.Checked,
 				TreasureTrad = flagTreasureTrad.Checked,
 				RebalanceBosses = flagRebalanceBosses.Checked,
@@ -242,6 +243,7 @@ namespace FF1_PRR
 				JackInTheBox = flagJackInTheBox.Checked,
 				BossShuffle = flagBossShuffle.Checked,
 				ShuffleBackgrounds = flagShuffleBackgrounds.Checked,
+				ShuffleMonsterEncounters = flagShuffleMonsterEncounters.Checked,
 				ModeShops = modeShops.SelectedIndex,
 				ModeXPBoost = modeXPBoost.SelectedIndex,
 				ModeTreasure = modeTreasure.SelectedIndex,

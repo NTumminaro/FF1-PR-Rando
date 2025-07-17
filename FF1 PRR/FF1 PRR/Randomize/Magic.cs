@@ -95,7 +95,7 @@ namespace FF1_PRR.Randomize
 		private string file;
 		private string productpath;
 
-		public Magic(Random r1, int randoLevel, string fileName, string product, bool shuffleShops, bool keepPermissions)
+		public Magic(Random r1, int randoLevel, string fileName, string product, bool shuffleShops, bool keepPermissions, bool randomizeClassPermissions = false)
 		{
 			file = fileName;
 			productpath = product;
@@ -104,7 +104,7 @@ namespace FF1_PRR.Randomize
 			{
 				records = csv.GetRecords<ability>().ToList();
 			}
-			shuffleMagic(r1, randoLevel, shuffleShops, keepPermissions);
+			shuffleMagic(r1, randoLevel, shuffleShops, keepPermissions, randomizeClassPermissions);
 		}
 
 		public List<ability> getRecords()
@@ -163,7 +163,7 @@ namespace FF1_PRR.Randomize
 			public int data_c { get; set; }
 		}
 
-		public void shuffleMagic(Random r1, int randoLevel, bool shuffleShops, bool keepPermissions)
+		public void shuffleMagic(Random r1, int randoLevel, bool shuffleShops, bool keepPermissions, bool randomizeClassPermissions = false)
 		{
 			// Shuffle levels and price between the white spells and then the black spells.
 			List<int> wMagic = new List<int> {
@@ -238,9 +238,9 @@ namespace FF1_PRR.Randomize
 				}
 			}
 
-			if (randoLevel == 3 || randoLevel == 4) // Wild and Chaos
+			if (randoLevel == 3) // Wild - Complete chaos within existing magic system
 			{
-				// Enhanced shuffling logic
+				// Enhanced shuffling logic (moved from old Chaos)
 				void shuffleList(List<int> list)
 				{
 					for (int i = list.Count - 1; i > 0; i--)
@@ -300,7 +300,80 @@ namespace FF1_PRR.Randomize
 				}
 			}
 
-			if (!keepPermissions)
+			if (randoLevel == 4) // Chaos - Break magic school boundaries
+			{
+				// First do Wild-level shuffling
+				void shuffleList(List<int> list)
+				{
+					for (int i = list.Count - 1; i > 0; i--)
+					{
+						int j = r1.Next(i + 1);
+						int temp = list[i];
+						list[i] = list[j];
+						list[j] = temp;
+					}
+				}
+
+				// Combine all magic for cross-school shuffling
+				List<int> allMagic = new List<int>();
+				allMagic.AddRange(wMagic);
+				allMagic.AddRange(bMagic);
+
+				// Shuffle everything together
+				for (int i = 0; i < 10; i++) // Extra shuffling for chaos
+				{
+					shuffleList(allMagic);
+				}
+
+				// Apply chaotic shuffling across all spells
+				for (int lnI = 0; lnI < 1000; lnI++)
+				{
+					int ln1 = allMagic[r1.Next() % allMagic.Count];
+					int ln2 = allMagic[r1.Next() % allMagic.Count];
+					
+					// Swap everything: levels, prices, AND magic schools
+					int buy = records[ln1].buy;
+					int level = records[ln1].ability_lv;
+					int school = records[ln1].type_id;
+					
+					records[ln1].buy = records[ln2].buy;
+					records[ln1].ability_lv = records[ln2].ability_lv;
+					records[ln1].type_id = records[ln2].type_id;
+					
+					records[ln2].buy = buy;
+					records[ln2].ability_lv = level;
+					records[ln2].type_id = school;
+				}
+
+				// Additional chaos: randomly swap some spells between schools
+				foreach (ability spell in records)
+				{
+					if (spell.ability_group_id == 1 && spell.id != DUPE_CURE_4)
+					{
+						if (r1.Next(100) < 30) // 30% chance to swap schools
+						{
+							spell.type_id = (spell.type_id == WHITE_MAGIC) ? BLACK_MAGIC : WHITE_MAGIC;
+						}
+					}
+				}
+			}
+
+			// Handle class permissions
+			if (randomizeClassPermissions)
+			{
+				// All possible job group IDs that can learn magic
+				List<int> allJobGroups = new List<int> { 22, 24, 27, 29, 42, 43, 44, 45, 46, 47, 48, 49, 50 };
+				
+				// Randomize permissions for all spells
+				foreach (ability spell in records)
+				{
+					if (spell.ability_group_id == 1 && spell.id != DUPE_CURE_4)
+					{
+						spell.use_job_group_id = allJobGroups[r1.Next(allJobGroups.Count)];
+					}
+				}
+			}
+			else if (!keepPermissions)
 			{
 				List<int> permissions = new List<int> {
 						42, 42, 27, 43,
