@@ -401,6 +401,22 @@ namespace FF1_PRR
 																			"NOTE:  Accuracy and magic defense is only randomized in silly, wild, or chaos settings");
 		}
 
+		private void RandoSeed_TextChanged(object sender, EventArgs e)
+		{
+			// Event handler for when the randomization seed text changes
+			// This can be used to validate the seed or trigger other actions
+		}
 
+		private void currentSelectionsListBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			// Event handler for when the selection in the current selections list box changes
+			// This can be used to update UI or perform other actions based on the selection
+		}
+
+		private void groupBox9_Enter(object sender, EventArgs e)
+		{
+			// Event handler for when the group box is entered
+			// This is typically used for focus-related actions
+		}
 	}
 }

@@ -378,7 +378,7 @@ namespace FF1_PRR.Common
             bool useJackInTheBox = DetermineSpecialFeatureUsage(options.JackInTheBox, options.SecretChaos, 0);
             var treasure = new Treasure(r1, options.ModeTreasure,
                 Path.Combine(gameDirectory, "FINAL FANTASY_Data", "StreamingAssets"),
-                options.TreasureTrad, useJackInTheBox);
+                options.TreasureTrad, options.FiendsDropRibbons, useJackInTheBox);
         }
 
         private bool DetermineSpecialFeatureUsage(bool feature, bool secretChaos, int randomChoice)
