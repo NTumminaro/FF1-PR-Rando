@@ -14,13 +14,59 @@ namespace FF1_PRR
 		private UIController uiController;
 		private RandomizerEngine randomizerEngine;
 		private DateTime lastGameAssets;
-		private bool loading = true;
 
 		public FF1PRR()
 		{
 			InitializeComponent();
 			uiController = new UIController(this);
 			PopulateSpriteSelection();
+			SetupEventHandlers();
+		}
+
+		private void SetupEventHandlers()
+		{
+			// Add event handlers for all checkboxes to update flags when changed
+			flagBossShuffle.CheckedChanged += DetermineFlags;
+			flagKeyItems.CheckedChanged += DetermineFlags;
+			flagShopsTrad.CheckedChanged += DetermineFlags;
+			flagMagicShuffleShops.CheckedChanged += DetermineFlags;
+			flagMagicKeepPermissions.CheckedChanged += DetermineFlags;
+			flagMagicRandomizeClassPermissions.CheckedChanged += DetermineFlags;
+			flagReduceEncounterRate.CheckedChanged += DetermineFlags;
+			flagTreasureTrad.CheckedChanged += DetermineFlags;
+			flagRebalanceBosses.CheckedChanged += DetermineFlags;
+			flagFiendsDropRibbons.CheckedChanged += DetermineFlags;
+			flagRebalancePrices.CheckedChanged += DetermineFlags;
+			flagRestoreCritRating.CheckedChanged += DetermineFlags;
+			flagWandsAddInt.CheckedChanged += DetermineFlags;
+			flagNoEscapeNES.CheckedChanged += DetermineFlags;
+			flagNoEscapeRandomize.CheckedChanged += DetermineFlags;
+			flagReduceChaosHP.CheckedChanged += DetermineFlags;
+			flagHeroStatsStandardize.CheckedChanged += DetermineFlags;
+			flagBoostPromoted.CheckedChanged += DetermineFlags;
+			flagSecretChaos.CheckedChanged += DetermineFlags;
+			flagDockAnywhere.CheckedChanged += DetermineFlags;
+			flagShuffleCanoe.CheckedChanged += DetermineFlags;
+			flagIncludeAllBosses.CheckedChanged += DetermineFlags;
+			flagShuffleMonsterEncounters.CheckedChanged += DetermineFlags;
+			flagJackInTheBox.CheckedChanged += DetermineFlags;
+
+			// Add event handlers for all comboboxes to update flags when changed
+			modeShops.SelectedIndexChanged += DetermineFlags;
+			modeXPBoost.SelectedIndexChanged += DetermineFlags;
+			modeTreasure.SelectedIndexChanged += DetermineFlags;
+			modeMagic.SelectedIndexChanged += DetermineFlags;
+			modeMonsterStatAdjustment.SelectedIndexChanged += DetermineFlags;
+			modeHeroStats.SelectedIndexChanged += DetermineFlags;
+
+			// Add event handler for trackbar to update flags when changed
+			chaosHpTrackBar.ValueChanged += DetermineFlags;
+
+			// Add event handlers for visual flags
+			flagShuffleBackgrounds.CheckedChanged += DetermineFlags;
+			modeShuffleNPCs.SelectedIndexChanged += DetermineFlags;
+			modeAirshipSprite.SelectedIndexChanged += DetermineFlags;
+			modeBoatSprite.SelectedIndexChanged += DetermineFlags;
 		}
 
 		public class NearestNeighborPictureBox : PictureBox
@@ -134,7 +180,7 @@ namespace FF1_PRR
 
 					determineChecks(null, null);
 
-					loading = false;
+					uiController.SetLoadingState(false); // Enable flag updates in UIController
 				}
 			}
 			catch
@@ -142,7 +188,7 @@ namespace FF1_PRR
 				var defaultConfig = ConfigurationManager.GetDefaultConfig();
 				RandoFlags.Text = defaultConfig.RandoFlags;
 				VisualFlags.Text = defaultConfig.VisualFlags;
-				loading = false;
+				uiController.SetLoadingState(false); // Enable flag updates in UIController
 				determineChecks(null, null);
 			}
 		}
@@ -189,6 +235,8 @@ namespace FF1_PRR
 				var config = uiController.GetCurrentConfig();
 				config.FF1PRFolder = FF1PRFolder.Text;
 				config.Seed = RandoSeed.Text;
+				config.RandoFlags = RandoFlags.Text; // Update with current UI flags
+				config.VisualFlags = VisualFlags.Text; // Update with current UI visual flags
 
 				// Initialize randomizer engine
 				randomizerEngine = new RandomizerEngine(config);
@@ -196,15 +244,15 @@ namespace FF1_PRR
 				// Create randomization options from UI state
 				var options = CreateRandomizationOptions();
 
-				// Apply selected sprites
+				// Execute randomization first
+				randomizerEngine.ExecuteRandomization(options);
+
+				// Apply selected sprites AFTER randomization (so they don't get wiped out)
 				var fileManager = new FileManager(FF1PRFolder.Text);
 				var spriteSelections = currentSelectionsListBox.Items.Cast<string>().ToList();
 				string airshipSprite = modeAirshipSprite.SelectedItem?.ToString() ?? "None";
 				string boatSprite = modeBoatSprite.SelectedItem?.ToString() ?? "None";
 				fileManager.ApplySelectedSprites(spriteSelections, airshipSprite, boatSprite);
-
-				// Execute randomization
-				randomizerEngine.ExecuteRandomization(options);
 
 				NewChecksum.Text = "COMPLETE";
 			}

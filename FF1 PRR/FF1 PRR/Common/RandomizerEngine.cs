@@ -473,6 +473,68 @@ namespace FF1_PRR.Common
             ModifySystemMessage();
         }
 
+        private void ModifySystemMessage()
+        {
+            using var operation = logger.StartOperation("Modify System Messages");
+            
+            try
+            {
+                string messagePath = GetMessagePath();
+                string systemMessagePath = Path.Combine("data", "mods", "system_en.txt");
+                string modifiedMessagePath = Path.Combine(messagePath, "system_en.txt");
+
+                if (!File.Exists(systemMessagePath))
+                {
+                    operation.Fail($"System message file not found: {systemMessagePath}");
+                    throw new FileNotFoundException($"The file {systemMessagePath} was not found.");
+                }
+
+                var lines = File.ReadAllLines(systemMessagePath).ToList();
+                bool message183Found = false;
+                bool message181Found = false;
+
+                for (int i = 0; i < lines.Count; i++)
+                {
+                    if (lines[i].StartsWith("MSG_SYSTEM_CS_0_047\t"))
+                    {
+                        // Replace the entire message to avoid formatting issues with existing \n
+                        lines[i] = $"MSG_SYSTEM_CS_0_047\t© SQUARE ENIX\\nLOGO & IMAGE ILLUSTRATION: © YOSHITAKA AMANO\\nSeed: {config.Seed} - Flags: {config.RandoFlags}";
+                        message181Found = true;
+                        logger.Debug($"Updated MSG_SYSTEM_CS_0_047 with seed and flags", "System Messages");
+                    }
+                    if (lines[i].StartsWith("MSG_SYSTEM_183\t"))
+                    {
+                        lines[i] = $"MSG_SYSTEM_183\tSeed: {config.Seed} - Flags: {config.RandoFlags}";
+                        message183Found = true;
+                        logger.Debug($"Updated MSG_SYSTEM_183 with seed and flags", "System Messages");
+                    }
+                }
+
+                if (!message183Found || !message181Found)
+                {
+                    var missingMessages = new List<string>();
+                    if (!message183Found) missingMessages.Add("MSG_SYSTEM_183");
+                    if (!message181Found) missingMessages.Add("MSG_SYSTEM_181");
+                    
+                    operation.Fail($"Required system messages not found: {string.Join(", ", missingMessages)}");
+                    throw new Exception($"Required system messages not found in system_en.txt: {string.Join(", ", missingMessages)}");
+                }
+
+                File.WriteAllLines(modifiedMessagePath, lines);
+                
+                operation.Complete($"Updated system messages with seed {config.Seed} and flags {config.RandoFlags}");
+                logger.Info($"System messages updated successfully", "System Messages");
+            }
+            catch (Exception ex)
+            {
+                operation.Fail("Failed to modify system messages", ex);
+                logger.Error("Failed to modify system messages", "System Messages", ex);
+                throw new RandomizationException("Failed to modify system messages", ex);
+            }
+        }
+
+
+
         private void ApplyModFiles(RandomizationOptions options)
         {
             string dataPath = GetDataPath();
@@ -562,38 +624,7 @@ namespace FF1_PRR.Common
             }
         }
 
-        private void ModifySystemMessage()
-        {
-            string messagePath = GetMessagePath();
-            string systemMessagePath = Path.Combine("data", "mods", "system_en.txt");
-            string modifiedMessagePath = Path.Combine(messagePath, "system_en.txt");
 
-            if (!File.Exists(systemMessagePath))
-                throw new FileNotFoundException($"The file {systemMessagePath} was not found.");
-
-            var lines = File.ReadAllLines(systemMessagePath).ToList();
-            bool message183Found = false;
-            bool message181Found = false;
-
-            for (int i = 0; i < lines.Count; i++)
-            {
-                if (lines[i].StartsWith("MSG_SYSTEM_183\t"))
-                {
-                    lines[i] = $"MSG_SYSTEM_183\tSeed: {config.Seed} - Flags: {config.RandoFlags}";
-                    message183Found = true;
-                }
-                else if (lines[i].StartsWith("MSG_SYSTEM_181\t"))
-                {
-                    lines[i] += $@"\nSeed: {config.Seed} - Flags: {config.RandoFlags}";
-                    message181Found = true;
-                }
-            }
-
-            if (!message183Found || !message181Found)
-                throw new Exception("Required system messages not found in system_en.txt.");
-
-            File.WriteAllLines(modifiedMessagePath, lines);
-        }
 
         private string GetDataPath()
         {

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!--
-    Microsoft ResX Schema 
+    Microsoft ResX Schema
 
     Version 2.0
 
@@ -48,7 +48,7 @@
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
     value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
@@ -120,6 +120,31 @@
   <metadata name="toolTip1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
+  <data name="flagMagicShuffleShops.ToolTip" xml:space="preserve">
+    <value>Randomize which towns sell which spell levels.
+When enabled, spell shops will be shuffled between towns (except the first town).
+This can make certain spell levels available earlier or later than normal.</value>
+  </data>
+  <data name="modeMagic.ToolTip" xml:space="preserve">
+    <value>Randomize magic spells.
+None: Keep all spells in their original positions
+Standard: Shuffle spell levels and prices within each school (White/Black)
+Pro: Like Standard, but keeps spell families together (Fire/Fira/Firaga)
+Wild: Complete chaos within existing magic system - all spells and shops fully randomized
+Chaos: Break all rules - spells can swap between White/Black magic schools!</value>
+  </data>
+  <data name="flagMagicKeepPermissions.ToolTip" xml:space="preserve">
+    <value>Keep original spell learning restrictions.
+When enabled: Spells keep their original class restrictions (e.g., Flare only for Black Wizard)
+When disabled: Spell restrictions adjust to their new spell level slot
+Example: If Flare moves to level 1, it can be learned by any class that learns level 1 spells</value>
+  </data>
+  <data name="flagMagicRandomizeClassPermissions.ToolTip" xml:space="preserve">
+    <value>Completely randomize which classes can learn which spells.
+When enabled: Any class might learn any spell - complete chaos!
+Great for diverse party strategies where you don't know who will learn what.
+Example: Your Warrior might learn Cure, or your White Mage might learn Firaga</value>
+  </data>
   <metadata name="$this.TrayHeight" type="System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>56</value>
   </metadata>

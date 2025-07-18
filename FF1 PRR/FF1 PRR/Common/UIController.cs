@@ -31,6 +31,7 @@ namespace FF1_PRR.Common
             ComboBox modeMonsterStatAdjustment, ComboBox modeHeroStats, TrackBar chaosHpTrackBar,
             CheckBox flagJackInTheBox, TextBox randoFlags)
         {
+            // Don't update flags if we're currently loading/applying settings to prevent circular updates
             if (loading) return;
 
             string flags = "";
@@ -54,6 +55,7 @@ namespace FF1_PRR.Common
         public void UpdateVisualFlags(ComboBox modeShuffleNPCs, ComboBox modeAirshipSprite, ComboBox modeBoatSprite,
             CheckBox flagShuffleBackgrounds, TextBox visualFlags)
         {
+            // Don't update flags if we're currently loading/applying settings to prevent circular updates
             if (loading) return;
 
             string flags = "";
@@ -174,6 +176,11 @@ namespace FF1_PRR.Common
         public ConfigurationManager.RandomizerConfig GetCurrentConfig()
         {
             return config;
+        }
+
+        public void SetLoadingState(bool isLoading)
+        {
+            loading = isLoading;
         }
 
         private void LoadConfiguration()

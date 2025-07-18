@@ -14,7 +14,6 @@ namespace FF1_PRR.Randomize
 	public class KeyItems
 	{
 		private readonly RandomizerLogger logger;
-		private readonly ValidationUtility validator;
 
 		// 24 flags
 		enum flags
@@ -131,6 +130,13 @@ namespace FF1_PRR.Randomize
 				int keyItem = -1;
 				int location = -1;
 
+				// Skip vanilla items that shouldn't be randomized
+				if (values[0] == "bottle" || values[0] == "promotion" || values[0] == "bridge" || values[0] == "gear")
+				{
+					logger.Debug($"Skipping vanilla item: {values[0]} at {values[1]}", "KeyItems");
+					continue; // Skip processing this pair
+				}
+
 				switch (values[0])
 				{
 					case "lute": keyItem = (int)flags.lute; break;
@@ -143,7 +149,6 @@ namespace FF1_PRR.Randomize
 					case "star_ruby": keyItem = (int)flags.starRuby; break;
 					case "rod": keyItem = (int)flags.rod; break;
 					case "levistone": keyItem = (int)flags.floater; break;
-					//case "gear": keyItem = gear; break;
 					case "rats_tail": keyItem = (int)flags.ratTail; break;
 					case "oxyale": keyItem = (int)flags.oxyale; break;
 					case "rosetta_stone": keyItem = (int)flags.slab; break;
@@ -186,6 +191,9 @@ namespace FF1_PRR.Randomize
 					case "tiamat": location = (int)locations.tiamat; break;
 					case "dr_unne": location = (int)locations.unne; break;
 					case "lukahn": location = (int)locations.lukahn; break; // Added lukahn
+					case "caravan": location = (int)locations.gaia; break; // Caravan is at Gaia
+					case "desert": location = (int)locations.gaia; break; // Desert caravan is at Gaia  
+					case "bahamut": location = (int)locations.ordeals; break; // Bahamut is at Citadel of Ordeals
 				}
 
 				if (keyItem != -1 && location != -1)
@@ -290,7 +298,7 @@ namespace FF1_PRR.Randomize
 		private void ValidateClingoFiles(string keyItemDataFile, string keyItemSolvingFile)
 		{
 			var clingoDir = Path.Combine("clingo");
-			var clingoExe = Path.Combine(clingoDir, "clingo");
+			var clingoExe = Path.Combine(clingoDir, "clingo.exe"); // Add .exe extension
 			var dataFile = Path.Combine(clingoDir, keyItemDataFile);
 			var solvingFile = Path.Combine(clingoDir, keyItemSolvingFile);
 
