@@ -175,18 +175,20 @@ namespace FF1_PRR.Common
                 string packageJsonPath = Path.Combine(mapDir, "package.json");
                 if (File.Exists(packageJsonPath))
                 {
+                    string originalMapDirName = Path.GetFileName(mapDir); // Keep original casing
+                    string lowercaseMapDirName = originalMapDirName.ToLower(); // Lowercase for parent directory
                     string destPackageJsonPath = Path.Combine(resMapPath, "Magicite", "FF1PRR", 
-                        Path.GetFileName(mapDir), "Assets", "GameAssets", "Serial", "Res", "Map", 
-                        Path.GetFileName(mapDir), "package.json");
+                        lowercaseMapDirName, "Assets", "GameAssets", "Serial", "Res", "Map", 
+                        originalMapDirName, "package.json"); // Use original casing in Map path
                     Directory.CreateDirectory(Path.GetDirectoryName(destPackageJsonPath));
                     File.Copy(packageJsonPath, destPackageJsonPath, true);
                 }
 
                 foreach (string submapDir in Directory.GetDirectories(mapDir))
                 {
-                    string topKey = Path.GetFileName(mapDir);
+                    string topKey = Path.GetFileName(mapDir); // Keep original casing, let Updater handle it
                     string submapName = Path.GetFileName(submapDir);
-                    RemoveCustomScripts(resMapPath, topKey, submapName);
+                    RemoveCustomScripts(resMapPath, topKey.ToLower(), submapName); // RemoveCustomScripts needs lowercase
                     Updater.MemoriaToMagiciteCopy(resMapPath, submapDir, "Map", topKey);
                 }
             }

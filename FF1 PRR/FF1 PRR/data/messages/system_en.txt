@@ -1097,4 +1097,29 @@ MSG_TOUCHGAMEPAD_16	Gamepad Controls
 MSG_TOUCHGAMEPAD_17	You can switch to gamepad controls.
 MSG_TOUCHGAMEPAD_18	*Game will restart after controls are switched.
 MSG_TOUCHGAMEPAD_19	You can revert to touchpad controls.
-
+MSG_KEY_5	You obtain the lute.
+MSG_KEY_10	You obtain the crown.
+MSG_KEY_11	You obtain the crystal eye.
+MSG_KEY_12	You obtain jolt tonic.
+MSG_KEY_13	You obtain the mystic key.
+MSG_KEY_14	You obtain nitro powder.
+MSG_KEY_15	A canal was built in your honor.
+MSG_KEY_17	You obtain the Star Ruby.
+MSG_KEY_19	You obtain the earth rod.
+MSG_KEY_21	You restored the power of the Earth Crystal!
+MSG_KEY_22	You obtain a canoe.
+MSG_KEY_23	You restored the power of the Fire Crystal!
+MSG_KEY_24	You obtain a levistone.
+MSG_KEY_25	You obtain an airship.
+MSG_KEY_26	You obtain the warp cube.
+MSG_KEY_29	You obtain oxyale.
+MSG_KEY_31	You obtain the Rosetta Stone.
+MSG_KEY_32	You can now speak Lufenian.
+MSG_KEY_33	You obtain the chime.
+MSG_KEY_34	You restored the power of the Water Crystal!
+MSG_KEY_35	You restored the power of the Wind Crystal!
+MSG_KEY_45	You obtain a rat's tail.
+MSG_KEY_47	You obtain adamantite.
+MSG_KEY_48	You obtain Excalibur.
+MSG_KEY_A1	Unfortunately, you did not receive anything important...
+MSG_KEY_A2	Unfortunately, you did not receive anything important...

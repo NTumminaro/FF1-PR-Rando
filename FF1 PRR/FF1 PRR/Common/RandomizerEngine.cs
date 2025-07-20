@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using CsvHelper;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace FF1_PRR.Common
 {
@@ -471,6 +473,10 @@ namespace FF1_PRR.Common
         {
             ApplyFinalFiles(options);
             ModifySystemMessage();
+            
+            // Always apply randomizer title logo at the end
+            string resMapPath = fileManager.GetStreamingAssetsPath();
+            ApplyTitleLogo(resMapPath);
         }
 
         private void ModifySystemMessage()
@@ -611,6 +617,73 @@ namespace FF1_PRR.Common
             {
                 File.Copy(Path.Combine("data", "mods", "script.csv"), Path.Combine(resMapPath, "script.csv"), true);
                 CopySpecialFiles(dataPath, messagePath);
+            }
+        }
+
+        private void ApplyTitleLogo(string resMapPath)
+        {
+            using var operation = logger.StartOperation("Apply Randomizer Title Logo");
+            
+            try
+            {
+                string sourceLogo = Path.Combine("data", "mods", "title", "TitleLogoImage_EN.png");
+                
+                // Validate source file exists
+                var sourceValidation = ValidationUtility.ValidateFileExists(sourceLogo, "Randomizer Title Logo");
+                if (!sourceValidation.IsValid)
+                {
+                    operation.Fail($"Title logo source file not found: {sourceLogo}");
+                    throw new FileNotFoundException($"Title logo source file not found: {sourceLogo}");
+                }
+
+                // Create the proper Magicite structure with keys and Assets
+                string topKey = "common_title";
+                string topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "UI", "Common", "Title", "Sprite");
+                
+                // Create directories
+                string assetsDir = Path.Combine(resMapPath, "Magicite", "FF1PRR", topKey, topValue);
+                string keysDir = Path.Combine(resMapPath, "Magicite", "FF1PRR", topKey, "keys");
+                Directory.CreateDirectory(assetsDir);
+                Directory.CreateDirectory(keysDir);
+
+                // Copy the title logo PNG file
+                string destLogoPath = Path.Combine(assetsDir, "TitleLogoImage_EN.png");
+                File.Copy(sourceLogo, destLogoPath, true);
+
+                // Also copy the spritedata file if it exists
+                string sourceSpriteData = Path.Combine("data", "mods", "title", "TitleLogoImage_EN.spritedata");
+                if (File.Exists(sourceSpriteData))
+                {
+                    string destSpriteDataPath = Path.Combine(assetsDir, "TitleLogoImage_EN.spritedata");
+                    File.Copy(sourceSpriteData, destSpriteDataPath, true);
+                    logger.Debug("Copied TitleLogoImage_EN.spritedata companion file", "Title Logo");
+                }
+                else
+                {
+                    logger.Warning("TitleLogoImage_EN.spritedata not found - image may not render properly", "Title Logo");
+                }
+
+                // Create the Export.json file for Magicite
+                var importJson = new Updater.ImportData();
+                importJson.keys.Add("TitleLogoImage_EN");
+                importJson.values.Add(topValue.Replace('\\', '/') + "/TitleLogoImage_EN");
+
+                string exportJsonPath = Path.Combine(keysDir, "Export.json");
+                using (var writer = new StreamWriter(exportJsonPath))
+                using (var jsonWriter = new JsonTextWriter(writer))
+                {
+                    var serializer = new JsonSerializer();
+                    serializer.Serialize(jsonWriter, importJson);
+                }
+                
+                operation.Complete("Randomizer title logo applied successfully with proper Magicite structure");
+                logger.Info("Applied randomizer title logo with keys and Export.json", "Title Logo");
+            }
+            catch (Exception ex)
+            {
+                operation.Fail("Failed to apply title logo", ex);
+                logger.Error("Failed to apply randomizer title logo", "Title Logo", ex);
+                throw new FileOperationException("TitleLogoImage_EN.png", "Failed to apply title logo", ex);
             }
         }
 

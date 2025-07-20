@@ -152,16 +152,27 @@ namespace FF1_PRR
 			spriteSelection.SelectedIndex = 0;
 			characterSelection.SelectedIndex = 0;
 
+			// Initialize all dropdowns with default selections (index 0)
+			modeShops.SelectedIndex = 0;
+			modeXPBoost.SelectedIndex = 0;
+			modeTreasure.SelectedIndex = 0;
+			modeMagic.SelectedIndex = 0;
+			modeMonsterStatAdjustment.SelectedIndex = 0;
+			modeHeroStats.SelectedIndex = 0;
+			modeShuffleNPCs.SelectedIndex = 0;
+
 			string baseFolder = AppDomain.CurrentDomain.BaseDirectory;
 			string airshipSpritesPath = Path.Combine(baseFolder, "data", "mods", "Airships");
 			var airshipSprites = Directory.GetDirectories(airshipSpritesPath).Select(Path.GetFileName).ToList();
 			airshipSprites.Insert(0, "None"); // Add a "None" option at the beginning
 			modeAirshipSprite.DataSource = airshipSprites;
+			modeAirshipSprite.SelectedIndex = 0; // Select "None" by default
 
 			string boatSpritesPath = Path.Combine(baseFolder, "data", "mods", "Boats");
 			var boatSprites = Directory.GetDirectories(boatSpritesPath).Select(Path.GetFileName).ToList();
 			boatSprites.Insert(0, "None"); // Add a "None" option at the beginning
 			modeBoatSprite.DataSource = boatSprites;
+			modeBoatSprite.SelectedIndex = 0; // Select "None" by default
 
 			try
 			{

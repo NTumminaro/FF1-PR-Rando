@@ -56,6 +56,8 @@ namespace FF1_PRR.Inventory
 			string topDirectory;
 			string topValue;
 
+			string originalTopKey = topKey; // Keep original casing for internal paths
+			
 			switch (type)
 			{
 				case "Message":
@@ -70,13 +72,13 @@ namespace FF1_PRR.Inventory
 					{
 						throw new ArgumentException("TopKey is required for Map type", nameof(topKey));
 					}
-					topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", topKey);
+					topValue = Path.Combine("Assets", "GameAssets", "Serial", "Res", "Map", originalTopKey); // Use original casing
 					break;
 				default:
 					throw new ArgumentException($"Invalid type parameter: {type}. Valid types are: Message, MainData, Map");
 			}
 
-			topKey = topKey.ToLower();
+			topKey = topKey.ToLower(); // Convert to lowercase only for parent directory
 			topDirectory = Path.Combine(mainDirectory, "Magicite", "FF1PRR", topKey, topValue);
 			Directory.CreateDirectory(topDirectory); // <-- We'll be creating an Export.json soon
 			Directory.CreateDirectory(Path.Combine(mainDirectory, "Magicite", "FF1PRR", topKey, "keys")); // <-- We'll be creating an Export.json soon
