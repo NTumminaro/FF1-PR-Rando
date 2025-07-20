@@ -145,17 +145,28 @@ namespace FF1_PRR.Randomize
 
 				shopDB.RemoveAll(toRemove.Contains);
 
-				ShopItem fixAntidote = new();
-				fixAntidote.id = max_id;
-				fixAntidote.content_id = Items.antidote;
-				fixAntidote.group_id = 3; // Product.itemStores.iCornelia;
-				shopDB.Add(fixAntidote);
+				// Check if antidote is already in Cornelia shop before adding it
+				bool antidoteAlreadyInCornelia = shopDB.Any(item => item.group_id == 3 && item.content_id == Items.antidote);
+				if (!antidoteAlreadyInCornelia)
+				{
+					ShopItem fixAntidote = new();
+					fixAntidote.id = max_id;
+					fixAntidote.content_id = Items.antidote;
+					fixAntidote.group_id = 3; // Product.itemStores.iCornelia;
+					shopDB.Add(fixAntidote);
+					max_id++;
+				}
 
-				ShopItem fixGoldNeedle = new();
-				fixGoldNeedle.id = max_id+1;
-				fixGoldNeedle.content_id = Items.goldNeedle;
-				fixGoldNeedle.group_id = 3; // Product.itemStores.iCornelia;
-				shopDB.Add(fixGoldNeedle);
+				// Check if gold needle is already in Cornelia shop before adding it
+				bool goldNeedleAlreadyInCornelia = shopDB.Any(item => item.group_id == 3 && item.content_id == Items.goldNeedle);
+				if (!goldNeedleAlreadyInCornelia)
+				{
+					ShopItem fixGoldNeedle = new();
+					fixGoldNeedle.id = max_id;
+					fixGoldNeedle.content_id = Items.goldNeedle;
+					fixGoldNeedle.group_id = 3; // Product.itemStores.iCornelia;
+					shopDB.Add(fixGoldNeedle);
+				}
 			}
 			else // Generate new shop contents
 			{
