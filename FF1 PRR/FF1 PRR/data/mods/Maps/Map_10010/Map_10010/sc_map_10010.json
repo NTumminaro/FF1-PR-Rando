@@ -6,9 +6,9 @@
 		"RidingVehicle": 0
 	},
 	"Segments": [
-		{ "Label": "Main", "EntryPoint": 0, "Count": 34 },
-		{ "Label": "橋が架かる", "EntryPoint": 34, "Count": 7 },
-		{ "Label": "運河開通", "EntryPoint": 41, "Count": 7 }
+		{ "Label": "Main", "EntryPoint": 0, "Count": 38 },
+		{ "Label": "橋が架かる", "EntryPoint": 38, "Count": 7 },
+		{ "Label": "運河開通", "EntryPoint": 45, "Count": 7 }
 	],
 	"ScriptLocal": [],
 	"ScriptLocalValue": [],
@@ -18,7 +18,7 @@
 			"mnemonic": "Nop",
 			"operands": { "iValues": [], "rValues": [], "sValues": [] },
 			"type": 1,
-			"comment": ""
+			"comment": "point 0"
 		},
 		{
 			"label": "",
@@ -29,7 +29,7 @@
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "point 1"
 		},
 		{
 			"label": "",
@@ -40,7 +40,7 @@
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "point 2"
 		},
 		{
 			"label": "",
@@ -115,7 +115,7 @@
 			"label": "",
 			"mnemonic": "Call",
 			"operands": {
-				"iValues": [34, 0, 0, 0, 0, 0, 0, 0],
+				"iValues": [38, 0, 0, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["", "", "", "", "", "", "", ""]
 			},
@@ -131,7 +131,7 @@
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "this like checks if youve seen the prologue?"
 		},
 		{
 			"label": "",
@@ -166,12 +166,23 @@
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [15, 1, 18, 0, 0, 0, 0, 0],
+				"iValues": [15, 1, 19, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": "This was changed from 15 to 9, so airship should be available from the start. This used to check for canal's flag first."
+			"comment": "check for canal"
+		},
+		{
+			"label": "",
+			"mnemonic": "Branch",
+			"operands": {
+				"iValues": [33, 1, 35, 0, 0, 0, 0, 0],
+				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
+				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
+			},
+			"type": 1,
+			"comment": "if no canal, check for chime, if you have chime, jump to 35"
 		},
 		{
 			"label": "",
@@ -206,18 +217,18 @@
 			"label": "",
 			"mnemonic": "Call",
 			"operands": {
-				"iValues": [41, 0, 0, 0, 0, 0, 0, 0],
+				"iValues": [45, 0, 0, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["", "", "", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "This calls the function that opens the canal"
 		},
 		{
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [33, 1, 23, 0, 0, 0, 0, 0],
+				"iValues": [33, 1, 24, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
@@ -251,18 +262,18 @@
 			"mnemonic": "Nop",
 			"operands": { "iValues": [], "rValues": [], "sValues": [] },
 			"type": 1,
-			"comment": ""
+			"comment": "point 24"
 		},
 		{
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [24, 1, 27, 0, 0, 0, 0, 0],
+				"iValues": [24, 1, 28, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": "if you do have chime, check if you have levistone, 0025 and 0026 are now identical, so it shouldnt matter if you have it or not"
+			"comment": "if you do have chime, check if you have levistone, this check and the next are now identical, so it shouldnt matter if you have it or not"
 		},
 		{
 			"label": "",
@@ -291,13 +302,13 @@
 			"mnemonic": "Nop",
 			"operands": { "iValues": [], "rValues": [], "sValues": [] },
 			"type": 1,
-			"comment": ""
+			"comment": "point 28"
 		},
 		{
 			"label": "",
 			"mnemonic": "Branch",
 			"operands": {
-				"iValues": [25, 1, 31, 0, 0, 0, 0, 0],
+				"iValues": [25, 1, 32, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["ScenarioFlag1", "＝", "imm", "", "", "", "", ""]
 			},
@@ -310,10 +321,10 @@
 			"operands": {
 				"iValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
-				"sValues": ["ev_e_0026", "", "", "", "", "", "", ""]
+				"sValues": ["ev_e_0025", "", "", "", "", "", "", ""]
 			},
 			"type": 1,
-			"comment": ""
+			"comment": "we set this to 0025 as well, seeming it shouldnt matter"
 		},
 		{
 			"label": "",
@@ -331,7 +342,7 @@
 			"mnemonic": "Nop",
 			"operands": { "iValues": [], "rValues": [], "sValues": [] },
 			"type": 1,
-			"comment": ""
+			"comment": "point 32"
 		},
 		{
 			"label": "",
@@ -356,17 +367,46 @@
 			"comment": ""
 		},
 		{
+			"label": "ev_e_0026",
+			"mnemonic": "Nop",
+			"operands": { "iValues": [], "rValues": [], "sValues": [] },
+			"type": 1,
+			"comment": "this should load the state without canal but with chime, point 35"
+		},
+		{
+			"label": "",
+			"mnemonic": "SetEntities",
+			"operands": {
+				"iValues": [0, 0, 0, 0, 0, 0, 0, 0],
+				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
+				"sValues": ["ev_e_0026", "", "", "", "", "", "", ""]
+			},
+			"type": 1,
+			"comment": ""
+		},
+		{
+			"label": "",
+			"mnemonic": "Exit",
+			"operands": {
+				"iValues": [0, 0, 0, 0, 0, 0, 0, 0],
+				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
+				"sValues": ["", "", "", "", "", "", "", ""]
+			},
+			"type": 1,
+			"comment": ""
+		},
+		{
 			"label": "橋が架かる",
 			"mnemonic": "Nop",
 			"operands": { "iValues": [], "rValues": [], "sValues": [] },
 			"type": 2,
-			"comment": ""
+			"comment": "point 38"
 		},
 		{
 			"label": "",
 			"mnemonic": "SetPuppet",
 			"operands": {
-				"iValues": [0, 112, 38, 0, 0, 0, 0, 0],
+				"iValues": [0, 112, 42, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["", "", "", "", "", "", "", ""]
 			},
@@ -400,7 +440,7 @@
 			"mnemonic": "Nop",
 			"operands": { "iValues": [], "rValues": [], "sValues": [] },
 			"type": 2,
-			"comment": ""
+			"comment": "point 42"
 		},
 		{
 			"label": "",
@@ -429,13 +469,13 @@
 			"mnemonic": "Nop",
 			"operands": { "iValues": [], "rValues": [], "sValues": [] },
 			"type": 2,
-			"comment": ""
+			"comment": "point 45"
 		},
 		{
 			"label": "",
 			"mnemonic": "SetPuppet",
 			"operands": {
-				"iValues": [0, 111, 45, 0, 0, 0, 0, 0],
+				"iValues": [0, 111, 49, 0, 0, 0, 0, 0],
 				"rValues": [0, 0, 0, 0, 0, 0, 0, 0],
 				"sValues": ["", "", "", "", "", "", "", ""]
 			},
@@ -462,7 +502,7 @@
 				"sValues": ["", "", "", "", "", "", "", ""]
 			},
 			"type": 2,
-			"comment": ""
+			"comment": "point 49"
 		},
 		{
 			"label": "運河開通_00",

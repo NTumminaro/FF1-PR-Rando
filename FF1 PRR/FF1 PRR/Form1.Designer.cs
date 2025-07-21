@@ -74,10 +74,12 @@
             flagRebalanceBosses = new System.Windows.Forms.CheckBox();
             flagFiendsDropRibbons = new System.Windows.Forms.CheckBox();
             flagBossShuffle = new System.Windows.Forms.CheckBox();
+            flagShuffleMonsterEncounters = new System.Windows.Forms.CheckBox();
             label17 = new System.Windows.Forms.Label();
             flagMagicShuffleShops = new System.Windows.Forms.CheckBox();
             modeMagic = new System.Windows.Forms.ComboBox();
             flagMagicKeepPermissions = new System.Windows.Forms.CheckBox();
+            flagMagicRandomizeClassPermissions = new System.Windows.Forms.CheckBox();
             flagShuffleBackgrounds = new System.Windows.Forms.CheckBox();
             flagIncludeAllBosses = new System.Windows.Forms.CheckBox();
             label12 = new System.Windows.Forms.Label();
@@ -671,6 +673,20 @@
             flagBossShuffle.UseVisualStyleBackColor = true;
             flagBossShuffle.CheckedChanged += DetermineFlags;
             // 
+            // flagShuffleMonsterEncounters
+            // 
+            flagShuffleMonsterEncounters.AutoSize = true;
+            flagShuffleMonsterEncounters.Location = new System.Drawing.Point(4, 131);
+            flagShuffleMonsterEncounters.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagShuffleMonsterEncounters.Name = "flagShuffleMonsterEncounters";
+            flagShuffleMonsterEncounters.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagShuffleMonsterEncounters.Size = new System.Drawing.Size(178, 23);
+            flagShuffleMonsterEncounters.TabIndex = 37;
+            flagShuffleMonsterEncounters.Text = "Shuffle Monster Encounters";
+            toolTip1.SetToolTip(flagShuffleMonsterEncounters, "Randomize which monster groups appear in each area.\r\nExample: T-Rex might appear outside Cornelia instead of Goblins!\r\nSpawn rates are preserved, but which monsters appear is completely shuffled.");
+            flagShuffleMonsterEncounters.UseVisualStyleBackColor = true;
+            flagShuffleMonsterEncounters.CheckedChanged += DetermineFlags;
+            // 
             // label17
             // 
             label17.AutoSize = true;
@@ -686,14 +702,14 @@
             // flagMagicShuffleShops
             // 
             flagMagicShuffleShops.AutoSize = true;
-            flagMagicShuffleShops.Location = new System.Drawing.Point(64, 53);
+            flagMagicShuffleShops.Location = new System.Drawing.Point(45, 54);
             flagMagicShuffleShops.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             flagMagicShuffleShops.Name = "flagMagicShuffleShops";
             flagMagicShuffleShops.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             flagMagicShuffleShops.Size = new System.Drawing.Size(104, 23);
             flagMagicShuffleShops.TabIndex = 19;
             flagMagicShuffleShops.Text = "Shuffle Shops";
-            toolTip1.SetToolTip(flagMagicShuffleShops, "Change which spell level is available at each shop.");
+            toolTip1.SetToolTip(flagMagicShuffleShops, resources.GetString("flagMagicShuffleShops.ToolTip"));
             flagMagicShuffleShops.UseVisualStyleBackColor = true;
             flagMagicShuffleShops.CheckedChanged += DetermineFlags;
             // 
@@ -707,22 +723,36 @@
             modeMagic.Name = "modeMagic";
             modeMagic.Size = new System.Drawing.Size(133, 23);
             modeMagic.TabIndex = 22;
-            toolTip1.SetToolTip(modeMagic, "Randomize magic spells. None: . Standard: . Pro: . Wild: . Chaos: .");
+            toolTip1.SetToolTip(modeMagic, resources.GetString("modeMagic.ToolTip"));
             modeMagic.SelectedIndexChanged += DetermineFlags;
             // 
             // flagMagicKeepPermissions
             // 
             flagMagicKeepPermissions.AutoSize = true;
-            flagMagicKeepPermissions.Location = new System.Drawing.Point(64, 73);
+            flagMagicKeepPermissions.Location = new System.Drawing.Point(45, 74);
             flagMagicKeepPermissions.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             flagMagicKeepPermissions.Name = "flagMagicKeepPermissions";
             flagMagicKeepPermissions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
             flagMagicKeepPermissions.Size = new System.Drawing.Size(124, 23);
             flagMagicKeepPermissions.TabIndex = 20;
             flagMagicKeepPermissions.Text = "&Keep Permissions";
-            toolTip1.SetToolTip(flagMagicKeepPermissions, "Preserve who may learn each spell, rather than adjusting to the spell's new slot. (eg, level 1 Flare can still only be learned by Black Wizard)");
+            toolTip1.SetToolTip(flagMagicKeepPermissions, resources.GetString("flagMagicKeepPermissions.ToolTip"));
             flagMagicKeepPermissions.UseVisualStyleBackColor = true;
             flagMagicKeepPermissions.CheckedChanged += DetermineFlags;
+            // 
+            // flagMagicRandomizeClassPermissions
+            // 
+            flagMagicRandomizeClassPermissions.AutoSize = true;
+            flagMagicRandomizeClassPermissions.Location = new System.Drawing.Point(45, 96);
+            flagMagicRandomizeClassPermissions.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            flagMagicRandomizeClassPermissions.Name = "flagMagicRandomizeClassPermissions";
+            flagMagicRandomizeClassPermissions.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagMagicRandomizeClassPermissions.Size = new System.Drawing.Size(187, 23);
+            flagMagicRandomizeClassPermissions.TabIndex = 21;
+            flagMagicRandomizeClassPermissions.Text = "&Randomize Class Permissions";
+            toolTip1.SetToolTip(flagMagicRandomizeClassPermissions, resources.GetString("flagMagicRandomizeClassPermissions.ToolTip"));
+            flagMagicRandomizeClassPermissions.UseVisualStyleBackColor = true;
+            flagMagicRandomizeClassPermissions.CheckedChanged += DetermineFlags;
             // 
             // flagShuffleBackgrounds
             // 
@@ -837,7 +867,7 @@
             groupBox3.Controls.Add(flagHeroStatsStandardize);
             groupBox3.Controls.Add(modeHeroStats);
             groupBox3.Controls.Add(label11);
-            groupBox3.Location = new System.Drawing.Point(5, 281);
+            groupBox3.Location = new System.Drawing.Point(5, 301);
             groupBox3.Margin = new System.Windows.Forms.Padding(2);
             groupBox3.Name = "groupBox3";
             groupBox3.Padding = new System.Windows.Forms.Padding(2);
@@ -934,11 +964,12 @@
             groupBox6.Controls.Add(flagMagicShuffleShops);
             groupBox6.Controls.Add(modeMagic);
             groupBox6.Controls.Add(flagMagicKeepPermissions);
+            groupBox6.Controls.Add(flagMagicRandomizeClassPermissions);
             groupBox6.Location = new System.Drawing.Point(418, 156);
             groupBox6.Margin = new System.Windows.Forms.Padding(2);
             groupBox6.Name = "groupBox6";
             groupBox6.Padding = new System.Windows.Forms.Padding(2);
-            groupBox6.Size = new System.Drawing.Size(232, 121);
+            groupBox6.Size = new System.Drawing.Size(232, 141);
             groupBox6.TabIndex = 26;
             groupBox6.TabStop = false;
             groupBox6.Text = "Magic";
@@ -956,11 +987,12 @@
             groupBox4.Controls.Add(flagRebalanceBosses);
             groupBox4.Controls.Add(flagFiendsDropRibbons);
             groupBox4.Controls.Add(flagBossShuffle);
+            groupBox4.Controls.Add(flagShuffleMonsterEncounters);
             groupBox4.Location = new System.Drawing.Point(5, 137);
             groupBox4.Margin = new System.Windows.Forms.Padding(2);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            groupBox4.Size = new System.Drawing.Size(407, 140);
+            groupBox4.Size = new System.Drawing.Size(407, 160);
             groupBox4.TabIndex = 26;
             groupBox4.TabStop = false;
             groupBox4.Text = "Monsters && Bosses";
@@ -1244,6 +1276,8 @@
         private System.Windows.Forms.CheckBox flagMagicShuffleShops;
         private System.Windows.Forms.ComboBox modeMagic;
         private System.Windows.Forms.CheckBox flagMagicKeepPermissions;
+        private System.Windows.Forms.CheckBox flagMagicRandomizeClassPermissions;
+        private System.Windows.Forms.CheckBox flagShuffleMonsterEncounters;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label chaosHpLabel;
         private System.Windows.Forms.ComboBox modeMonsterStatAdjustment;

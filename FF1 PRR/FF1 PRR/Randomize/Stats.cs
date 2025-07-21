@@ -11,7 +11,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using static FF1_PRR.Inventory.Magic;
+using static FF1_PRR.Randomize.Magic;
 
 namespace FF1_PRR.Randomize
 {

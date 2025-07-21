@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Linq;
+using FF1_PRR.Common;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -74,5 +75,4 @@ namespace FF1_PRR.Randomize
     }
   }
 
-  // Extension method for shuffling lists
 }

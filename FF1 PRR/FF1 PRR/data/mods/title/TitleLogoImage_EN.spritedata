@@ -1,0 +1,6 @@
+Rect = [0,0,1728,530]
+Pivot = [0.5,0.5]
+PixelsPerUnit = 100
+Border = [0,0,0,0]
+WrapMode = Clamp
+FilterMode = Bilinear
