@@ -1123,4 +1123,7 @@ MSG_KEY_47	You obtain adamantite.
 MSG_KEY_48	You obtain Excalibur.
 MSG_KEY_A1	Unfortunately, you did not receive anything important...
 MSG_KEY_A2	Unfortunately, you did not receive anything important...
-
+MSG_MON_NAME_125	Lich II
+MSG_MON_NAME_126	Marilith II
+MSG_MON_NAME_127	Kraken II
+MSG_MON_NAME_128	Tiamat II

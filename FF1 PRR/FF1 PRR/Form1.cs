@@ -104,8 +104,33 @@ namespace FF1_PRR
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
 			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
-			flagGarlandAtShrine.Enabled = flagBossShuffle.Checked;
-			flagVampireIsWarmech.Enabled = flagBossShuffle.Checked;
+			flagGarlandAtShrine.Enabled = flagIncludeAllBosses.Checked && flagBossShuffle.Checked;
+			flagVampireIsWarmech.Enabled = flagIncludeAllBosses.Checked && flagBossShuffle.Checked;
+
+			// Cascade unchecking when parent options are disabled
+			if (!flagBossShuffle.Checked)
+			{
+				flagIncludeAllBosses.Checked = false;
+				flagGarlandAtShrine.Checked = false;
+				flagVampireIsWarmech.Checked = false;
+			}
+			else if (!flagIncludeAllBosses.Checked)
+			{
+				flagGarlandAtShrine.Checked = false;
+				flagVampireIsWarmech.Checked = false;
+			}
+
+			// Reset Chaos HP slider to default when Modify Chaos HP is unchecked
+			if (!flagReduceChaosHP.Checked)
+			{
+				chaosHpTrackBar.Value = 1; // Default value (9999 HP)
+			}
+
+			// Reset No Escape Randomize when No Escape Encounters is unchecked
+			if (!flagNoEscapeNES.Checked)
+			{
+				flagNoEscapeRandomize.Checked = false;
+			}
 
 			uiController.UpdateFlags(
 				new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagMagicRandomizeClassPermissions, flagReduceEncounterRate },
@@ -139,8 +164,8 @@ namespace FF1_PRR
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
 			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
-			flagGarlandAtShrine.Enabled = flagBossShuffle.Checked;
-			flagVampireIsWarmech.Enabled = flagBossShuffle.Checked;
+			flagGarlandAtShrine.Enabled = flagIncludeAllBosses.Checked && flagBossShuffle.Checked;
+			flagVampireIsWarmech.Enabled = flagIncludeAllBosses.Checked && flagBossShuffle.Checked;
 		}
 
 		// These methods are now handled by ConfigurationManager

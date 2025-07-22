@@ -678,7 +678,7 @@
             // flagShuffleMonsterEncounters
             // 
             flagShuffleMonsterEncounters.AutoSize = true;
-            flagShuffleMonsterEncounters.Location = new System.Drawing.Point(4, 131);
+            flagShuffleMonsterEncounters.Location = new System.Drawing.Point(168, 136);
             flagShuffleMonsterEncounters.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             flagShuffleMonsterEncounters.Name = "flagShuffleMonsterEncounters";
             flagShuffleMonsterEncounters.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
@@ -792,7 +792,7 @@
             flagGarlandAtShrine.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             flagGarlandAtShrine.Name = "flagGarlandAtShrine";
             flagGarlandAtShrine.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagGarlandAtShrine.Size = new System.Drawing.Size(124, 23);
+            flagGarlandAtShrine.Size = new System.Drawing.Size(122, 23);
             flagGarlandAtShrine.TabIndex = 38;
             flagGarlandAtShrine.Text = "Garland at Shrine";
             toolTip1.SetToolTip(flagGarlandAtShrine, "Keep Garland at the Chaos Shrine for an easier early game curve.");
@@ -807,7 +807,7 @@
             flagVampireIsWarmech.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
             flagVampireIsWarmech.Name = "flagVampireIsWarmech";
             flagVampireIsWarmech.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            flagVampireIsWarmech.Size = new System.Drawing.Size(130, 23);
+            flagVampireIsWarmech.Size = new System.Drawing.Size(140, 23);
             flagVampireIsWarmech.TabIndex = 39;
             flagVampireIsWarmech.Text = "Vampire is Warmech";
             toolTip1.SetToolTip(flagVampireIsWarmech, "Replace the Vampire boss encounter with Warmech stats.");
