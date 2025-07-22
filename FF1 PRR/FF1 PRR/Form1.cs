@@ -50,6 +50,8 @@ namespace FF1_PRR
 			flagIncludeAllBosses.CheckedChanged += DetermineFlags;
 			flagShuffleMonsterEncounters.CheckedChanged += DetermineFlags;
 			flagJackInTheBox.CheckedChanged += DetermineFlags;
+			flagGarlandAtShrine.CheckedChanged += DetermineFlags;
+			flagVampireIsWarmech.CheckedChanged += DetermineFlags;
 
 			// Add event handlers for all comboboxes to update flags when changed
 			modeShops.SelectedIndexChanged += DetermineFlags;
@@ -102,12 +104,14 @@ namespace FF1_PRR
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
 			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
+			flagGarlandAtShrine.Enabled = flagBossShuffle.Checked;
+			flagVampireIsWarmech.Enabled = flagBossShuffle.Checked;
 
 			uiController.UpdateFlags(
 				new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagMagicRandomizeClassPermissions, flagReduceEncounterRate },
 				new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt },
 				new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos },
-				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses, flagShuffleMonsterEncounters },
+				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses, flagShuffleMonsterEncounters, flagGarlandAtShrine, flagVampireIsWarmech },
 				modeShops, modeXPBoost, modeTreasure, modeMagic, modeMonsterStatAdjustment, modeHeroStats,
 				chaosHpTrackBar, flagJackInTheBox, RandoFlags);
 
@@ -127,7 +131,7 @@ namespace FF1_PRR
 				new CheckBox[] { flagBossShuffle, flagKeyItems, flagShopsTrad, flagMagicShuffleShops, flagMagicKeepPermissions, flagMagicRandomizeClassPermissions, flagReduceEncounterRate },
 				new CheckBox[] { flagTreasureTrad, flagRebalanceBosses, flagFiendsDropRibbons, flagRebalancePrices, flagRestoreCritRating, flagWandsAddInt },
 				new CheckBox[] { flagNoEscapeNES, flagNoEscapeRandomize, flagReduceChaosHP, flagHeroStatsStandardize, flagBoostPromoted, flagSecretChaos },
-				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses, flagShuffleMonsterEncounters },
+				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses, flagShuffleMonsterEncounters, flagGarlandAtShrine, flagVampireIsWarmech },
 				modeShops, modeXPBoost, modeTreasure, modeMagic, modeMonsterStatAdjustment, modeHeroStats,
 				chaosHpTrackBar, flagJackInTheBox, chaosHpLabel,
 				modeShuffleNPCs, modeAirshipSprite, modeBoatSprite, flagShuffleBackgrounds);
@@ -135,6 +139,8 @@ namespace FF1_PRR
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
 			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
+			flagGarlandAtShrine.Enabled = flagBossShuffle.Checked;
+			flagVampireIsWarmech.Enabled = flagBossShuffle.Checked;
 		}
 
 		// These methods are now handled by ConfigurationManager
@@ -303,6 +309,8 @@ namespace FF1_PRR
 				BossShuffle = flagBossShuffle.Checked,
 				ShuffleBackgrounds = flagShuffleBackgrounds.Checked,
 				ShuffleMonsterEncounters = flagShuffleMonsterEncounters.Checked,
+				GarlandAtShrine = flagGarlandAtShrine.Checked,
+				VampireIsWarmech = flagVampireIsWarmech.Checked,
 				ModeShops = modeShops.SelectedIndex,
 				ModeXPBoost = modeXPBoost.SelectedIndex,
 				ModeTreasure = modeTreasure.SelectedIndex,

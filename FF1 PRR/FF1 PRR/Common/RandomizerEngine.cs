@@ -127,6 +127,8 @@ namespace FF1_PRR.Common
             public bool BossShuffle { get; set; }
             public bool ShuffleBackgrounds { get; set; }
             public bool ShuffleMonsterEncounters { get; set; }
+            public bool GarlandAtShrine { get; set; }
+            public bool VampireIsWarmech { get; set; }
 
             public int ModeShops { get; set; }
             public int ModeXPBoost { get; set; }
@@ -418,7 +420,7 @@ namespace FF1_PRR.Common
         {
             var bossShuffle = new ShuffleBosses(r1, 
                 Path.Combine(gameDirectory, "FINAL FANTASY_Data", "StreamingAssets", "Magicite", "FF1PRR"),
-                options.BossShuffle, options.IncludeAllBosses);
+                options.BossShuffle, options.IncludeAllBosses, options.GarlandAtShrine, options.VampireIsWarmech);
         }
 
         private void ShuffleMonsterEncounters(RandomizationOptions options)

@@ -82,6 +82,8 @@
             flagMagicRandomizeClassPermissions = new System.Windows.Forms.CheckBox();
             flagShuffleBackgrounds = new System.Windows.Forms.CheckBox();
             flagIncludeAllBosses = new System.Windows.Forms.CheckBox();
+            flagGarlandAtShrine = new System.Windows.Forms.CheckBox();
+            flagVampireIsWarmech = new System.Windows.Forms.CheckBox();
             label12 = new System.Windows.Forms.Label();
             label13 = new System.Windows.Forms.Label();
             currentSelectionsListBox = new System.Windows.Forms.ListBox();
@@ -782,6 +784,36 @@
             flagIncludeAllBosses.UseVisualStyleBackColor = true;
             flagIncludeAllBosses.CheckedChanged += DetermineFlags;
             // 
+            // flagGarlandAtShrine
+            // 
+            flagGarlandAtShrine.AutoSize = true;
+            flagGarlandAtShrine.Enabled = false;
+            flagGarlandAtShrine.Location = new System.Drawing.Point(3, 130);
+            flagGarlandAtShrine.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagGarlandAtShrine.Name = "flagGarlandAtShrine";
+            flagGarlandAtShrine.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagGarlandAtShrine.Size = new System.Drawing.Size(124, 23);
+            flagGarlandAtShrine.TabIndex = 38;
+            flagGarlandAtShrine.Text = "Garland at Shrine";
+            toolTip1.SetToolTip(flagGarlandAtShrine, "Keep Garland at the Chaos Shrine for an easier early game curve.");
+            flagGarlandAtShrine.UseVisualStyleBackColor = true;
+            flagGarlandAtShrine.CheckedChanged += DetermineFlags;
+            // 
+            // flagVampireIsWarmech
+            // 
+            flagVampireIsWarmech.AutoSize = true;
+            flagVampireIsWarmech.Enabled = false;
+            flagVampireIsWarmech.Location = new System.Drawing.Point(3, 152);
+            flagVampireIsWarmech.Margin = new System.Windows.Forms.Padding(3, 0, 3, 0);
+            flagVampireIsWarmech.Name = "flagVampireIsWarmech";
+            flagVampireIsWarmech.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            flagVampireIsWarmech.Size = new System.Drawing.Size(130, 23);
+            flagVampireIsWarmech.TabIndex = 39;
+            flagVampireIsWarmech.Text = "Vampire is Warmech";
+            toolTip1.SetToolTip(flagVampireIsWarmech, "Replace the Vampire boss encounter with Warmech stats.");
+            flagVampireIsWarmech.UseVisualStyleBackColor = true;
+            flagVampireIsWarmech.CheckedChanged += DetermineFlags;
+            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -976,6 +1008,8 @@
             // 
             // groupBox4
             // 
+            groupBox4.Controls.Add(flagVampireIsWarmech);
+            groupBox4.Controls.Add(flagGarlandAtShrine);
             groupBox4.Controls.Add(flagIncludeAllBosses);
             groupBox4.Controls.Add(chaosHpLabel);
             groupBox4.Controls.Add(modeMonsterStatAdjustment);
@@ -992,7 +1026,7 @@
             groupBox4.Margin = new System.Windows.Forms.Padding(2);
             groupBox4.Name = "groupBox4";
             groupBox4.Padding = new System.Windows.Forms.Padding(2);
-            groupBox4.Size = new System.Drawing.Size(407, 160);
+            groupBox4.Size = new System.Drawing.Size(407, 180);
             groupBox4.TabIndex = 26;
             groupBox4.TabStop = false;
             groupBox4.Text = "Monsters && Bosses";
@@ -1302,5 +1336,7 @@
         private System.Windows.Forms.CheckBox flagShuffleBackgrounds;
         private NearestNeighborPictureBox pictureBoxSprite;
         private System.Windows.Forms.CheckBox flagIncludeAllBosses;
+        private System.Windows.Forms.CheckBox flagGarlandAtShrine;
+        private System.Windows.Forms.CheckBox flagVampireIsWarmech;
     }
 }
