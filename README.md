@@ -55,41 +55,42 @@ If the `Keep Permissions` flag is checked, the spells will retain their casting 
 This is a beta build of the randomizer, so there is a non-zero chance you run into an issue that breaks the game. If you find yourself in a situation where you cannot progress, please let me know so I can fix it. Here are some known issues that you may encounter:
 
 - Bottled faerie and airship can only be obtained from their vanilla locations.
-- Certain locked doors are stubborn. If you obtain the mystic key from either of the dwarves, you must leave and re-enter Mt. Druegar to open the dwarven vault. The Northwest Castle treasury and Elfheim treasury can be opened only after defeating Astos or waking the Elf Prince.
+- Mystic Key doors seem like they requires defeating Astos (or the boss at Astos's location) or turning in the jolt tonic.
 - Some cutscenes have incorrect or misleading dialogue or have strange behavior.
 - When using Hidden Chaos, Jack in the Box, or Shuffle Canoe, there is a chance that the game will softlock. Some of the NPCs and key item locations have intricate scripts, and it's possible there are edge cases that I have not accounted for.
-- Regarding the above issue, there is a chance that a softlock occurs during key item randomization as well. This is due to the implementation of the crystals lighting up in your inventory. Some key item location edge cases may not have been accounted for when shuffling the crystals and their scripts.
-- Sometimes the game gives you 2 or more canoes when using canoe shuffle.
+- Sometimes the game gives you 2 or more canoes when using canoe shuffle, this is only cosmetic, and does not change how the randomizer progresses.
 - When Dock Anywhere is enabled, some locations do not let you pass the collision on the edge of a continent. This is due to diagonal continent edges, and fixing it requires manual tweaking of the attribute.csv, and its massive.
+- **There is an issue regarding Dock Anywhere and landing on a town or a cave entrance, prevent you from entering your ship again upon exit.**
 - Currently, only the English language is supported. A future release will allow you to play in any language.
 
 ### More information
-If you'd like to discuss the randomizer or follow its continued development, you're welcome to join the [official HMS Jayne and FF1PRR discord](https://discord.gg/QuueYMTMcS)!
-If you have any questions or feedback regarding the beta version of the randomizer, please reach out to me on discord at `@StealYourGil`.
+If you'd like to discuss this version of the randomizer or follow its continued development, you're welcome to join my discord [MisterStealYourGil](https://discord.gg/7TqXF3S)!
 
 ### Added Features and Changes
 - Added the Seed number and setting string to the Main Menu and New Game screen.
-- Added the option to change your overworld sprite to sprites from FF1, FF3, FF4 and FF5. (FF6 sprites are too tall)
+- Added the option to change your overworld sprites to sprites from various FFPR games.
 - Added the ability to load seting flags without closing the program.
 - Shuffling regular treasure will now function correctly and not be ignored.
 - Added Hidden Chaos and Jack in the Box gamemodes. When both are selected, Chaos will be either in a random chest or in a random NPC.
 - Added a flag for Dock anywhere. This allows you to park your ship at any land formation, allowing for new logic and routing.
 - Added Shuffle Canoe flag. This will include the canoe in the key item shuffle, allowing for new logic and routing.
-- Added better tracking for the Crystal lighting up in the inventory (beta).
-- Added a cosmetic tab and further integrated the Cosmetic Flags
+- Added better tracking for the Crystal lighting up in the inventory.
+- Added a cosmetic tab and further integrated the Cosmetic Flags.
 - added a cosmetic setting to change NPC sprites with multiple settings (1 to 1 sprite shuffling, all random, and Oops all garland).
 - Added a cosmetic setting to change the airship sprite.
 - Added a cosmetic setting to change the ship sprite (there are not alot of ship options).
 - Tweaked the shuffling magic logic for wild and chaos to be less systematic.
+- Added and updated boss shuffling logic. Added options to ignore Garland when boss shuffling as well as replace Vampire (Boss) with Warmech.
+- Added class restriction shuffling for magic (i.e. warriors are considered white mages for magic)
+- Added Tiamat II, Lich II, Marilith II, and Kraken II as names for clarity (will be a cosmetic option in the future).
+- Fixed Duplicate items in first item shop.
+- Added Overworld encounter shuffling.
+- Added a cosmetic setting to shuffle the battle background.
 
 ### Planned Features
-- Add the ability to randomize the starting party.
 - Add a gamemode called "Chaos Rush" where you must defeat Chaos as quickly as possible.
 - Add a gamemode called "Shard Hunt" where you must collect all 28 shards to open Chaos Shrine instead of the 4 Crystals.
 - Add the option to disable encounter toggling.
 - Add a setting to Disable the flash when stepping on damage tiles.
-- Add a setting to Reimplement spike tiles instead of npcs (possibly put a sprite there that represent the spike tile).
+- Add a setting to Reimplement spike tiles instead of npcs (possibly put a sprite there that represent the spike tile, akin to stepping on a teleporter).
 - Add a setting to use differnt pixel remaster music.
-- Refactor some classes and seperate concerns.
-- replace my spaghetti code (i.e. SpriteUpdater.cs) with more consistent and readable code.
-- Add a setting to allow the ship to convert to the airship upon getting floater.
