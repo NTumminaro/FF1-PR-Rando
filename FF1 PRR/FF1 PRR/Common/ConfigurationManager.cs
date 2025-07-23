@@ -7,7 +7,7 @@ namespace FF1_PRR.Common
 {
     public class ConfigurationManager
     {
-        private const string DefaultVisualFlags = "0000"; // Updated to match 4-character format
+        private const string DefaultVisualFlags = "00000"; // Updated to match 5-character format
         private const string DefaultFlags = "0000000010"; // Updated to match all dropdowns at index 0
 
         public class RandomizerConfig

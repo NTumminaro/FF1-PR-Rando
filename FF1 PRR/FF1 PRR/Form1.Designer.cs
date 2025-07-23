@@ -84,6 +84,9 @@
             flagIncludeAllBosses = new System.Windows.Forms.CheckBox();
             flagGarlandAtShrine = new System.Windows.Forms.CheckBox();
             flagVampireIsWarmech = new System.Windows.Forms.CheckBox();
+            flagShowBossNames = new System.Windows.Forms.CheckBox();
+            flagPartyFiesta = new System.Windows.Forms.CheckBox();
+            modePartyFiesta = new System.Windows.Forms.ComboBox();
             label12 = new System.Windows.Forms.Label();
             label13 = new System.Windows.Forms.Label();
             currentSelectionsListBox = new System.Windows.Forms.ListBox();
@@ -769,6 +772,45 @@
             flagShuffleBackgrounds.UseVisualStyleBackColor = true;
             flagShuffleBackgrounds.CheckedChanged += DetermineFlags;
             // 
+            // flagShowBossNames
+            // 
+            flagShowBossNames.AutoSize = true;
+            flagShowBossNames.Location = new System.Drawing.Point(8, 42);
+            flagShowBossNames.Margin = new System.Windows.Forms.Padding(2);
+            flagShowBossNames.Name = "flagShowBossNames";
+            flagShowBossNames.Size = new System.Drawing.Size(120, 19);
+            flagShowBossNames.TabIndex = 36;
+            flagShowBossNames.Text = "Show Boss Names";
+            toolTip1.SetToolTip(flagShowBossNames, "Display proper boss names instead of generic monster names");
+            flagShowBossNames.UseVisualStyleBackColor = true;
+            flagShowBossNames.CheckedChanged += DetermineFlags;
+            // 
+            // flagPartyFiesta
+            // 
+            flagPartyFiesta.AutoSize = true;
+            flagPartyFiesta.Location = new System.Drawing.Point(8, 64);
+            flagPartyFiesta.Margin = new System.Windows.Forms.Padding(2);
+            flagPartyFiesta.Name = "flagPartyFiesta";
+            flagPartyFiesta.Size = new System.Drawing.Size(85, 19);
+            flagPartyFiesta.TabIndex = 37;
+            flagPartyFiesta.Text = "Party Fiesta";
+            toolTip1.SetToolTip(flagPartyFiesta, "Randomize your starting party composition");
+            flagPartyFiesta.UseVisualStyleBackColor = true;
+            flagPartyFiesta.CheckedChanged += DetermineFlags;
+            // 
+            // modePartyFiesta
+            // 
+            modePartyFiesta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            modePartyFiesta.Enabled = false;
+            modePartyFiesta.FormattingEnabled = true;
+            modePartyFiesta.Items.AddRange(new object[] { "Random Full", "No Duplicates", "With Empty Slots", "Solo Run", "Duo Run" });
+            modePartyFiesta.Location = new System.Drawing.Point(100, 63);
+            modePartyFiesta.Name = "modePartyFiesta";
+            modePartyFiesta.Size = new System.Drawing.Size(120, 23);
+            modePartyFiesta.TabIndex = 38;
+            toolTip1.SetToolTip(modePartyFiesta, "Choose how to randomize the party: Random Full (duplicates OK), No Duplicates (4 different jobs), With Empty Slots (1-4 characters), Solo Run (1 character), Duo Run (2 characters)");
+            modePartyFiesta.SelectedIndexChanged += DetermineFlags;
+            // 
             // flagIncludeAllBosses
             // 
             flagIncludeAllBosses.AutoSize = true;
@@ -1080,12 +1122,15 @@
             // 
             // groupBox9
             // 
+            groupBox9.Controls.Add(modePartyFiesta);
+            groupBox9.Controls.Add(flagPartyFiesta);
+            groupBox9.Controls.Add(flagShowBossNames);
             groupBox9.Controls.Add(flagShuffleBackgrounds);
             groupBox9.Location = new System.Drawing.Point(6, 69);
             groupBox9.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             groupBox9.Name = "groupBox9";
             groupBox9.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            groupBox9.Size = new System.Drawing.Size(254, 49);
+            groupBox9.Size = new System.Drawing.Size(254, 93);
             groupBox9.TabIndex = 54;
             groupBox9.TabStop = false;
             groupBox9.Text = "Other";
@@ -1338,5 +1383,8 @@
         private System.Windows.Forms.CheckBox flagIncludeAllBosses;
         private System.Windows.Forms.CheckBox flagGarlandAtShrine;
         private System.Windows.Forms.CheckBox flagVampireIsWarmech;
+        private System.Windows.Forms.CheckBox flagShowBossNames;
+        private System.Windows.Forms.CheckBox flagPartyFiesta;
+        private System.Windows.Forms.ComboBox modePartyFiesta;
     }
 }

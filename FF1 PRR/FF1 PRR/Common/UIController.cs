@@ -53,7 +53,7 @@ namespace FF1_PRR.Common
         }
 
         public void UpdateVisualFlags(ComboBox modeShuffleNPCs, ComboBox modeAirshipSprite, ComboBox modeBoatSprite,
-            CheckBox flagShuffleBackgrounds, TextBox visualFlags)
+            CheckBox flagShuffleBackgrounds, CheckBox flagShowBossNames, TextBox visualFlags)
         {
             // Don't update flags if we're currently loading/applying settings to prevent circular updates
             if (loading) return;
@@ -63,6 +63,7 @@ namespace FF1_PRR.Common
             flags += modeAirshipSprite.SelectedIndex.ToString("X");
             flags += modeBoatSprite.SelectedIndex.ToString("X");
             flags += flagShuffleBackgrounds.Checked ? "1" : "0";
+            flags += flagShowBossNames.Checked ? "1" : "0";
 
             visualFlags.Text = flags;
             config.VisualFlags = flags;
@@ -74,7 +75,7 @@ namespace FF1_PRR.Common
             ComboBox modeMonsterStatAdjustment, ComboBox modeHeroStats, TrackBar chaosHpTrackBar,
             CheckBox flagJackInTheBox, Label chaosHpLabel,
             ComboBox modeShuffleNPCs, ComboBox modeAirshipSprite, ComboBox modeBoatSprite,
-            CheckBox flagShuffleBackgrounds)
+            CheckBox flagShuffleBackgrounds, CheckBox flagShowBossNames)
         {
             if (randoFlags.Length < 10) return;
             if (visualFlags.Length < 4) return;
@@ -115,6 +116,8 @@ namespace FF1_PRR.Common
                 modeBoatSprite.SelectedIndex = int.Parse(visualFlags[2].ToString(), System.Globalization.NumberStyles.HexNumber);
             if (visualFlags.Length > 3)
                 flagShuffleBackgrounds.Checked = visualFlags[3] == '1';
+            if (visualFlags.Length > 4)
+                flagShowBossNames.Checked = visualFlags[4] == '1';
 
             loading = false;
         }

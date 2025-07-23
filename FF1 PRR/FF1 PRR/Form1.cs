@@ -66,6 +66,9 @@ namespace FF1_PRR
 
 			// Add event handlers for visual flags
 			flagShuffleBackgrounds.CheckedChanged += DetermineFlags;
+			flagShowBossNames.CheckedChanged += DetermineFlags;
+			flagPartyFiesta.CheckedChanged += DetermineFlags;
+			modePartyFiesta.SelectedIndexChanged += DetermineFlags;
 			modeShuffleNPCs.SelectedIndexChanged += DetermineFlags;
 			modeAirshipSprite.SelectedIndexChanged += DetermineFlags;
 			modeBoatSprite.SelectedIndexChanged += DetermineFlags;
@@ -106,6 +109,7 @@ namespace FF1_PRR
 			flagIncludeAllBosses.Enabled = flagBossShuffle.Checked;
 			flagGarlandAtShrine.Enabled = flagIncludeAllBosses.Checked && flagBossShuffle.Checked;
 			flagVampireIsWarmech.Enabled = flagIncludeAllBosses.Checked && flagBossShuffle.Checked;
+			modePartyFiesta.Enabled = flagPartyFiesta.Checked;
 
 			// Cascade unchecking when parent options are disabled
 			if (!flagBossShuffle.Checked)
@@ -140,7 +144,7 @@ namespace FF1_PRR
 				modeShops, modeXPBoost, modeTreasure, modeMagic, modeMonsterStatAdjustment, modeHeroStats,
 				chaosHpTrackBar, flagJackInTheBox, RandoFlags);
 
-			uiController.UpdateVisualFlags(modeShuffleNPCs, modeAirshipSprite, modeBoatSprite, flagShuffleBackgrounds, VisualFlags);
+			uiController.UpdateVisualFlags(modeShuffleNPCs, modeAirshipSprite, modeBoatSprite, flagShuffleBackgrounds, flagShowBossNames, VisualFlags);
 		}
 
 		private void determineChecks(object sender, EventArgs e)
@@ -149,7 +153,7 @@ namespace FF1_PRR
 			
 			if (RandoFlags.Text.Length < 10)
 				RandoFlags.Text = config.RandoFlags;
-			if (VisualFlags.Text.Length < 4)
+			if (VisualFlags.Text.Length < 5)
 				VisualFlags.Text = config.VisualFlags;
 
 			uiController.ApplyFlags(RandoFlags.Text, VisualFlags.Text,
@@ -159,7 +163,7 @@ namespace FF1_PRR
 				new CheckBox[] { flagDockAnywhere, flagShuffleCanoe, flagIncludeAllBosses, flagShuffleMonsterEncounters, flagGarlandAtShrine, flagVampireIsWarmech },
 				modeShops, modeXPBoost, modeTreasure, modeMagic, modeMonsterStatAdjustment, modeHeroStats,
 				chaosHpTrackBar, flagJackInTheBox, chaosHpLabel,
-				modeShuffleNPCs, modeAirshipSprite, modeBoatSprite, flagShuffleBackgrounds);
+				modeShuffleNPCs, modeAirshipSprite, modeBoatSprite, flagShuffleBackgrounds, flagShowBossNames);
 
 			flagNoEscapeRandomize.Enabled = flagNoEscapeNES.Checked;
 			chaosHpTrackBar.Enabled = flagReduceChaosHP.Checked;
@@ -204,6 +208,8 @@ namespace FF1_PRR
 			boatSprites.Insert(0, "None"); // Add a "None" option at the beginning
 			modeBoatSprite.DataSource = boatSprites;
 			modeBoatSprite.SelectedIndex = 0; // Select "None" by default
+
+			modePartyFiesta.SelectedIndex = 0; // Select "Random Full" by default
 
 			try
 			{
@@ -336,6 +342,8 @@ namespace FF1_PRR
 				ShuffleMonsterEncounters = flagShuffleMonsterEncounters.Checked,
 				GarlandAtShrine = flagGarlandAtShrine.Checked,
 				VampireIsWarmech = flagVampireIsWarmech.Checked,
+				ShowBossNames = flagShowBossNames.Checked,
+				EnablePartyFiesta = flagPartyFiesta.Checked,
 				ModeShops = modeShops.SelectedIndex,
 				ModeXPBoost = modeXPBoost.SelectedIndex,
 				ModeTreasure = modeTreasure.SelectedIndex,
@@ -345,7 +353,8 @@ namespace FF1_PRR
 				ChaosHpValue = chaosHpTrackBar.Value,
 				ModeShuffleNPCs = modeShuffleNPCs.SelectedIndex,
 				ModeAirshipSprite = modeAirshipSprite.SelectedIndex,
-				ModeBoatSprite = modeBoatSprite.SelectedIndex
+				ModeBoatSprite = modeBoatSprite.SelectedIndex,
+				PartyFiestaMode = modePartyFiesta.SelectedIndex + 1
 			};
 		}
 

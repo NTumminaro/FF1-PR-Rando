@@ -129,6 +129,8 @@ namespace FF1_PRR.Common
             public bool ShuffleMonsterEncounters { get; set; }
             public bool GarlandAtShrine { get; set; }
             public bool VampireIsWarmech { get; set; }
+            public bool ShowBossNames { get; set; }
+            public bool EnablePartyFiesta { get; set; }
 
             public int ModeShops { get; set; }
             public int ModeXPBoost { get; set; }
@@ -140,6 +142,7 @@ namespace FF1_PRR.Common
             public int ModeShuffleNPCs { get; set; }
             public int ModeAirshipSprite { get; set; }
             public int ModeBoatSprite { get; set; }
+            public int PartyFiestaMode { get; set; }
         }
 
         public void ExecuteRandomization(RandomizationOptions options)
@@ -348,7 +351,7 @@ namespace FF1_PRR.Common
             if (options.HeroStatsStandardize || options.ModeHeroStats > 0)
                 RandomizeHeroStats(options);
 
-            if (options.ShuffleBackgrounds)
+            if (options.ShuffleBackgrounds || options.ShowBossNames)
                 ApplyCosmetics(options);
 
             if (options.BossShuffle)
@@ -356,6 +359,9 @@ namespace FF1_PRR.Common
 
             if (options.ShuffleMonsterEncounters)
                 ShuffleMonsterEncounters(options);
+
+            if (options.EnablePartyFiesta)
+                ApplyPartyFiesta(options);
 
             ApplyMonsterBoost(options);
         }
@@ -414,6 +420,31 @@ namespace FF1_PRR.Common
         {
             var cosmetics = new Cosmetics(r1, Path.Combine("data", "mods"), 
                 fileManager.GetDataPath(), options.ShuffleBackgrounds);
+            
+            if (options.ShowBossNames)
+            {
+                ApplyBossNames(options);
+            }
+        }
+
+        private void ApplyBossNames(RandomizationOptions options)
+        {
+            using var operation = logger.StartOperation("Apply Boss Names");
+            
+            try
+            {
+                // Apply boss names to both system file and monster.csv
+                var bossNames = new BossNames(GetDataPath(), GetMessagePath(), true);
+                
+                operation.Complete("Boss names applied successfully");
+                logger.Info("Applied boss names to monster data and system messages", "Boss Names");
+            }
+            catch (Exception ex)
+            {
+                operation.Fail("Failed to apply boss names", ex);
+                logger.Error("Failed to apply boss names", "Boss Names", ex);
+                throw new RandomizationException("Failed to apply boss names", ex);
+            }
         }
 
         private void ShuffleBosses(RandomizationOptions options)
@@ -426,6 +457,31 @@ namespace FF1_PRR.Common
         private void ShuffleMonsterEncounters(RandomizationOptions options)
         {
             var monsterEncounters = new MonsterEncounters(r1, GetDataPath(), options.ShuffleMonsterEncounters);
+        }
+
+        private void ApplyPartyFiesta(RandomizationOptions options)
+        {
+            using var operation = logger.StartOperation("Apply Party Fiesta");
+            
+            try
+            {
+                var partyFiestaOptions = new PartyFiestaOptions
+                {
+                    EnablePartyFiesta = options.EnablePartyFiesta,
+                    PartyFiestaMode = (PartyFiestaMode)options.PartyFiestaMode
+                };
+                
+                var partyFiesta = new PartyFiesta(r1, GetDataPath(), partyFiestaOptions);
+                
+                operation.Complete("Party Fiesta applied successfully");
+                logger.Info($"Applied Party Fiesta mode: {(PartyFiestaMode)options.PartyFiestaMode}", "Party Fiesta");
+            }
+            catch (Exception ex)
+            {
+                operation.Fail("Failed to apply Party Fiesta", ex);
+                logger.Error("Failed to apply Party Fiesta", "Party Fiesta", ex);
+                throw new RandomizationException("Failed to apply Party Fiesta", ex);
+            }
         }
 
         private void ApplyMonsterBoost(RandomizationOptions options)
@@ -551,6 +607,10 @@ namespace FF1_PRR.Common
 
             File.Copy(Path.Combine("data", "mods", "system_en.txt"), 
                 Path.Combine(messagePath, "system_en.txt"), true);
+
+            // Copy initialize_data.csv for Party Fiesta support
+            File.Copy(Path.Combine("data", "mods", "initialize_data.csv"), 
+                Path.Combine(dataPath, "initialize_data.csv"), true);
 
             if (options.ShopsTrad)
                 File.Copy(Path.Combine("data", "mods", "productTraditional.csv"), 
