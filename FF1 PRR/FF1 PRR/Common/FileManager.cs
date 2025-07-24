@@ -20,7 +20,7 @@ namespace FF1_PRR.Common
             string[] dataMaster = {
                 "ability.csv", "product.csv", "weapon.csv", "monster.csv", "monster_party.csv",
                 "item.csv", "armor.csv", "foot_information.csv", "map.csv", 
-                "character_status.csv", "growth_curve.csv"
+                "character_status.csv", "growth_curve.csv", "job.csv", "character_asset.csv"
             };
             
             string[] dataMessage = { "system_en.txt", "story_mes_en.txt" };
@@ -142,7 +142,7 @@ namespace FF1_PRR.Common
         private void CopyCharacterSprites()
         {
             string[] characterFolders = {
-                "mo_ff1_p001_c00", "mo_ff1_p002_c00", "mo_ff1_p003_c00", "mo_ff1_p004_c00",
+                "mo_ff1_p000_c00", "mo_ff1_p001_c00", "mo_ff1_p002_c00", "mo_ff1_p003_c00", "mo_ff1_p004_c00",
                 "mo_ff1_p005_c00", "mo_ff1_p006_c00", "mo_ff1_p007_c00", "mo_ff1_p008_c00",
                 "mo_ff1_p009_c00", "mo_ff1_p010_c00", "mo_ff1_p011_c00", "mo_ff1_p012_c00"
             };

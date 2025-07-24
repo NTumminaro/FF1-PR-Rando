@@ -1,3 +1,4 @@
+MSG_JOB_NAME_00	Empty
 MSG_JOB_NAME_01	Warrior
 MSG_JOB_NAME_02	Thief
 MSG_JOB_NAME_03	Monk
@@ -10,6 +11,7 @@ MSG_JOB_NAME_09	Master
 MSG_JOB_NAME_10	Red Wizard
 MSG_JOB_NAME_11	White Wizard
 MSG_JOB_NAME_12	Black Wizard
+MSG_JOB_INF_00	An empty party slot.
 MSG_JOB_INF_01	Can use a wide array of weapons and armor.
 MSG_JOB_INF_02	Nimbly runs circles around opponents.
 MSG_JOB_INF_03	Specializes in bare-knuckled attacks.
