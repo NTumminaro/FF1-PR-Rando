@@ -1,5 +1,5 @@
-id,character_id,job_id,asset_type,asset_name,size_type,field_character_asset_id0,1,
-0,1,bc_ff1_p000,2,0
+id,character_id,job_id,asset_type,asset_name,size_type,field_character_asset_id
+0,1,0,1,bc_ff1_p001,2,0
 145,1,1,1,bc_ff1_p001,2,1
 146,1,2,1,bc_ff1_p002,7,2
 147,1,3,1,bc_ff1_p003,7,3
@@ -12,7 +12,7 @@ id,character_id,job_id,asset_type,asset_name,size_type,field_character_asset_id0
 154,1,6,1,bc_ff1_p006,3,10
 155,1,11,1,bc_ff1_p011,6,11
 156,1,12,1,bc_ff1_p012,4,12
-157,2,0,1,bc_ff1_p000,2,0
+157,2,0,1,bc_ff1_p001,2,0
 158,2,1,1,bc_ff1_p001,2,1
 159,2,2,1,bc_ff1_p002,7,2
 160,2,3,1,bc_ff1_p003,7,3
@@ -25,7 +25,7 @@ id,character_id,job_id,asset_type,asset_name,size_type,field_character_asset_id0
 167,2,6,1,bc_ff1_p006,3,10
 168,2,11,1,bc_ff1_p011,6,11
 169,2,12,1,bc_ff1_p012,4,12
-170,3,0,1,bc_ff1_p000,2,0
+170,3,0,1,bc_ff1_p001,2,0
 171,3,1,1,bc_ff1_p001,2,1
 172,3,2,1,bc_ff1_p002,7,2
 173,3,3,1,bc_ff1_p003,7,3
@@ -38,7 +38,7 @@ id,character_id,job_id,asset_type,asset_name,size_type,field_character_asset_id0
 180,3,6,1,bc_ff1_p006,3,10
 181,3,11,1,bc_ff1_p011,6,11
 182,3,12,1,bc_ff1_p012,4,12
-183,4,0,1,bc_ff1_p000,2,0
+183,4,0,1,bc_ff1_p001,2,0
 184,4,1,1,bc_ff1_p001,2,1
 185,4,2,1,bc_ff1_p002,7,2
 186,4,3,1,bc_ff1_p003,7,3
@@ -50,12 +50,12 @@ id,character_id,job_id,asset_type,asset_name,size_type,field_character_asset_id0
 192,4,5,1,bc_ff1_p005,2,9
 193,4,6,1,bc_ff1_p006,3,10
 194,4,11,1,bc_ff1_p011,6,11
-195,4,12,1,bc_ff1_p012,4,12196,5,0,
-1,bc_ff1_p000,2,0
-197,6,0,1,bc_ff1_p000,2,0
-198,7,0,1,bc_ff1_p000,2,0
-199,8,0,1,bc_ff1_p000,2,0
-200,9,0,1,bc_ff1_p000,2,0
-201,10,0,1,bc_ff1_p000,2,0
-202,11,0,1,bc_ff1_p000,2,0
-203,12,0,1,bc_ff1_p000,2,0
+195,4,12,1,bc_ff1_p012,4,12
+196,5,0,1,bc_ff1_p001,2,0
+197,6,0,1,bc_ff1_p001,2,0
+198,7,0,1,bc_ff1_p001,2,0
+199,8,0,1,bc_ff1_p001,2,0
+200,9,0,1,bc_ff1_p001,2,0
+201,10,0,1,bc_ff1_p001,2,0
+202,11,0,1,bc_ff1_p001,2,0
+203,12,0,1,bc_ff1_p001,2,0
